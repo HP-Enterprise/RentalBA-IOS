@@ -40,7 +40,6 @@
 
 
 
-
 @property(nonatomic,strong)DBvehicleShowModel * vehicleShow ;
 @property(nonatomic,strong)DBtakeCarStoreShowModel * takeCarStoreShow ;
 @property(nonatomic,strong)DBtakeCarCityShowModel * takeCarCityShow ;

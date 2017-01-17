@@ -308,6 +308,9 @@
         {
             carTurnk = @"2厢";
         }
+        else{
+            carTurnk = @"";
+        }
     }
     
     
@@ -341,10 +344,6 @@
     
     NSString * returnWeek =[DBcommonUtils weekdayStringFromDate:nil withDateStr:model.takeCarDateEnd];
 
-    
-  
-    
-    
     _week.text =[NSString stringWithFormat:@"%@ %@",takeWeek,[model.takeCarDateStart substringWithRange:NSMakeRange(5, 5)]] ;
     _returnWeek.text =[NSString stringWithFormat:@"%@ %@",returnWeek,[model.takeCarDateEnd substringWithRange:NSMakeRange(5, 5)]] ;
     _pricelabel.text =[NSString stringWithFormat:@"￥ %@",model.price] ;

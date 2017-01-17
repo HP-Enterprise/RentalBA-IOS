@@ -10,7 +10,7 @@
 
 #import "DBActivityModel.h"
 #import "DBCouponModel.h"
-
+#import "DBModelShow.h"
 @interface DBOrderModel : JSONModel
 
 
@@ -43,7 +43,7 @@
 //@property (strong, nonatomic) NSString* modelId;
 @property (strong, nonatomic) NSString<Optional>* orderId;
 @property (strong, nonatomic) NSString<Optional>* orderState;
-//@property (strong, nonatomic) NSString* orderType;
+@property (strong, nonatomic) NSString<Optional>* orderType;
 //
 @property (strong, nonatomic) NSString<Optional>* payAmount;
 @property (strong, nonatomic) NSString<Optional>* payWay;
@@ -73,6 +73,6 @@
 
 @property (strong, nonatomic) DBCouponModel <Optional>* couponShowForAdmin;
 
-
+@property (nonatomic,strong)DBModelShow <Optional>* vehicleModelShow ;
 
 @end

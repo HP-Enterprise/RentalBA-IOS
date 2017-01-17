@@ -57,7 +57,7 @@
         }
         else
         {
-            //            [user setObject:@"0" forKey:@"token"];
+            //   [user setObject:@"0" forKey:@"token"];
         }
         
     } failure:^(NSError *error) {
@@ -97,6 +97,7 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     DBActiveTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"activeCell"];
     
     if (cell == nil ) {
@@ -118,10 +119,13 @@
 //    [application openURL:[NSURL URLWithString:[_dataArray[indexPath.row]objectForKey:@"link"]]];
 //    
     DBActiveDetailViewController * detail = [[DBActiveDetailViewController alloc]init];
-    detail.url = [self.dataArray[indexPath.row]objectForKey:@"link"];
+    detail.url = [self.dataArray[indexPath.row]objectForKey:@"phoneLink"];
     
-    [self.navigationController pushViewController:detail animated:YES];
-    
+    if (![[self.dataArray[indexPath.row]objectForKey:@"phoneLink"]isKindOfClass:[NSNull class]] && ![[self.dataArray[indexPath.row]objectForKey:@"phoneLink"]isEqualToString:@""]) {
+        
+        [self.navigationController pushViewController:detail animated:YES];
+        
+    }
 }
 
 -(NSArray*)dataArray{

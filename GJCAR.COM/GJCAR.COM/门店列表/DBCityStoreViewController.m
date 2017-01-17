@@ -187,8 +187,11 @@
         cell = [[DBStoreListTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"storeCell"];
     }
 
+    
+    
+    
     cell.storeName.text = [_storeArray[indexPath.row]objectForKey:@"storeName"];
-    cell.storeAddr.text = [_storeArray[indexPath.row]objectForKey:@"storeAddr"];
+    cell.storeAddr.text = [_storeArray[indexPath.row]objectForKey:@"detailAddress"];
     
     cell.selectionStyle = 0 ;
     return cell ;

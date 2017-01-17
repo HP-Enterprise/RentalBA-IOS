@@ -59,11 +59,7 @@
  
     //加载价格数据
     [self loadPrice];
-    
-    
-
-    
-    
+ 
 }
 
 #pragma mark 加载动画
@@ -215,13 +211,10 @@
     pardic[@"endDate"]= [ user objectForKey:@"returnTime"];
     pardic[@"startDate"]= [ user objectForKey:@"takeTime"];
     
-//    pardic[@"isDoorToDoor"]= @"1";
+    pardic[@"isDoorToDoor"]= @"1";
     pardic[@"latitude"]= [ takePlace objectForKey:@"latitude"];
     pardic[@"longitude"]= [ takePlace objectForKey:@"longitude"];
-    
-    
-    
-    
+
     NSLog(@"%@",url);
     
     NSLog(@"%@",[ user objectForKey:@"returnTime"]);
@@ -238,10 +231,7 @@
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
             _priceDic = [responseObject objectForKey:@"message"];
-            
-            
-            
-            
+
             [self loadAddValue];
             
         }
@@ -913,21 +903,32 @@
 -(void)choosePayWayWith:(CGRect)frame
 {
     //可选服务 背景
-    UIView * mustCost = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(frame), ScreenWidth, 90)];
+    UIView * mustCost = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(frame), ScreenWidth, 110)];
     mustCost.backgroundColor = [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1];
     
-    UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake( 0 , mustCost.frame.size.height-0.5 , ScreenWidth , 0.5)];
-    lineView.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
-    [mustCost addSubview:lineView];
     
     [self.view addSubview:mustCost];
-    
     
     
     UIView * ToplineView = [[UIView alloc]initWithFrame:CGRectMake( 0 , 0 , ScreenWidth , 0.5)];
     ToplineView.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     [mustCost addSubview:ToplineView];
 
+    
+    
+    UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake( 0 , mustCost.frame.size.height-0.5 , ScreenWidth , 0.5)];
+    lineView.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
+    [mustCost addSubview:lineView];
+    
+  
+    
+    UILabel * messageLebal = [[UILabel alloc]initWithFrame:CGRectMake(5,  mustCost.frame.size.height-30, ScreenWidth, 19.5)];
+    messageLebal.backgroundColor = [UIColor clearColor];
+    messageLebal.font = [UIFont systemFontOfSize:12];
+    messageLebal.textAlignment = 1;
+    messageLebal.text = @"提示 : 在线支付订单请2小时内付款,逾期订单将自动取消";
+    
+    messageLebal.textColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1] ;
     
     
     //可选服务 标题
@@ -945,14 +946,12 @@
     
     
     [payOnline setTitle:@"在线支付" forState:UIControlStateNormal];
-    [payOnline setTitleColor:[UIColor colorWithRed:0.74 green:0.74 blue:0.74 alpha:1] forState:UIControlStateNormal];
-    payOnline.titleLabel.font = [UIFont systemFontOfSize:14];
+        payOnline.titleLabel.font = [UIFont systemFontOfSize:14];
     [payOnline addTarget:self action:@selector(choosePayWay:) forControlEvents:UIControlEventTouchUpInside];
     payOnline.layer.borderWidth = 1 ;
     payOnline.layer.cornerRadius = 2 ;
-    payOnline.layer.borderColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1].CGColor;
+
     
-    [mustCost addSubview:payOnline];
     
     
     
@@ -963,20 +962,62 @@
     
     [payStore addTarget:self action:@selector(choosePayWay:) forControlEvents:UIControlEventTouchUpInside];
     [payStore setTitle:@"门店支付" forState:UIControlStateNormal];
-    [payStore setTitleColor:[UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1] forState:UIControlStateNormal];
-    payStore.titleLabel.font = [UIFont systemFontOfSize:14];
-    
+       payStore.titleLabel.font = [UIFont systemFontOfSize:14];
+
     payStore.layer.borderWidth = 1 ;
     payStore.layer.cornerRadius = 2 ;
-    payStore.layer.borderColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1].CGColor;
-    
-    [mustCost addSubview:payStore];
+
+   
 
     
+    NSString * paymen  = [NSString stringWithFormat:@"%@",[self.priceDic objectForKey:@"payment"]];
+    
 
-    payWay = @"0" ;
+    if ([paymen isEqualToString:@"1"]) {
+        [mustCost addSubview:payOnline];
+        
+        payOnline.layer.borderColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1].CGColor;
+        [payOnline setTitleColor:[UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1] forState:UIControlStateNormal];
+        
+        payStore.layer.borderColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1].CGColor;
+        [payStore setTitleColor:[UIColor colorWithRed:0.74 green:0.74 blue:0.74 alpha:1] forState:UIControlStateNormal];
+        
+        payWay = @"3" ;
+        [mustCost addSubview:messageLebal];
+    }
+    else if ([paymen isEqualToString:@"2"]){
+        payStore.frame =CGRectMake(mustCostLabel.frame.origin.x, CGRectGetMaxY(mustCostLabel.frame)+5, ScreenWidth / 4, 30);
+
+        payStore.layer.borderColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1].CGColor;
+        [payStore setTitleColor:[UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1] forState:UIControlStateNormal];
+        
+        payOnline.layer.borderColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1].CGColor;
+        [payOnline setTitleColor:[UIColor colorWithRed:0.74 green:0.74 blue:0.74 alpha:1] forState:UIControlStateNormal];
+        
+        payWay = @"0" ;
+
+        
+        [mustCost addSubview:payStore];
+       
+    }
+    else if ([paymen isEqualToString:@"3"]){
+        
+        [mustCost addSubview:payOnline];
+        [mustCost addSubview:payStore];
+
+        payStore.layer.borderColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1].CGColor;
+        [payStore setTitleColor:[UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1] forState:UIControlStateNormal];
+        
+        payOnline.layer.borderColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1].CGColor;
+        [payOnline setTitleColor:[UIColor colorWithRed:0.74 green:0.74 blue:0.74 alpha:1] forState:UIControlStateNormal];
+        
+        payWay = @"0" ;
+
+        [mustCost addSubview:messageLebal];
+    }
     
     
+
     //创建发票页面
     [self setInvoiceViewWith:mustCost.frame];
 }
@@ -1101,7 +1142,10 @@
 {
     
     
-    NSLog(@"下一步点击了");
+    NSLog(@"%@",payWay);
+    
+    
+    
     DBOrderSubmitViewController * orderSubmit = [[DBOrderSubmitViewController alloc]init];
     
     orderSubmit.payWay = payWay ;

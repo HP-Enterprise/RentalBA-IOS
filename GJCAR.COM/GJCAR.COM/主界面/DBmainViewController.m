@@ -97,16 +97,13 @@
 @property (nonatomic,strong)NSArray * storeArray;
 
 @property (nonatomic,strong)NSDictionary * takeCityInfoDic ;
-
-@property (nonatomic,strong)NSDictionary * returnCityInfoDic ;
-
-
+@property (nonatomic,strong)NSDictionary * takeStoreDic ;
 @property (nonatomic,strong)NSDictionary * takePlaceInfoDic ;
 
 @property (nonatomic,strong)NSDictionary * storeDic ;
 
-@property (nonatomic,strong)NSDictionary * takeStoreDic ;
 
+@property (nonatomic,strong)NSDictionary * returnCityInfoDic ;
 @property (nonatomic,strong)NSDictionary * returnStoreDic ;
 
 //当前位置坐标
@@ -136,9 +133,7 @@
     
     
 //    [self createContentPages];
-    
-    
-    
+
 //    [self createView];
     
     
@@ -233,22 +228,17 @@
                 NSLog(@"%@",responseObject);
 
             }
-            
-            
+   
         } failure:^(NSError *error) {
             
             weak_self.cityArray = nil ;
         }];
-        
-        
-    }
     
+    }
     else
     {
         if (self.takeCityName !=nil)
         {
-            
-            
             
             [self matchCity:nil];
             NSLog(@"%@",self.takeCityName);
@@ -256,15 +246,10 @@
         }
 
     }
-    
-    
-    
-    
 
 }
 
-
-#pragma mark ---家在门店数据
+#pragma mark ---加载门店数据
 -(void)loadStoreDatawithStr:(NSString*)str;
 {
     
@@ -297,32 +282,30 @@
 {
     //    http://www.feeling.hpecar.com/api/serviceCity/view?cityId=13
     
-    
-    
-    
-    
+
     _serveScopeArray = [NSArray array];
     
     NSString * url = [NSString stringWithFormat:@"%@/api/serviceCity/view?cityId=%@",Host,[dic objectForKey:@"id"]];
-    
     
     [self addProgress];
     
     [DBNetworkTool Get:url parameters:nil success:^(id responseObject) {
         
-        
+
         
         [self removeProgress];
+        [_MapViewC.mapView removeOverlay:polygon];
+        
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
             
         {
 
+            
             _serveScopeArray  = [[responseObject objectForKey:@"message"]objectForKey:@"serveScope"];
 
             
             [self performSelectorOnMainThread:@selector(setSearchScope:) withObject:_serveScopeArray waitUntilDone:YES];
-            
-            
+ 
         }
 
     } failure:^(NSError *error) {
@@ -345,11 +328,7 @@
 -(void)SearchPoints:(NSDictionary*)dic
 {
     //    http://www.feeling.hpecar.com/api/serviceCity/view?cityId=13
-    
-    
-    
-    
-    
+
     _serveScopeArray = [NSArray array];
     
     NSString * url = [NSString stringWithFormat:@"%@/api/serviceCity/view?cityId=%@",Host,[dic objectForKey:@"id"]];
@@ -642,12 +621,9 @@
 
 
 
-
-
 -(BOOL)judgeCity
 {
     
-
     [self.tipView removeFromSuperview];
     
     if (self.takeCityName != nil)
@@ -686,29 +662,27 @@
 {
 
 
-    
     NSUserDefaults * user =[NSUserDefaults standardUserDefaults];
     
-    UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0, ControlHeight /2 - 20, ScreenWidth, ControlHeight /2 +20 )];
+    UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0, ControlHeight /2 - 30, ScreenWidth, ControlHeight /2  + 30)];
     baseView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:baseView];
     
-    UIView * header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 0.5)];
-    header.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1] ;
-    [baseView addSubview:header];
-    
-
-    UIView * header1 = [[UIView alloc]initWithFrame:CGRectMake(0, 29.5, ScreenWidth, 0.5)];
-    header1.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1] ;
+//    UIView * header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 0.5)];
+//    header.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1] ;
+//    [baseView addSubview:header];
+//    
+//
+//    UIView * header1 = [[UIView alloc]initWithFrame:CGRectMake(0, 29.5, ScreenWidth, 0.5)];
+//    header1.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1] ;
 //    [baseView addSubview:header1];
-
-    
-    //取还车方式 标题
-    UILabel * mustCostLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, ScreenWidth, 20)];
-    mustCostLabel.text = @"门到门服务";
-    mustCostLabel.font = [UIFont systemFontOfSize:12];
-    mustCostLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1] ;
-    mustCostLabel.tag = 100 ;
+//
+//    //取还车方式 标题
+//    UILabel * mustCostLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, ScreenWidth, 20)];
+//    mustCostLabel.text = @"门到门服务";
+//    mustCostLabel.font = [UIFont systemFontOfSize:12];
+//    mustCostLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1] ;
+//    mustCostLabel.tag = 100 ;
 //    [baseView addSubview:mustCostLabel];
 
 //    //取还车方式 标题
@@ -717,24 +691,25 @@
 //    positionLabel.font = [UIFont systemFontOfSize:12];
 //    positionLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1] ;
 //    [baseView addSubview:positionLabel];
-//    
 
-    
-    
     //选择开关
-    UISwitch * invoiceSwitch = [[UISwitch alloc]initWithFrame:CGRectMake( ScreenWidth - 60 ,0, 51, 15)];
-    
-    invoiceSwitch.transform = CGAffineTransformMakeScale(0.6, 0.6);
-    invoiceSwitch.onTintColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
-    
+//    UISwitch * invoiceSwitch = [[UISwitch alloc]initWithFrame:CGRectMake( ScreenWidth - 60 ,0, 51, 15)];
+//    
+//    invoiceSwitch.transform = CGAffineTransformMakeScale(0.6, 0.6);
+//    invoiceSwitch.onTintColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
+//    
 //    [baseView addSubview:invoiceSwitch];
-    [invoiceSwitch addTarget:self action:@selector(switchIsOn:) forControlEvents:UIControlEventTouchUpInside];
-    [invoiceSwitch setOn:YES animated:NO] ;
+//    [invoiceSwitch addTarget:self action:@selector(switchIsOn:) forControlEvents:UIControlEventTouchUpInside];
+//    [invoiceSwitch setOn:YES animated:NO] ;
+//    
+//    
     
-    //送车上门
+    
+    // 门店 1
+    //上门 0
      self.takeState = @"1" ;
 
-    [user setObject:@"1" forKey:@"takeState"];
+    [user setObject:self.takeState forKey:@"takeState"];
     
 
     CGSize  four = [DBcommonUtils calculateStringLenth:@"取车城市" withWidth:ScreenWidth withFontSize:12];
@@ -748,10 +723,10 @@
     
     //展开的小箭头
     
-    UIImageView * moreImage = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth - 27 , cityImage.frame.origin.y + 3, 7 , 4 )];
-    moreImage.image = [UIImage imageNamed:@"more-image"];
-    [baseView addSubview:moreImage];
-
+    UIImageView * takeCityImage = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth - 27 , cityImage.frame.origin.y + 3, 7 , 4 )];
+    takeCityImage.image = [UIImage imageNamed:@"more-image"];
+    [baseView addSubview:takeCityImage];
+    
     
     //取车城市
     UILabel * takeCityLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(cityImage.frame)+5 ,  cityImage.frame.origin.y-5 ,four.width + 5, 20 )];
@@ -767,7 +742,7 @@
     UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake( CGRectGetMaxX(takeCityLabel.frame)+5,  takeCityLabel.frame.origin.y , 0.5 , 20)];
     lineView.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     [baseView addSubview:lineView];
-
+    
     
     //定位城市
     UILabel * cityLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(lineView.frame)+5, takeCityLabel.frame.origin.y, ScreenWidth -  CGRectGetMaxX(lineView.frame)  - 50, 20)];
@@ -775,11 +750,11 @@
     cityLabel.textAlignment = 0 ;
     cityLabel.textColor =[UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
     cityLabel.font = [UIFont systemFontOfSize:12 ];
-
+    
     [baseView addSubview:cityLabel];
     cityLabel.tag = 101 ;
     
-
+    
     //城市选择点击事件
     UIControl * takeCity = [[UIControl alloc]initWithFrame:CGRectMake(cityLabel.frame.origin.x, cityLabel.frame.origin.y, ScreenWidth - CGRectGetMaxX(takeCityLabel.frame) - 20, cityLabel.frame.size.height)];
     takeCity.tag = 111 ;
@@ -793,7 +768,15 @@
     UIView * lineView1 = [[UIView alloc]initWithFrame:CGRectMake( takeCityLabel.frame.origin.x, CGRectGetMaxY(lineView.frame) + 5  ,ScreenWidth - 2 * takeCityLabel.frame.origin.x , 0.5)];
     lineView1.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     [baseView addSubview:lineView1];
-
+    
+    
+    
+    //展开的小箭头
+    
+    UIImageView * takeStoreImage = [[UIImageView alloc]initWithFrame:CGRectMake(takeCityImage.frame.origin.x, takeCityImage.frame.origin.y + 30, 7 , 4 )];
+    takeStoreImage.image = [UIImage imageNamed:@"more-image"];
+    [baseView addSubview:takeStoreImage];
+    
     
     //取车地点
     UILabel * takePlaceLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(cityImage.frame)+5 , CGRectGetMaxY(lineView1.frame)+5 ,four.width + 5, 20 )];
@@ -813,30 +796,31 @@
     
     //取车地点
     _placeLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(lineView2.frame)+5, takePlaceLabel.frame.origin.y, ScreenWidth -  CGRectGetMaxX(lineView2.frame)  - 50, 20)];
-    _placeLabel.text = @"请输入地址";
+    
     _placeLabel.textAlignment = 0 ;
     _placeLabel.textColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
     _placeLabel.font = [UIFont systemFontOfSize:12 ];
     _placeLabel.adjustsFontSizeToFitWidth = YES ;
     [baseView addSubview:_placeLabel];
     _placeLabel.tag = 103 ;
-
-
+    
+    
     
     //取车地点选择
-    UIControl * takePlace = [[UIControl alloc]initWithFrame:CGRectMake(0, 0, _placeLabel.frame.size.width, _placeLabel.frame.size.height)];
+    UIControl * takePlace = [[UIControl alloc]initWithFrame:CGRectMake(0, 0, takeCity.frame.size.width, _placeLabel.frame.size.height)];
     takePlace.tag = 113 ;
     [takePlace addTarget:self action:@selector(takeCity:) forControlEvents:UIControlEventTouchUpInside];
     [_placeLabel addSubview:takePlace];
     
     _placeLabel.userInteractionEnabled = YES;
-
+    
+    
     //取还车分割线
-
+    
     UIView * carveLine = [[UIView alloc]initWithFrame:CGRectMake( 0, CGRectGetMaxY(lineView2.frame) + 5  ,ScreenWidth, 0.5)];
     carveLine.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     [baseView addSubview:carveLine];
-
+    
     //还车位置图片
     UIImageView * returnCityImage = [[UIImageView alloc]initWithFrame:CGRectMake(10 , CGRectGetMaxY(carveLine.frame) + 10 , 10 , 10 )];
     returnCityImage.image = [UIImage imageNamed:@"position-1"];
@@ -845,8 +829,8 @@
     
     //展开的小箭头
     
-    UIImageView * returnMoreImage = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth -27 ,returnCityImage.frame.origin.y  +3, 7 , 4 )];
-    returnMoreImage.image = [UIImage imageNamed:@"more-image"];
+//    UIImageView * returnMoreImage = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth -27 ,returnCityImage.frame.origin.y  +3, 7 , 4 )];
+//    returnMoreImage.image = [UIImage imageNamed:@"more-image"];
 //    [baseView addSubview:returnMoreImage];
     
     
@@ -875,27 +859,27 @@
     
     [baseView addSubview:returnLabel];
     returnLabel.tag = 102 ;
+
     
     
-    
-    
-//暂时只支持同城同店
-    
-    
+    //暂时只支持同城同店
+
     //城市选择点击事件
-    UIControl * returnCity = [[UIControl alloc]initWithFrame:CGRectMake(returnLabel.frame.origin.x,returnLabel.frame.origin.y, ScreenWidth - CGRectGetMaxX(lineView3.frame) - 20, cityLabel.frame.size.height)];
-    returnCity.tag = 112 ;
-    [returnCity addTarget:self action:@selector(takeCity:) forControlEvents:UIControlEventTouchUpInside];
+//    UIControl * returnCity = [[UIControl alloc]initWithFrame:CGRectMake(returnLabel.frame.origin.x,returnLabel.frame.origin.y, takeCity.frame.size.width, cityLabel.frame.size.height)];
+//    returnCity.tag = 112 ;
+//    [returnCity addTarget:self action:@selector(takeCity:) forControlEvents:UIControlEventTouchUpInside];
 //    [baseView addSubview:returnCity];
-    
-    returnLabel.userInteractionEnabled = YES;
-    
+//    
+//    returnLabel.userInteractionEnabled = YES;
+//    
     
     //横线
     UIView * lineView4 = [[UIView alloc]initWithFrame:CGRectMake( returnCityLabel.frame.origin.x, CGRectGetMaxY(lineView3.frame) + 5  ,lineView1.frame.size.width, 0.5)];
     lineView4.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     [baseView addSubview:lineView4];
     
+    
+   
     
     //还车地点
     UILabel * returnPlaceLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(cityImage.frame)+5 , CGRectGetMaxY(lineView4.frame)+5 ,four.width + 5, 20 )];
@@ -906,17 +890,23 @@
     [baseView  addSubview:returnPlaceLabel];
     returnPlaceLabel.tag = 106 ;
     
+    //展开的小箭头
     
+//    UIImageView * returnStoreImage = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth -27 ,returnPlaceLabel.frame.origin.y  +8, 7 , 4 )];
+//    returnStoreImage.image = [UIImage imageNamed:@"more-image"];
+//    returnStoreImage.tag = 150 ;
+//    [baseView addSubview:returnStoreImage];
+
     
     //竖线
     UIView * lineView5 = [[UIView alloc]initWithFrame:CGRectMake( CGRectGetMaxX(returnPlaceLabel.frame)+5,  returnPlaceLabel.frame.origin.y , 0.5 , 20)];
     lineView5.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     [baseView addSubview:lineView5];
-
+    
     
     //还车地点
     UILabel * returnPlace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(lineView5.frame)+5 , returnPlaceLabel.frame.origin.y,ScreenWidth -  CGRectGetMaxX(lineView2.frame)  - 50, 20 )];
-    returnPlace.text = @"请输入地址";
+    
     returnPlace.textAlignment = 0 ;
     returnPlace.textColor = [UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1];
     returnPlace.font = [UIFont systemFontOfSize:12 ];
@@ -925,21 +915,33 @@
     returnPlace.tag = 104 ;
     
     
-    //取车地点选择
-    UIControl * returnPlaceC = [[UIControl alloc]initWithFrame:CGRectMake(0, 0, returnPlace.frame.size.width, returnPlace.frame.size.height)];
+    //还车地点选择
+    UIControl * returnPlaceC = [[UIControl alloc]initWithFrame:CGRectMake(returnLabel.frame.origin.x, returnPlaceLabel.frame.origin.y, takeCity.frame.size.width, returnPlace.frame.size.height)];
     returnPlaceC.tag = 114 ;
     [returnPlaceC addTarget:self action:@selector(takeCity:) forControlEvents:UIControlEventTouchUpInside];
-//    [returnPlace addSubview:returnPlaceC];
+    [baseView addSubview:returnPlaceC];
     
     returnPlace.userInteractionEnabled = YES;
     
-//    取还车与时间分割线
+    
+    
+    //    取还车与时间分割线
     
     UIView * carveLine1 = [[UIView alloc]initWithFrame:CGRectMake( 0, CGRectGetMaxY(lineView5.frame) + 5  ,ScreenWidth, 0.5)];
     carveLine1.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     [baseView addSubview:carveLine1];
+    
+    
+    if ([self.takeState isEqualToString:@"0"]) {
+        _placeLabel.text = @"请输入地址";
+        returnPlace.text = @"请输入地址";
+    }
+    else{
+        _placeLabel.text = @"请选择门店";
+        returnPlace.text = @"请选择门店";
 
-
+    }
+    
     [self setTimeWithBaseView:baseView and:carveLine1.frame];
     
 
@@ -971,7 +973,7 @@
         NSArray* array = [NSArray arrayWithArray:weak_self.MapViewC.mapView.annotations];
         
         
-        NSLog(@"清除前地图标注的个数%ld",weak_self.MapViewC.mapView.annotations.count);
+        NSLog(@"清除前地图标注的个数%ld",(unsigned long)weak_self.MapViewC.mapView.annotations.count);
         
         
         [weak_self.MapViewC.mapView removeAnnotations:array];
@@ -1242,8 +1244,8 @@
     
     //显示更多车辆按钮
     UIButton * showCarBt = [UIButton buttonWithType:UIButtonTypeCustom];
-    showCarBt.frame = CGRectMake(baseView.frame.size.width / 2 - 100 , CGRectGetMaxY(imageV.frame)+10 , 200  , 30 );
-    [showCarBt setTitle:@"立即去选车" forState:UIControlStateNormal];
+    showCarBt.frame = CGRectMake(baseView.frame.size.width / 2 - 100 , CGRectGetMaxY(imageV.frame)+20 , 200  , 30 );
+    [showCarBt setTitle:@"立即选车" forState:UIControlStateNormal];
     [showCarBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [showCarBt setBackgroundImage:[UIImage imageNamed:@"showCarBt"] forState:UIControlStateNormal];
     [showCarBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -1254,7 +1256,6 @@
     [baseView addSubview:showCarBt];
     
 
-    
     
     NSString* taketimeStr =[NSString stringWithFormat:@"%@ %@",[user objectForKey:@"takeCarDate"],[user objectForKey:@"takeHour"]];
     //
@@ -1355,7 +1356,6 @@
     
     
     UILabel * takepCarKind = [self.view viewWithTag:100];
-    
 
     UILabel * takeLabel = [self.view viewWithTag:105];
     
@@ -1368,8 +1368,13 @@
   
     UILabel * takeWeekTime = [self.view viewWithTag:120];
 
-   
+    UIImageView * returnPlace =[self.view viewWithTag:150];
     
+
+    
+    
+    
+   
 //    城市显示
 //    UILabel * takeCityLabel = [self.view viewWithTag:101];
     UILabel * returnCitLabel = [self.view viewWithTag:102]  ;
@@ -1377,6 +1382,8 @@
     
     if (chooseSwitch.isOn == NO)
     {
+        returnPlace.hidden = YES ;
+        
         takeLabel.text = @"取车门店";
         returnLabel.text = @"还车门店";
         takepCarKind.text = @"门店自助取还车服务";
@@ -1385,7 +1392,6 @@
         [_MapViewC.mapView removeOverlay:polygon];
         
 
-        
         if (self.takeCityName!= nil)
         {
             [self loadStoreDatawithStr:@"take"];
@@ -1425,10 +1431,14 @@
     }
     else
     {
-        
+        returnPlace.hidden = NO ;
+
         
         [_MapViewC.mapView addOverlay:polygon];
 
+        NSArray* array = [NSArray arrayWithArray:_MapViewC.mapView.annotations];
+
+        [_MapViewC.mapView removeAnnotations:array];
         
 //        [UIView animateWithDuration:1 animations:^{
 //            [weak_self.MapViewC.mapView setZoomLevel:13];
@@ -1550,56 +1560,60 @@
         case 114:
         {
 
-            if (self.returnCityName != nil)
-
-            {
-                
-                
-                if ([self.takeState isEqualToString:@"0"])
-                {
-                    
-                    
-                    
-                    choosePlace.index = @"return";
-                    
-                    if ([[_returnCityInfoDic objectForKey:@"latitude"]isKindOfClass:[NSNull class]])
-                    {
-                        [self tipShow:@"数据错误"];
-                    }
-                    else
-                    {
-                        choosePlace.takeCityInfoDic = _returnCityInfoDic ;
-                        if (self.coor.latitude != 0)
-                        {
-                            choosePlace.coor = self.coor ;
-                            
-                        }
-                        else{
-                            choosePlace.coor = CLLocationCoordinate2DMake(0, 0);
-                        }
-
-                        
-                        [self.navigationController pushViewController:choosePlace animated:YES];
-                        
-                    }
-                    
-                }
-                else if ([self.takeState isEqualToString:@"1"])
-                {
-                    store.index = @"return";
-                    store.cityName = self.returnCityName;
-                    store.cityId = self.returnCityId;
-                    
-                    
-                    [self.navigationController pushViewController:store animated:YES];
-                    
-                    
-                }
-            }
-             else
-            {
+            UILabel * returnCitLabel = [self.view viewWithTag:102]  ;
+            if ([returnCitLabel.text isEqualToString:@"请选择城市"]) {
                 [self tipShow:@"请先选择城市"];
             }
+            else{
+                if (self.returnCityName != nil)
+                    
+                {
+                    if ([self.takeState isEqualToString:@"0"])
+                    {
+                        
+                        choosePlace.index = @"return";
+                        
+                        if ([[_returnCityInfoDic objectForKey:@"latitude"]isKindOfClass:[NSNull class]])
+                        {
+                            [self tipShow:@"数据错误"];
+                        }
+                        else
+                        {
+                            choosePlace.takeCityInfoDic = _returnCityInfoDic ;
+                            if (self.coor.latitude != 0)
+                            {
+                                choosePlace.coor = self.coor ;
+                                
+                            }
+                            else{
+                                choosePlace.coor = CLLocationCoordinate2DMake(0, 0);
+                            }
+                            
+                            
+                            [self.navigationController pushViewController:choosePlace animated:YES];
+                            
+                        }
+                        
+                    }
+                    //                else if ([self.takeState isEqualToString:@"1"])
+                    //                {
+                    //                    store.index = @"return";
+                    //                    store.cityName = self.returnCityName;
+                    //                    store.cityId = self.returnCityId;
+                    //
+                    //                    
+                    //                    [self.navigationController pushViewController:store animated:YES];
+                    //                    
+                    //                    
+                    //                }
+                }
+                else
+                {
+                    [self tipShow:@"请先选择城市"];
+                }
+
+            }
+            
             
         }
             break;
@@ -1684,7 +1698,7 @@
 
             }
             
-            [weak_self SearchPoints:city];
+//            [weak_self SearchPoints:city];
         
         }
    
@@ -1692,11 +1706,9 @@
         {
             
            
-
             if ([index isEqualToString:@"take"])
             {
                 
-
                 takeStore.text = @"请输入地址" ;
                 returnStore.text = @"请输入地址" ;
                 
@@ -1722,7 +1734,7 @@
                 weak_self.returnCityName  = [NSString stringWithFormat:@"%@市",[city objectForKey:@"cityName"]];
  
                 
-            }
+            } 
             else if ([index isEqualToString:@"return"])
             {
                 returnStore.text = @"请输入地址" ;
@@ -1739,7 +1751,7 @@
   
             }
             
-            
+            [weak_self.MapViewC loactionCitylatitude:[NSString stringWithFormat:@"%@",[city objectForKey:@"latitude"]] withlongitude:[NSString stringWithFormat:@"%@",[city objectForKey:@"longitude"]]];
             [weak_self loadSearchPoints:city];
 
         }
@@ -1846,12 +1858,11 @@
 
     choosePlace.placeChooseBlock = ^(NSDictionary * place,NSString *index)
     {
-        
-        
-        
+
         //定位到当前地址
         [weak_self.MapViewC loactionCitylatitude:[NSString stringWithFormat:@"%@",[place objectForKey:@"latitude"]] withlongitude:[NSString stringWithFormat:@"%@",[place objectForKey:@"longitude"]]];
        
+        [weak_self.MapViewC setplaceAnnotationWith:place];
         
         
         if ([index isEqualToString:@"take"])
@@ -2466,8 +2477,12 @@
     
     carList.takeCityInfoDic = self.takeCityInfoDic ;
     carList.takePlaceInfoDic = self.takePlaceInfoDic ;
+    carList.takeStoreInfoDic = self.takeStoreDic;
     
-    carList.storeIndoDic = self.takeStoreDic;
+    carList.returnCityInfoDic = self.returnCityInfoDic ;
+    carList.returnStoreInfoDic = self.returnStoreDic ;
+
+    
     
     NSLog(@"%@",self.takeCityInfoDic);
 
@@ -2514,13 +2529,25 @@
     {
         [self tipShow:@"当前城市无服务"];
     }
-    
-    
-    
-    
+    //判断是否放假
+    else if ([self judgeTime])
+    {
+        NSString * message = @"新年期间(1月27日至1月30日)暂不接受此时间取还车业务";
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"新年暂停服务通知" message:message preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        
+        [alertController addAction:cancelAction];
+
+        [self presentViewController:alertController animated:YES completion:nil];
+        
+
+    }
+
 //    else if (![self isInCity:_coor])
 //    {
-//        
+//
 //        [self tipShow:@"当前位置不在服务范围内"];
 //
 //    }
@@ -2537,6 +2564,35 @@
 }
 
 
+//判断是否是春节放假
+-(BOOL)judgeTime{
+    
+    NSArray * holiday = @[@"2017-01-27",@"2017-01-28",@"2017-01-29",@"2017-01-30"];
+
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    
+    NSString * takeDate = [user objectForKey:@"takeCarDate"];
+    
+    NSString * returnDate =[user objectForKey:@"returnCarDate"];
+    
+    DBLog(@"%@",self.returnCityId);
+    
+    //三亚不放假
+    if (![self.returnCityId isEqualToString:@"235"] && ![self.returnCityId isEqualToString:@"234"]) {
+        for (NSString * holidayStr in holiday) {
+            
+            if ([holidayStr isEqualToString:takeDate] || [holidayStr isEqualToString:returnDate]) {
+                
+                return YES ;
+                
+            }
+        }
+
+    }
+
+    return NO;
+    
+}
 -(void)setSearchScope:(NSArray *)array
 {
 
@@ -2552,11 +2608,10 @@
         }
         
     }
-    
-    
-    
-    
+
+    [_MapViewC.mapView removeOverlay:polygon];
     polygon = [BMKPolygon polygonWithCoordinates:coords count:_serveScopeArray.count];
+    
     [_MapViewC.mapView addOverlay:polygon];
     
 }

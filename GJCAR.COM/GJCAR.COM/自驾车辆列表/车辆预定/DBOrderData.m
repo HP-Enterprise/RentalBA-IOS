@@ -38,6 +38,13 @@
     
     parDic[@"totalTimeoutPrice"] = [NSString stringWithFormat:@"%@",[priceDic objectForKey:@"totalDelayAmount"]];
     
+    if ([[priceDic objectForKey:@"toStoreReduce"]isKindOfClass:[NSNull class]]) {
+        parDic[@"toStoreReduce"] = @"";
+    }
+    else{
+         parDic[@"toStoreReduce"] = [NSString stringWithFormat:@"%@",[priceDic objectForKey:@"toStoreReduce"]];
+    }
+   
    
     
     parDic[@"prepay"] = [priceDic objectForKey:@"totalPrepayAmount"] ;
@@ -52,11 +59,10 @@
     
     parDic[@"orderState"] = @"1";
     
-    parDic[@"orderType"] = @"1";
     
     parDic[@"payWay"] = payWay;
     
-    parDic[@"serviceType"] = @"0";
+    
     
     parDic[@"source"] = @"5";
     
@@ -70,10 +76,10 @@
     //    //送车上门参数
     if ([[user objectForKey:@"takeState"]isEqualToString:@"0"])
     {
-        
+        parDic[@"orderType"] = @"2";
         parDic[@"returnCarLatitude"] =  [[user objectForKey:@"returnPlace"]objectForKey:@"latitude"];
         parDic[@"returnCarLongitude"] = [[user objectForKey:@"returnPlace"]objectForKey:@"longitude"];
-        
+        parDic[@"serviceType"] = @"3";
         parDic[@"returnCarAddress"] =[NSString stringWithFormat:@"%@%@",[[user objectForKey:@"returnPlace"]objectForKey:@"name"],[[user objectForKey:@"returnPlace"]objectForKey:@"address"]];
         
         
@@ -100,7 +106,8 @@
         
         // parDic[@"returnCarLatitude"] =  [[user objectForKey:@"returnStore"]objectForKey:@"latitude"];
         //parDic[@"returnCarLongitude"] = [[user objectForKey:@"returnStore"]objectForKey:@"longitude"];
-        
+        parDic[@"serviceType"] = @"0";
+        parDic[@"orderType"] = @"1";
         parDic[@"returnCarAddress"] = [[user objectForKey:@"returnStore"]objectForKey:@"storeName"];
         parDic[@"returnCarStoreId"] = [[user objectForKey:@"returnStore"]objectForKey:@"id"];
         
@@ -115,6 +122,7 @@
         NSLog(@"%@",parDic[@"returnCarAddress"]);
         NSLog(@"%@",parDic[@"returnCarStoreId"]);
         
+  
     }
     
     //手续费
@@ -139,31 +147,19 @@
             
             NSMutableDictionary * poundage = [NSMutableDictionary dictionary];
             
-            if ([[dic objectForKey:@"chargeName"]isEqualToString:@"不计免赔"])
-            {
-                
-                
+            if ([[dic objectForKey:@"chargeName"]isEqualToString:@"不计免赔"]){
+
                 NSLog(@"%ld",[[priceDic objectForKey:@"daySum"]integerValue]);
                 
-                
-                if ([[priceDic objectForKey:@"daySum"]integerValue]<=7)
-                {
-                    
-                    
+                if ([[priceDic objectForKey:@"daySum"]integerValue]<=7)  {
                     poundage[@"serviceAmount"] = [NSString stringWithFormat:@"%ld",[[details objectForKey:@"price"]integerValue]* [[priceDic objectForKey:@"daySum"]integerValue]] ;
-                    
-                    
                 }
                 
-                else
-                    
-                {
+                else {
                     poundage[@"serviceAmount"] = [NSString stringWithFormat:@"%ld",[[details objectForKey:@"price"]integerValue]* 7] ;
                 }
-                
             }
-            else
-            {
+            else{
                 poundage[@"serviceAmount"] = [NSString stringWithFormat:@"%@",[details objectForKey:@"price"]];
                 
             }
@@ -176,8 +172,26 @@
         }
         
     }
-    parDic[@"orderValueAddedServiceRelativeShow"] =  array;
     
+    
+    if (![[priceDic objectForKey:@"doorToDoor"]isKindOfClass:[NSNull class]] && [priceDic objectForKey:@"doorToDoor"]  && [NSArray arrayWithArray:[priceDic objectForKey:@"doorToDoor"]].count > 0  ) {
+        
+        NSMutableDictionary * poundage = [NSMutableDictionary dictionary];
+        
+        NSDictionary  * difprice = [[NSArray arrayWithArray:[priceDic objectForKey:@"doorToDoor"]]firstObject];
+        NSDictionary *difCostDic = [[NSArray arrayWithArray:[difprice objectForKey:@"details"]]firstObject] ;
+
+        
+        poundage[@"serviceAmount"] = [NSString stringWithFormat:@"%@",[difCostDic objectForKey:@"price"]] ;
+
+
+        poundage[@"serviceId"] = [NSString stringWithFormat:@"%@",[difprice objectForKey:@"chargeId"]];
+        poundage[@"description"] = [NSString stringWithFormat:@"%@",[difprice objectForKey:@"chargeName"]];
+
+        [array addObject:poundage];
+    }
+
+    parDic[@"orderValueAddedServiceRelativeShow"] =  array;
     
     parDic[@"returnCarCity"] = [user objectForKey:@"returnCityId"];
     

@@ -597,51 +597,32 @@
     
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
     
+    [self tipShow:@"注销成功"];
     
-    if ([[user objectForKey:@"token"]isEqualToString:@"0"])
-    {
+    [user setObject:@"未登录" forKey:@"phone"];
+    [user setObject:@"" forKey:@"nickName"];
+    
+    [user setObject:@"0" forKey:@"token"];
+    [user setObject:@"0" forKey:@"userId"];
+    
+    //跳转到信息页面
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        // 2秒后异步执行这里的代码...
+        self.view.userInteractionEnabled = YES ;
 
-
-    }
-
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
+        
+    });
+    
     [DBNetworkTool DELETE:url parameters:nil success:^(id responseObject) {
-        
-        
-        //注销成功token值设为0
-        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
-        {
-            
-            [self tipShow:[responseObject objectForKey:@"message"]];
-            
-            [user setObject:@"未登录" forKey:@"phone"];
-            [user setObject:@"" forKey:@"nickName"];
-            
-            [user setObject:@"0" forKey:@"token"];
-            [user setObject:@"0" forKey:@"userId"];
-            
-            //跳转到信息页面
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                // 2秒后异步执行这里的代码...
-                self.view.userInteractionEnabled = YES ;
-                
-                
-
-                [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
-                
-            });
-            NSLog(@"%@",responseObject);
-
-        }
-        
         
         
     } failure:^(NSError *error) {
         
         NSLog(@"%@",error);
-        
-        
+
     }];
 }
 

@@ -59,16 +59,13 @@
     _pickerView.backgroundColor = [UIColor whiteColor];
     
     
-    
     [self.view addSubview:_pickerView];
     _pickerView.dataSource = self;
     _pickerView.delegate = self;
-    
     _rowA = 0;
     self.city = _dataArray[_rowA];
-    
-    
     NSLog(@"1111%@",_dataArray);
+    
 
 }
 
@@ -95,10 +92,9 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    
+
     _rowA = row ;
     self.city = _dataArray[row];
-
 
 }
 
@@ -139,25 +135,19 @@
 
 -(NSInteger) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    
-    
-    
     return _dataArray.count;
- 
-    
 }
+
 -(NSString*) pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
 
-
     return [_dataArray objectAtIndex:row];
-
 }
 
 
 -(void)dealloc
 {
-    
+
     NSLog(@"DBDatePickViewController dealloc");
 }
 

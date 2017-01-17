@@ -7,10 +7,13 @@
 //
 
 #import "DBActiveDetailViewController.h"
+#import <JavaScriptCore/JavaScriptCore.h>
+
 
 @interface DBActiveDetailViewController ()<UIScrollViewDelegate,UIWebViewDelegate>
 @property (nonatomic,strong)UIWebView * webView;
 @property (nonatomic)CGFloat historyY;
+@property (nonatomic,strong)JSContext * context ;
 @end
 
 @implementation DBActiveDetailViewController
@@ -70,15 +73,45 @@
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    
 
-    
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
     [[NSUserDefaults standardUserDefaults] synchronize];
     
+    // 打印异常,由于JS的异常信息是不会在OC中被直接打印的,所以我们在这里添加打印异常信息,
+    
+    self.context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+    self.context.exceptionHandler =
+    ^(JSContext *context, JSValue *exceptionValue)
+    {
+        context.exception = exceptionValue;
+        DBLog(@"%@", exceptionValue);
+    };
 }
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    //判断是否是单击
+    if (navigationType == UIWebViewNavigationTypeLinkClicked)
+    {
+        NSString *url = [request.URL absoluteString];
+        
+
+        //拦截链接跳转到货源圈的动态详情
+        if ([url rangeOfString:@"http://m.gjcar.com"].location != NSNotFound)
+        {
+            //跳转到你想跳转的页面
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"navChange" object:nil];
+            
+            return NO; //返回NO，此页面的链接点击不会继续执行，只会执行跳转到你想跳转的页面
+        }
+    }
+    return YES;
+}
+
 
 -(void)viewWillDisappear:(BOOL)animated
 {

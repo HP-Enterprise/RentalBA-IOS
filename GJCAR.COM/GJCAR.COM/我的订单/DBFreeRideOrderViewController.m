@@ -31,7 +31,7 @@
 @property (nonatomic,strong)UIView * tipView ;
 
 @property (nonatomic,strong)NSDictionary * OrderDic ;
-
+@property (nonatomic,strong)DBProgressAnimation * progress ;
 ////下单成功生成订单
 //@property(nonatomic,strong)Product *product ;
 
@@ -53,6 +53,24 @@
     //加载订单信息
     [self loadOrderData];
 }
+
+
+#pragma mark 加载动画
+-(void)addProgress
+{
+    _progress = [[DBProgressAnimation alloc]init];
+    [_progress addProgressAnimationWithViewControl:self];
+    
+}
+
+-(void)removeProgress
+{
+    if (_progress != nil)
+    {
+        [_progress removeProgressAnimation];
+    }
+}
+
 
 -(void)loadOrderData
 {
@@ -218,16 +236,11 @@
     
     topView.backgroundColor = [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1] ;
     [_scrollView addSubview:topView ];
-    
-    
-    
-    
+
     //订单状态
     UILabel *  orderStatus = [[UILabel alloc]initWithFrame:CGRectMake(50 , 10, ScreenWidth - 100 , 30)];
     
-    
     NSString * status ;
-    
     
     switch ([_model.orderState integerValue])
     {
@@ -261,11 +274,8 @@
             break;
     }
 
-    
-    
+
     orderStatus.text = status;
-    
-    
     orderStatus.font = [UIFont systemFontOfSize:14];
     orderStatus.textAlignment = 1 ;
     orderStatus.textColor =  [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
@@ -449,8 +459,14 @@
     
     //创建车辆图片
     UIImageView * imageV = [[UIImageView  alloc]initWithFrame:CGRectMake(50, CGRectGetMaxY(orderlineView.frame)+10, 80, 50)];
+
+    NSString* encodedString = [[NSString stringWithFormat:@"%@%@",Host,[_model.picture stringByReplacingOccurrencesOfString:@".." withString:@""]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    
     [imageV sd_setImageWithURL:[NSURL URLWithString:
-                                [NSString stringWithFormat:@"%@%@",Host,_model.picture]] placeholderImage:[UIImage imageNamed:@"img-05.jpg"]];
+                                   encodedString] placeholderImage:[UIImage imageNamed:@"img-05.jpg"]];
+    
+
     [_scrollView addSubview:imageV];
     
     
@@ -724,12 +740,12 @@
     //取车地点
     
     UILabel * takePlace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(takeLabel.frame) , takeLabel.frame.origin.y, ScreenWidth - CGRectGetMaxX(takeLabel.frame) - 10, takeLabel.frame.size.height)];
-    takePlace.text = _model.takeCarAddress ;
+    takePlace.text = [NSString stringWithFormat:@"%@(%@)",_model.takeCarAddress,[[_OrderDic objectForKey:@"takeCarStore"]objectForKey:@"detailAddress"]] ;
     
     
-    //    takePlace.adjustsFontSizeToFitWidth = YES;
+    
     takePlace.font = [ UIFont systemFontOfSize:10];
-    
+    takePlace.adjustsFontSizeToFitWidth = YES;
     takePlace.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
     
     
@@ -767,9 +783,11 @@
     
     UILabel *  retuenPlace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(returnLabel.frame) , returnLabel.frame.origin.y,ScreenWidth - CGRectGetMaxX(returnLabel.frame) - 10, returnLabel.frame.size.height)];
     
-    retuenPlace.text = _model.returnCarAddress;
+    retuenPlace.text = [NSString stringWithFormat:@"%@(%@)",_model.returnCarAddress,[[_OrderDic objectForKey:@"returnCarStore"]objectForKey:@"detailAddress"]] ;
+  
     retuenPlace.font = [ UIFont systemFontOfSize:10];
-    
+    retuenPlace.adjustsFontSizeToFitWidth = YES;
+
     retuenPlace.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
     
     
@@ -889,10 +907,7 @@
     
     [_scrollView addSubview:lineView2];
     
-    
 
-    
-    
     
     //费用合计
     UILabel * totleCostLabel = [[UILabel alloc]initWithFrame:CGRectMake(carCostLabel.frame.origin.x, CGRectGetMaxY(carCostLabel.frame), ScreenWidth / 3 - 40 , 40)];
@@ -904,7 +919,6 @@
     totleCostLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
     
     [_scrollView addSubview:totleCostLabel];
-    
     
     
     //
@@ -1026,49 +1040,42 @@
 
     [self.tipView removeFromSuperview];
     
-
-    
     NSString * url = [NSString stringWithFormat:@"%@/api/freeRideOrder/%@/cancelOrder",Host,self.model.orderId];
-    
+
     DBNetworkTool * netWork = [[DBNetworkTool alloc]init];
-    
     
     button.userInteractionEnabled = NO ;
     
+     __weak typeof(self)weak_self= self ;
+    
+    [self addProgress];
     [netWork cancelOrderPUT:url parameters:nil];
-    
-    
-    __weak typeof(self)weak_self= self ;
-    netWork.cancelOrderBlcok = ^(NSDictionary * dic)
+
+    netWork.cancelOrderBlcok = ^(id dic)
     {
-        
+        [self removeProgress];
         button.userInteractionEnabled = YES ;
 
-        if ([[dic objectForKey:@"status"]isEqualToString:@"true"])
-        {
-            
-            [weak_self tipShow:[dic objectForKey:@"message"]];
-            
-            
-            
-            [UIView animateWithDuration:2 animations:^{
-        
-                
-            } completion:^(BOOL finished) {
-                
-                [weak_self.navigationController popViewControllerAnimated:YES];
-            }];
-            
+        if ([dic isKindOfClass:[NSError class]]) {
+            [weak_self tipShow:@"数据加载失败"];
         }
-        else
-        {
-            [weak_self tipShow:[dic objectForKey:@"message"]];
+        else{
+            if ([[dic objectForKey:@"status"]isEqualToString:@"true"]){
+                
+                [weak_self tipShow:[dic objectForKey:@"message"]];
+
+                [UIView animateWithDuration:2 animations:^{
+                    
+                } completion:^(BOOL finished) {
+                    
+                    [weak_self.navigationController popViewControllerAnimated:YES];
+                }];
+            }
+            else{
+                [weak_self tipShow:[dic objectForKey:@"message"]];
+            }
         }
-        
     };
-
-
-    
 }
 
 //支付按钮点击

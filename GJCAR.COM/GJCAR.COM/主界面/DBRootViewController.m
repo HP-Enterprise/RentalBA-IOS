@@ -124,7 +124,6 @@ static NSString * tele = @"400-653-6600" ;
             
             //            _userInfoDic = [responseObject objectForKey:@"message"];
             
-            
             [self loadOrderInfo];
             
             [self performSelectorOnMainThread:@selector(config:) withObject:_userInfo waitUntilDone:YES];
@@ -155,12 +154,12 @@ static NSString * tele = @"400-653-6600" ;
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
     
     NSString * url = [NSString stringWithFormat:@"%@/api/user/%@/order?currentPage=1&orderState=&pageSize=100",Host,[user objectForKey:@"userId"]];
-
-    NSString * url1 = [NSString stringWithFormat:@"%@/api/user/%@/doortodoororder?currentPage=1&orderState=&pageSize=100",Host,[user objectForKey:@"userId"]];
     
 
+    NSString * url1 = [NSString stringWithFormat:@"%@/api/door/user/orders?userId=%@&currentPage=1&orderState=&pageSize=100",Host,[user objectForKey:@"userId"]];
     
-//    NSString * url2 = [NSString stringWithFormat:@"%@/api/user/%@/doortodoororder?currentPage=1&orderState=&pageSize=100",Host,[user objectForKey:@"userId"]];
+
+//    NSString * url2 = [NSString stringWithFormat:@"%@/api/airportTrip/orders?currentPage=1&fuzzy=1&pageSize=100",Host,[user objectForKey:@"userId"]];
 
     //顺风车
     NSString * url3 = [NSString stringWithFormat:@"%@/api/user/%@/freeRideOrder?currentPage=1&orderState=&pageSize=100",Host,[user objectForKey:@"userId"]];
@@ -176,6 +175,9 @@ static NSString * tele = @"400-653-6600" ;
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
             
+            
+            
+            
            orderNumaber = [NSArray arrayWithArray:[responseObject objectForKey:@"message"]].count;
             [weak_self performSelectorOnMainThread:@selector(oderConfig) withObject:nil waitUntilDone:YES];
            
@@ -189,15 +191,25 @@ static NSString * tele = @"400-653-6600" ;
     
     [DBNetworkTool  checkOrderGET:url1 parameters:nil success:^(id responseObject) {
         
-        
-        
-        
+
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
             
-            orderNumaber1 = [NSArray arrayWithArray:[responseObject objectForKey:@"message"]].count;
-
-            [weak_self performSelectorOnMainThread:@selector(oderConfig) withObject:nil waitUntilDone:YES];
+            
+            
+            if(![[responseObject objectForKey:@"message"]isKindOfClass:[NSNull class]]){
+                NSArray * dataArray = [NSArray arrayWithArray:[[responseObject objectForKey:@"message"]objectForKey:@"content"]];
+                                       
+                                        
+                orderNumaber1 = dataArray.count;
+                                        
+                [weak_self performSelectorOnMainThread:@selector(oderConfig) withObject:nil waitUntilDone:YES];
+            }
+           
+            
+            
+            
+           
             
         }
         
@@ -205,12 +217,7 @@ static NSString * tele = @"400-653-6600" ;
         
     }];
 
-    
-    
     [DBNetworkTool  checkOrderGET:url3 parameters:nil success:^(id responseObject) {
-        
-        
-        
         
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
@@ -243,8 +250,8 @@ static NSString * tele = @"400-653-6600" ;
     {
 
         ordernumber.text =[NSString stringWithFormat:@"自驾订单"];
-        ordernumber1.text = [NSString stringWithFormat:@"门对门订单"];
-        ordernumber2.text = [NSString stringWithFormat:@"带驾订单"];
+        ordernumber1.text = [NSString stringWithFormat:@"门到门订单"];
+        ordernumber2.text = [NSString stringWithFormat:@"接送机订单"];
         ordernumber3.text = [NSString stringWithFormat:@"顺风车订单"];
         
     }
@@ -252,8 +259,8 @@ static NSString * tele = @"400-653-6600" ;
     
     {
         ordernumber.text =[NSString stringWithFormat:@"自驾订单(%ld)",orderNumaber];
-        ordernumber1.text = [NSString stringWithFormat:@"门对门订单(%ld)",orderNumaber1];
-        ordernumber2.text = [NSString stringWithFormat:@"带驾订单(%ld)",orderNumaber2];
+        ordernumber1.text = [NSString stringWithFormat:@"门到门订单(%ld)",orderNumaber1];
+        ordernumber2.text = [NSString stringWithFormat:@"接送机订单(%ld)",orderNumaber2];
         ordernumber3.text = [NSString stringWithFormat:@"顺风车订单(%ld)",orderNumaber3];
     }
     
@@ -310,7 +317,7 @@ static NSString * tele = @"400-653-6600" ;
     
 //    CGFloat w = (ScreenWidth - four.width* 3- three.width * 2 - two.width)/7 ;
     //8.20 测试用
-    CGFloat w = (ScreenWidth - four.width- three.width - two.width)/4 ;
+    CGFloat w = (ScreenWidth - four.width- three.width  - two.width)/4 ;
 
     
     
@@ -359,7 +366,7 @@ static NSString * tele = @"400-653-6600" ;
 //    otherDriveBt.tag = 101;
     //
     //
-    //    //顺风车
+//        //顺风车
 //    UIButton * specialBt = [UIButton buttonWithType:UIButtonTypeCustom];
 //    specialBt.frame = CGRectMake(CGRectGetMaxX(selfDriveBt.frame)+w, selfDriveBt.frame.origin.y, three.width, three.height+5);
 //    [specialBt setTitle:@"顺风车" forState:UIControlStateNormal];
@@ -370,7 +377,7 @@ static NSString * tele = @"400-653-6600" ;
 //    specialBt.backgroundColor = [UIColor whiteColor];
 //    [_activeScrollView addSubview:specialBt];
 //    
-//    specialBt.tag = 102;
+//    specialBt.tag = 101;
     
     //长租车
     UIButton * activityBt = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -578,10 +585,11 @@ static NSString * tele = @"400-653-6600" ;
 
     
     
-    //自驾订单
+    //我的订单
     UIImageView * orderImage = [[UIImageView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(lineView.frame)+15, 20    , 20  )];
     orderImage.image = [UIImage imageNamed:@"订单"];
     [infoView addSubview:orderImage];
+    
     
     UILabel * myOrder = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(orderImage.frame)+15, orderImage.frame.origin.y, infoView.frame.size.width - 100, 20  )];
     
@@ -607,9 +615,6 @@ static NSString * tele = @"400-653-6600" ;
     orderkind.tag = 654 ;
     
     
-    
-    
-    
     order = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(orderImage.frame)+15,  0 , infoView.frame.size.width - 100, 20  )];
     order.text = @"自驾订单";
     
@@ -629,45 +634,72 @@ static NSString * tele = @"400-653-6600" ;
     
     
     //代驾订单
-    UIImageView * orderImage1 = [[UIImageView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(order.frame)+5, 20    , 20  )];
-    orderImage1.image = [UIImage imageNamed:@"订单"];
-    //    [infoView addSubview:orderImage1];
-    
-    
-    order1 = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(orderImage1.frame)+15, orderImage1.frame.origin.y, infoView.frame.size.width - 100, 20  )];
-    order1.text = @"门对门订单";
+//    UIImageView * orderImage1 = [[UIImageView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(order.frame)+5, 20    , 20  )];
+//    orderImage1.image = [UIImage imageNamed:@"订单"];
+//    //    [infoView addSubview:orderImage1];
+//    
+//    
+//    order1 = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(orderImage1.frame)+15, orderImage1.frame.origin.y, infoView.frame.size.width - 100, 20  )];
+//    order1.text = @"门到门订单";
 //    [orderkind addSubview:order1];
-    order1.font = [UIFont systemFontOfSize:13];
-    order1.textColor = [UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1];
-    order1.tag = 651;
-    
-    
-    UIControl * orderControl1 = [[UIControl alloc]initWithFrame:CGRectMake(0, orderImage1.frame.origin.y, infoView.frame.size.width, 20  )];
+//    order1.font = [UIFont systemFontOfSize:13];
+//    order1.textColor = [UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1];
+//    order1.tag = 651;
+//    
+//    
+//    UIControl * orderControl1 = [[UIControl alloc]initWithFrame:CGRectMake(0, orderImage1.frame.origin.y, infoView.frame.size.width, 20  )];
 //    [orderkind addSubview:orderControl1];
-    [orderControl1 addTarget:self action:@selector(myOrder:) forControlEvents:UIControlEventTouchUpInside];
-    orderControl1.tag = 551;
+//    [orderControl1 addTarget:self action:@selector(myOrder:) forControlEvents:UIControlEventTouchUpInside];
+//    orderControl1.tag = 551;
+    
+//
+//    //接送机订单
+//    UIImageView * orderImage2 = [[UIImageView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(order.frame)+5, 20    , 20  )];
+//    orderImage2.image = [UIImage imageNamed:@"订单"];
+//    //    [infoView addSubview:orderImage1];
+//    
+//    
+//    order2 = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(orderImage2.frame)+15, orderImage2.frame.origin.y, infoView.frame.size.width - 100, 20  )];
+//    order2.text = @"接送机订单";
+//    [orderkind addSubview:order2];
+//    order2.font = [UIFont systemFontOfSize:13];
+//    order2.textColor = [UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1];
+//    order2.tag = 652;
+//    
+//    
+//    UIControl * orderControl2 = [[UIControl alloc]initWithFrame:CGRectMake(0, orderImage1.frame.origin.y, infoView.frame.size.width, 20  )];
+//    [orderkind addSubview:orderControl2];
+//    [orderControl2 addTarget:self action:@selector(myOrder:) forControlEvents:UIControlEventTouchUpInside];
+//    orderControl2.tag = 552;
+//    
+//    
+    
+    
+    
+    
+    
+    
+    //顺风车订单
+//    UIImageView * orderImage3 = [[UIImageView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(order.frame)+5, 20    , 20  )];
+//    orderImage3.image = [UIImage imageNamed:@"订单"];
+//    [infoView addSubview:orderImage3];
+//    
+//    
+//    order3 = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(orderImage3.frame)+15, orderImage3.frame.origin.y, infoView.frame.size.width - 100, 20  )];
+//    order3.text = @"顺风车订单";
+//    [orderkind addSubview:order3];
+//    order3.font = [UIFont systemFontOfSize:13];
+//    order3.textColor = [UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1];
+//    order3.tag = 653;
+//    
+//    
+//    UIControl * orderControl3 = [[UIControl alloc]initWithFrame:CGRectMake(0, orderImage3.frame.origin.y, infoView.frame.size.width, 20  )];
+//    [orderkind addSubview:orderControl3];
+//    [orderControl3 addTarget:self action:@selector(myOrder:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    orderControl3.tag = 553;
     
 
-    
-    //门到门订单
-    UIImageView * orderImage3 = [[UIImageView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(order1.frame)+5, 20    , 20  )];
-    orderImage3.image = [UIImage imageNamed:@"订单"];
-    //    [infoView addSubview:orderImage3];
-    
-    
-    order3 = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(orderImage3.frame)+15, orderImage3.frame.origin.y, infoView.frame.size.width - 100, 20  )];
-    order3.text = @"顺风车订单";
-//    [orderkind addSubview:order3];
-    order3.font = [UIFont systemFontOfSize:13];
-    order3.textColor = [UIColor colorWithRed:0.60 green:0.60 blue:0.60 alpha:1];
-    order3.tag = 653;
-    
-    UIControl * orderControl3 = [[UIControl alloc]initWithFrame:CGRectMake(0, orderImage3.frame.origin.y, infoView.frame.size.width, 20  )];
-//    [orderkind addSubview:orderControl3];
-    [orderControl3 addTarget:self action:@selector(myOrder:) forControlEvents:UIControlEventTouchUpInside];
-    
-    orderControl3.tag = 553;
-    
     
     
     
@@ -868,7 +900,7 @@ static NSString * tele = @"400-653-6600" ;
                 
                 CGRect frame = myservers.frame ;
                 
-                frame.origin.y -= 30 ;
+                frame.origin.y -= 20 ;
                 
                 myservers.frame = frame ;
 
@@ -891,7 +923,7 @@ static NSString * tele = @"400-653-6600" ;
 
                 CGRect frame = myservers.frame ;
                 
-                frame.origin.y += 30 ;
+                frame.origin.y += 20 ;
                 
                 myservers.frame = frame ;
                 
@@ -909,7 +941,7 @@ static NSString * tele = @"400-653-6600" ;
         
         DBNetManager * netManager =[DBNetManager sharedManager];
         
-        if (netManager.netStatu == 0)[self tipShow:@"无网络服务"];
+        if (netManager.netStatu == 0)[self tipShow:@"数据加载失败"];
         else
         {
             NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
@@ -925,8 +957,7 @@ static NSString * tele = @"400-653-6600" ;
                 
             {
                 DBMyOrderViewController * orderinfo = [[DBMyOrderViewController alloc]init];
-                
-                
+
                 orderinfo.orderIndex = control.tag - 550;
                 
                 
@@ -1152,18 +1183,13 @@ static NSString * tele = @"400-653-6600" ;
     }
     
     
-    
-    
-    
 }
 #pragma mark ---滑动手势收起侧滑页面
 -(void)viewMove
 {
     
     UIView * clearView = [self.view viewWithTag:540];
-    
-    
-    
+
     if (userView.frame.origin.x == 0 ) {
         
         [UIView animateWithDuration:0.5 animations:^{
@@ -1225,15 +1251,34 @@ static NSString * tele = @"400-653-6600" ;
              
              _currentViewController = _controlArray[button.tag -100];
          }];
-        
-        
     }
-        
 
 }
+- (void)navChange{
+    
+    UIButton * button = [self.view viewWithTag:100];
+    lastBt.backgroundColor = [UIColor whiteColor];
+    [lastBt setTitleColor:[UIColor colorWithRed:0.56 green:0.58 blue:0.58 alpha:1] forState:UIControlStateNormal];
+    
+    lastBt = button;
+    
+    button.backgroundColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    
+    [self transitionFromViewController:_currentViewController toViewController:_controlArray[0] duration:0.5 options:
+     0 animations:^{
+         
+     } completion:^(BOOL finished){
+         
+         _currentViewController = _controlArray[0];
+     }];
 
-
-
+    
+    
+    
+    
+}
 #pragma mark ----导航栏隐藏事件
 -(void)tabBarHid
 {
@@ -1275,12 +1320,13 @@ static NSString * tele = @"400-653-6600" ;
 
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(tabBarHid) name:@"tabBarHid" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(tabBarShow) name:@"tabBarShow" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(netChange) name:@"netChange" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(navChange) name:@"navChange" object:nil];
+    
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(netChange) name:@"netChange" object:nil];
     
     [self loadUserInfo];
  
 }
-
 
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -1288,8 +1334,13 @@ static NSString * tele = @"400-653-6600" ;
     [super viewWillDisappear:YES];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"tabBarHid" object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"tabBarShow" object:nil];
+    
 //    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"netChange" object:nil];
+}
 
+-(void)dealloc{
+    DBLog(@"%@  free",self);
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"navChange" object:nil];
 }
 
 
@@ -1312,17 +1363,18 @@ static NSString * tele = @"400-653-6600" ;
 }
 
 
-
 #pragma mark 检测新版本
-
 
 -(void)loadVersion
 {
-    NSString * url =[NSString stringWithFormat:@"www.gjcar.com/api/appManage/latest?appType=1"];
+    NSString * url =[NSString stringWithFormat:@"%@/api/appManage/latest?appType=1",Host];
     NSString* oldversion =[[NSBundle mainBundle]objectForInfoDictionaryKey:(NSString*)@"CFBundleShortVersionString"];
 
     [DBNetworkTool Get:url parameters:nil success:^(id responseObject)
     {
+        
+        DBLog(@"%@",responseObject);
+        
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
             
@@ -1341,25 +1393,45 @@ static NSString * tele = @"400-653-6600" ;
                 NSString * newVersion = [version stringByReplacingOccurrencesOfString:@"." withString:@""];
                 NSString * oldVersion = [oldversion stringByReplacingOccurrencesOfString:@"." withString:@""];
                 
-                
                 if ([newVersion integerValue] > [oldVersion integerValue]) {
                     
+//                    UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight )];
+//                    [self.view addSubview:backView];
+//                    backView.backgroundColor = [UIColor colorWithRed:0.69 green:0.69 blue:0.68 alpha:1];
+//                    backView.alpha = 0.3 ;
+//                    [self.view bringSubviewToFront:backView];
+                    NSString * flag = [NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"message"]objectForKey:@"forceUpdate"]];
                     
-                    UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight )];
-                    [self.view addSubview:backView];
-                    backView.backgroundColor = [UIColor colorWithRed:0.69 green:0.69 blue:0.68 alpha:1];
-                    backView.alpha = 0.3 ;
-                    [self.view bringSubviewToFront:backView];
+                    
+                    //                 UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight )];
+                    //                 [weak_self.view addSubview:backView];
+                    //                 backView.backgroundColor = [UIColor colorWithRed:0.69 green:0.69 blue:0.68 alpha:1];
+                    //                 backView.alpha = 0.3 ;
+                    //                 [weak_self.view bringSubviewToFront:backView];
+
                     
                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"有新版本可供更新" message:nil preferredStyle:UIAlertControllerStyleAlert];
                     
-                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                        
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    }];
+
+                        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                         
                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1151833888"]];
+                        
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [self loadVersion];
+                        });
+
                     
                     }];
+                    
+                    if ([flag isEqualToString:@"0"]){
+                        [alertController addAction:cancelAction];
+                    }
+                    
                     [alertController addAction:okAction];
+
                     [self presentViewController:alertController animated:YES completion:nil];
 
                 }

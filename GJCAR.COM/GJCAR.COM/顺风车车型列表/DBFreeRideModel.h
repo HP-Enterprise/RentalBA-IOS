@@ -23,8 +23,6 @@
 
 
 
-@protocol DBFreeRideReturnCarStoreShowsModel<NSObject>
-@end
 
 @interface DBFreeRideModel : JSONModel
 

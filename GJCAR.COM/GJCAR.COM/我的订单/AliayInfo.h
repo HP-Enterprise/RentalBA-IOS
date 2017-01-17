@@ -18,17 +18,12 @@
 }
 
 
-
-
-
 @property (nonatomic, assign) float price;
 @property (nonatomic, copy) NSString *subject;
 @property (nonatomic, copy) NSString *body;
 @property (nonatomic, copy) NSString *orderId;
 
-
 @end
-
 
 
 typedef void (^payBlock)(NSDictionary*dic);

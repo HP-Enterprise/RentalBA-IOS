@@ -16,12 +16,12 @@
 
 @property(nonatomic,strong)UILabel *titleLabel;
 
-
 @property(nonatomic,strong)UIButton *leftButton;
-@property(nonatomic,strong)UIButton *rightButton;
 
+@property(nonatomic,strong)UIButton *rightButton;
 
 -(instancetype)initNavgationWithTitle:(NSString*)title withLeftBtImage:(NSString*)LeftImge withRightImage:(NSString*)rightImage withFrame:(CGRect)frame;
 
 -(instancetype)initNavgationWithTitle:(NSString*)title withLeftBtImage:(NSString*)LeftImge withRightImage:(NSString*)rightImage withRightTitle:(NSString*)RightTitle withFrame:(CGRect)frame;
+
 @end

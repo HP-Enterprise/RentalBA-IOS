@@ -29,8 +29,6 @@
         _backView.alpha = 1 ;
         
         
-        
-        
         UIView * backView = [[UIView alloc]initWithFrame:CGRectMake(ScreenWidth/2 - 25 , ScreenHeight/3 - 40, 50, 50)];
         
         backView.backgroundColor = [UIColor grayColor];
@@ -88,8 +86,6 @@
 -(void)removeProgressAnimation
 {
 
-
-    
     [UIView animateWithDuration:0.5 animations:^{
         CGFloat alpha = _progress.alpha ;
         alpha = 0 ;

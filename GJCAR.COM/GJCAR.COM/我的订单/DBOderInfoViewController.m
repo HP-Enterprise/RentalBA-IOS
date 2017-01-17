@@ -12,7 +12,6 @@
 #import "DataSigner.h"
 #import <AlipaySDK/AlipaySDK.h>
 
-
 #import "DBOderInfoViewController.h"
 
 #import "DBMyOrderViewController.h"
@@ -33,7 +32,6 @@
 
 @property (nonatomic,strong)NSDictionary * OrderDic ;
 
-
 @property (nonatomic,strong)DBProgressAnimation * progress ;
 //下单成功生成订单
 //@property(nonatomic,strong)Product *product ;
@@ -49,14 +47,9 @@
     //创建导航栏
     [self setNavgationView];
     
-
-    
-
     //加载订单信息
     [self loadOrderData];
 }
-
-
 
 #pragma mark 加载动画
 -(void)addProgress
@@ -64,8 +57,8 @@
     _progress = [[DBProgressAnimation alloc]init];
     [_progress addProgressAnimationWithViewControl:self];
     
-    
 }
+
 
 -(void)removeProgress
 {
@@ -74,7 +67,6 @@
         [_progress removeProgressAnimation];
     }
 }
-
 
 -(void)loadOrderData
 {
@@ -92,7 +84,7 @@
             break;
         case 1:
         {
-            url = [NSString stringWithFormat:@"%@/api/user/%@/doortodoororder/%@",Host,[user objectForKey:@"userId"],_model.orderId];
+            url = [NSString stringWithFormat:@"%@/api/door/user/%@/order",Host,_model.orderId];
             
         }
             break;
@@ -105,7 +97,6 @@
         case 3:
         {
             url = [NSString stringWithFormat:@"%@/api/user/%@/freeRideOrder/%@",Host,[user objectForKey:@"userId"],_model.orderId];
-            
         }
             break;
             
@@ -113,21 +104,17 @@
             break;
     }
     
-    
-    
     _OrderDic = [NSDictionary dictionary];
- 
-    
-    
-    
+
     __weak typeof(self)weak_self  = self ;
     
     [weak_self addProgress];
-    
-    
-    
+
     [DBNetworkTool checkOrderGET:url parameters:nil success:^(id responseObject)
     {
+        
+        
+        
         
         [weak_self removeProgress];
         
@@ -141,7 +128,6 @@
             }
         
             [self performSelectorOnMainThread:@selector(screateScrollerView) withObject:nil waitUntilDone:YES];
-            
         }
         
         else
@@ -535,17 +521,10 @@
     UIImageView * imageV = [[UIImageView  alloc]initWithFrame:CGRectMake(50, CGRectGetMaxY(orderlineView.frame)+10, 80, 50)];
     
     
-    
-    
-    NSString* encodedString = [[NSString stringWithFormat:@"%@%@",Host,[_model.picture stringByReplacingOccurrencesOfString:@".." withString:@""]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
-    
-    [imageV sd_setImageWithURL:[NSURL URLWithString:
-                                 encodedString] placeholderImage:[UIImage imageNamed:@"img-05.jpg"]];
 
     
     
-//    [imageV sd_setImageWithURL:[NSURL URLWithString:
+  //    [imageV sd_setImageWithURL:[NSURL URLWithString:
 //                                 [NSString stringWithFormat:@"%@%@",Host,_model.picture]] placeholderImage:[UIImage imageNamed:@"img-05.jpg"]];
     [_scrollView addSubview:imageV];
     
@@ -555,7 +534,7 @@
     UILabel * carName = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(imageV.frame)+10, imageV.frame.origin.y + 10 , ScreenWidth - CGRectGetMaxX(imageV.frame) , 15)];
     
     
-    carName.text =  _model.model ;
+
     //    if (_indexControl == 0 )
     //    {
     //        carName.text = [[self.storeDic objectForKey:@"vehicleModelShow"]objectForKey:@"model"];
@@ -574,41 +553,109 @@
     UILabel * carkind = [[UILabel alloc]initWithFrame:CGRectMake(carName.frame.origin.x, CGRectGetMaxY(carName.frame)+5, carName.frame.size.width, 11 )];
     
     
+    NSString* encodedString;
     
-    NSString * carGroup ;
-    if (_model.carGroupstr == nil)
-    {
-        carGroup = @"" ;
+    if ([_model.orderType isEqualToString:@"2"]) {
+        
+        
+        
+        encodedString = [[NSString stringWithFormat:@"%@%@",Host,[_model.vehicleModelShow.picture stringByReplacingOccurrencesOfString:@".." withString:@""]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        carName.text = _model.vehicleModelShow.model ;
+        
+        NSString * carGroup ;
+        if (_model.vehicleModelShow.carGroup == nil)
+        {
+            carGroup = @"" ;
+        }
+        else
+        {
+            if ([_model.vehicleModelShow.carGroup isEqualToString:@"1"]) {
+                carGroup = @"自动挡";
+            }
+            else{
+                carGroup = @"手动挡";
+            }
+            
+        }
+        
+        
+        NSString * trunk ;
+        if (_model.vehicleModelShow.carTrunk == nil)
+        {
+            trunk = @"" ;
+        }
+        
+        else
+        {
+            if ([_model.vehicleModelShow.carTrunk isEqualToString:@"1"]) {
+                trunk = @"3厢";
+            }
+            else{
+                trunk = @"2厢";
+            }
+        }
+        
+        NSString * seats ;
+        if (_model.vehicleModelShow.seats == nil)
+        {
+            seats = @"" ;
+        }
+        else
+        {
+            seats =[NSString stringWithFormat:@"%@座",_model.vehicleModelShow.seats];
+            
+        }
+        
+        carkind.text =[NSString stringWithFormat:@"%@ | %@ | %@",carGroup,trunk,seats];
+        
+        
     }
-    else
-    {
-        carGroup = _model.carGroupstr;
+    else if ([_model.orderType isEqualToString:@"1"]){
+        encodedString = [[NSString stringWithFormat:@"%@%@",Host,[_model.picture stringByReplacingOccurrencesOfString:@".." withString:@""]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        carName.text = _model.model ;
+        
+        NSString * carGroup ;
+        if (_model.carGroupstr == nil)
+        {
+            carGroup = @"" ;
+        }
+        else
+        {
+            carGroup = _model.carGroupstr;
+        }
+        
+        
+        NSString * trunk ;
+        if (_model.carTrunkStr == nil)
+        {
+            trunk = @"" ;
+        }
+        
+        else
+        {
+            trunk = _model.carTrunkStr ;
+        }
+        
+        NSString * seats ;
+        if (_model.seatsStr == nil)
+        {
+            seats = @"" ;
+        }
+        else
+        {
+            seats = _model.seatsStr ;
+        }
+        
+        carkind.text =[NSString stringWithFormat:@"%@ | %@ | %@",carGroup,trunk,seats];
+        
+        
+        
     }
-
+    [imageV sd_setImageWithURL:[NSURL URLWithString:
+                                 encodedString] placeholderImage:[UIImage imageNamed:@"img-05.jpg"]];
     
-    NSString * trunk ;
-    if (_model.carTrunkStr == nil)
-    {
-        trunk = @"" ;
-    }
-    else
-    {
-        trunk = _model.carTrunkStr ;
-    }
     
-    NSString * seats ;
-    if (_model.seatsStr == nil)
-    {
-        seats = @"" ;
-    }
-    else
-    {
-        seats = _model.seatsStr ;
-    }
-    
-    carkind.text =[NSString stringWithFormat:@"%@ | %@ | %@",carGroup,trunk,seats];
-    
-
  
     //    if (_indexControl == 0 )
     //    {
@@ -809,12 +856,13 @@
     
     //取车地点
     
-    UILabel * takePlace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(takeLabel.frame) , takeLabel.frame.origin.y, ScreenWidth - CGRectGetMaxX(takeLabel.frame) - 10, takeLabel.frame.size.height)];
+    UILabel * takePlace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(takeLabel.frame) , takeLabel.frame.origin.y, ScreenWidth - CGRectGetMaxX(takeLabel.frame) - 20, takeLabel.frame.size.height)];
    
-    takePlace.text = [NSString stringWithFormat:@"%@(%@)",_model.takeCarAddress,[[_OrderDic objectForKey:@"takeCarStore"]objectForKey:@"detailAddress"]] ;;
+    takePlace.text = [NSString stringWithFormat:@"%@(%@)",_model.takeCarAddress,[[_OrderDic objectForKey:@"takeCarStore"]objectForKey:@"detailAddress"]] ;
 
 
-    takePlace.font = [ UIFont systemFontOfSize:12];
+    takePlace.numberOfLines = 0 ,
+    takePlace.font = [ UIFont systemFontOfSize:11];
     takePlace.adjustsFontSizeToFitWidth = YES;
     takePlace.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
     
@@ -848,11 +896,12 @@
     
     //还车地点
     
-    UILabel *  retuenPlace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(returnLabel.frame) , returnLabel.frame.origin.y,ScreenWidth - CGRectGetMaxX(returnLabel.frame) - 10, returnLabel.frame.size.height)];
+    UILabel *  retuenPlace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(returnLabel.frame) , returnLabel.frame.origin.y,ScreenWidth - CGRectGetMaxX(returnLabel.frame) - 20, returnLabel.frame.size.height)];
     
-    retuenPlace.text = [NSString stringWithFormat:@"%@(%@)",_model.returnCarAddress,[[_OrderDic objectForKey:@"returnCarStore"]objectForKey:@"detailAddress"]] ;;
+    retuenPlace.text = [NSString stringWithFormat:@"%@(%@)",_model.returnCarAddress,[[_OrderDic objectForKey:@"returnCarStore"]objectForKey:@"detailAddress"]] ;
 
-    retuenPlace.font = [ UIFont systemFontOfSize:12];
+    retuenPlace.numberOfLines = 0 ;
+    retuenPlace.font = [ UIFont systemFontOfSize:11];
     retuenPlace.adjustsFontSizeToFitWidth = YES ;
     retuenPlace.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
     
@@ -1424,7 +1473,89 @@
 
     
     
+//到店取车
     
+    //    DBShowListModel * model = [[NSArray arrayWithArray:self.model.vendorStorePriceShowList]firstObject] ;
+    
+    
+    //优惠价格
+    UILabel * getCarStore = [[UILabel alloc]initWithFrame:CGRectMake(premiumLabel.frame.origin.x, CGRectGetMaxY(addbaseView.frame) , ScreenWidth / 3 - 40 , 40)];
+    getCarStore.text = @"到店取车";
+    getCarStore.font = [ UIFont systemFontOfSize:12];
+    
+    getCarStore.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
+    
+    
+    //竖线
+    UIView * getCarStorelineView = [[UIView alloc]initWithFrame:CGRectMake( CGRectGetMaxX(getCarStore.frame)+10,getCarStore.frame.origin.y + 10 , 0.5 , 20)];
+    getCarStorelineView.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
+    
+    
+    //横线
+    UIView * getCarStorelastlineView = [[UIView alloc]initWithFrame:CGRectMake( 0 ,CGRectGetMaxY(getCarStore.frame), ScreenWidth , 0.5)];
+    getCarStorelastlineView.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
+    
+    
+    
+    //优惠说明
+    UILabel * getCarStoreExplace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(getCarStorelineView.frame)+15 , getCarStore.frame.origin.y, ScreenWidth / 3 +20, getCarStore.frame.size.height)];
+    getCarStoreExplace.font = [ UIFont systemFontOfSize:11];
+    getCarStoreExplace.adjustsFontSizeToFitWidth = YES ;
+    
+    
+    //    reduceExplace.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
+    
+    //优惠价格
+    
+    UILabel * getCarStorePrice= [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth * 2 / 3 + 10  , getCarStore.frame.origin.y, ScreenWidth / 3 - 30, getCarStore.frame.size.height)];
+    
+    
+    getCarStorePrice.textAlignment = 2 ;
+    
+    NSString * getCarStoreStr;
+    if (![[self.OrderDic objectForKey:@"toStoreReduce"]isKindOfClass:[NSNull class]]) {
+        
+        
+        getCarStoreExplace.text = [NSString stringWithFormat:@"优惠%@",[self.OrderDic objectForKey:@"toStoreReduce"]];
+        
+        getCarStoreStr = [NSString stringWithFormat:@"%@",[self.OrderDic objectForKey:@"toStoreReduce"]] ;
+        
+        NSMutableAttributedString *getCarStorePricestr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥-%@",[NSString stringWithFormat:@"%@",getCarStoreStr]]];
+        
+        
+        
+        [getCarStorePricestr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1] range:NSMakeRange(0,getCarStoreStr.length + 2)];
+        //    [str addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:NSMakeRange(19,6)];
+        [getCarStorePricestr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, 1)];
+        [getCarStorePricestr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(1, getCarStoreStr.length + 1)];
+        //    [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(19, 6)];
+        getCarStorePrice.attributedText = getCarStorePricestr;
+        getCarStorePrice.adjustsFontSizeToFitWidth = YES ;
+        
+        
+    }
+    
+    if (![[self.OrderDic objectForKey:@"toStoreReduce"]isKindOfClass:[NSNull class]]) {
+        
+        
+        
+        [_scrollView addSubview:getCarStore];
+        [_scrollView addSubview:getCarStorelineView];
+        [_scrollView addSubview:getCarStorelastlineView];
+        [_scrollView addSubview:getCarStoreExplace];
+        
+        [_scrollView addSubview:getCarStorePrice];
+        
+        CGSize scroller =_scrollView.contentSize ;
+        
+        scroller.height += 40 ;
+        _scrollView.contentSize = scroller ;
+        
+        
+        ActivityTemporaryFrame = getCarStore.frame ;
+
+        
+    }
     
     //费用合计
     UILabel * totleCostLabel = [[UILabel alloc]initWithFrame:CGRectMake(premiumLabel.frame.origin.x, CGRectGetMaxY(ActivityTemporaryFrame), ScreenWidth / 3 - 40 , 40)];
@@ -1453,7 +1584,6 @@
     
     
     [_scrollView addSubview:totleCost];
-    
     
     
     
@@ -1521,6 +1651,11 @@
     
 }
 
+
+-(void)addDifstore:(CGRect)frame{
+
+}
+
 #pragma mark ---取消订单
 -(void)cancelBt:(UIButton*)button
 {
@@ -1538,54 +1673,94 @@
         {
             case 0:
             {
-                url = [NSString stringWithFormat:@"%@/api/order/%@/cancelOrder",Host,self.model.orderId];
-
+                url = [NSString stringWithFormat:@"%@/api/user/order/%@/cancelOrder",Host,self.model.orderId];
+                
+                
+                [self cancelOrderPut:url];
                 
             }
                 break;
             case 1:
             {
-                url = [NSString stringWithFormat:@"%@/api//doortodoorOrder/%@/cancelOrder",Host,self.model.orderId];
+                url = [NSString stringWithFormat:@"%@/api/door/clientcanle/%@/order",Host,self.model.orderId];
                 
+                [self cancelOrderDelet:url];
+        
+            
             }
                 break;
         }
      
-        DBNetworkTool * netWork = [[DBNetworkTool alloc]init];
-        
-        [self addProgress];
-        
-        [netWork cancelOrderPUT:url parameters:nil];
-        
-        button.userInteractionEnabled = NO ;
-        
-        __weak typeof(self)weak_self = self ;
-        netWork.cancelOrderBlcok = ^(NSDictionary * dic)
-        {
-            button.userInteractionEnabled = YES ;
-            
-            [self removeProgress];
-            
+
+    }
+}
+-(void)cancelOrderPut:(NSString*)url{
+    DBNetworkTool * netWork = [[DBNetworkTool alloc]init];
+    
+    [self addProgress];
+    
+    [netWork cancelOrderPUT:url parameters:nil];
+    
+    __weak typeof(self)weak_self = self ;
+    netWork.cancelOrderBlcok = ^(id dic)
+    {
+        [self removeProgress];
+        if ([dic isKindOfClass:[NSError class]]) {
+            [self tipShow:@"数据加载失败"];
+        }
+        else{
             if ([[dic objectForKey:@"status"]isEqualToString:@"true"])
             {
                 [UIView animateWithDuration:2 animations:^{
                     
                     [weak_self tipShow:[dic objectForKey:@"message"]];
-
+                    
                 } completion:^(BOOL finished) {
                     
                     [weak_self.navigationController popViewControllerAnimated:YES];
                 }];
-//                [showCarBt setTitle:@"确定" forState:UIControlStateNormal];
+                //                [showCarBt setTitle:@"确定" forState:UIControlStateNormal];
             }
             else
             {
-                [weak_self tipShow:[dic objectForKey:@"message"]];
+                
+                [weak_self tipShow:@"取消订单失败"];
             }
-        };
-    }
+            
+        }
+        
+    };
 }
 
+-(void)cancelOrderDelet:(NSString*)url{
+    [self addProgress];
+    __weak typeof(self)weak_self = self ;
+
+    [DBNetworkTool DELETE:url parameters:nil success:^(id responseObject) {
+        
+        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
+        {
+            [UIView animateWithDuration:2 animations:^{
+                
+                [weak_self tipShow:[responseObject objectForKey:@"message"]];
+                
+            } completion:^(BOOL finished) {
+                
+                [weak_self.navigationController popViewControllerAnimated:YES];
+            }];
+            //                [showCarBt setTitle:@"确定" forState:UIControlStateNormal];
+        }
+        else
+        {
+            
+            [weak_self tipShow:@"取消订单失败"];
+        }
+
+    } failure:^(NSError *error) {
+        [self tipShow:@"数据加载失败"];
+    }];
+    
+}
 //支付按钮点击
 -(void)payBt
 {
@@ -1619,24 +1794,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark   ==============产生随机订单号==============
-
-
-- (NSString *)generateTradeNO
-{
-    static int kNumber = 15;
-    
-    NSString *sourceStr = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    NSMutableString *resultStr = [[NSMutableString alloc] init];
-    srand((unsigned)time(0));
-    for (int i = 0; i < kNumber; i++)
-    {
-        unsigned index = rand() % [sourceStr length];
-        NSString *oneStr = [sourceStr substringWithRange:NSMakeRange(index, 1)];
-        [resultStr appendString:oneStr];
-    }
-    return resultStr;
-}
 
 
 -(void)backBt
@@ -1646,18 +1803,11 @@
 
 - (void)tipShow:(NSString *)str
 {
-    
-    
-    
+
     self.tipView = [[DBTipView alloc]initWithHeight:0.8 * ScreenHeight WithMessage:str];
     [self.view bringSubviewToFront:self.tipView];
     [self.view addSubview:self.tipView];
-    
-    
 }
-
-
-
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -1668,10 +1818,8 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    
-    
+
     [super viewWillDisappear:YES];
-    
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PopView" object:nil];
     

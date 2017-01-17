@@ -64,7 +64,7 @@
 -(void)loadData
 {
     _modelArray = [NSMutableArray array];
-    
+
     NSString * url = [NSString stringWithFormat:@"%@/api/freeRide?currentPage=1&getCarCityId=%@&returnCarCityId=%@&pageSize=5&status=1",Host,self.takeCityId,self.returnCityId];
 
        [self addProgress];
@@ -140,20 +140,16 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    DBNavgationView * nav = [[DBNavgationView alloc]initNavgationWithTitle:@"顺风车列表" withLeftBtImage:@"back" withRightImage:nil withFrame:CGRectMake(0, 0, ScreenWidth , 64)];
+    DBNavgationView * nav = [[DBNavgationView alloc]initNavgationWithTitle:@"顺风车" withLeftBtImage:@"back" withRightImage:nil withFrame:CGRectMake(0, 0, ScreenWidth , 64)];
     
     [nav.leftButton addTarget:self action:@selector(backBt) forControlEvents:UIControlEventTouchUpInside];
-    
     
     UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake( 0 , 63.5 , ScreenWidth , 0.5)];
     lineView.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     [nav addSubview:lineView];
     
-    
-    
     [self.view addSubview:nav];
-    
-    
+ 
 }
 
 #pragma mark ---创建tableview
@@ -203,9 +199,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
-    
     if (![self checkSignIn])
     {
         DBSignInViewController * sign = [[DBSignInViewController alloc]init];
@@ -229,13 +222,6 @@
         
         [self.navigationController pushViewController:order animated:YES];
     }
-    
-
-    
-    
-    
-    
-    
 }
 
 //判断是否登录
@@ -250,20 +236,14 @@
     
     NSLog(@"%@",[user objectForKey:@"token"]);
     return YES;
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    
-    
     [super viewWillAppear:YES];
     [[NSNotificationCenter defaultCenter]postNotificationName:@"tabBarHid" object:nil];
-    
-    
     //    [[NSNotificationCenter defaultCenter]postNotificationName:@"tabBarShow" object:nil];
 }
-
 
 -(void)backBt
 {
@@ -272,12 +252,9 @@
 
 - (void)tipShow:(NSString *)str
 {
-    
-    
-    
+
     self.tipView = [[DBTipView alloc]initWithHeight:0.8 * ScreenHeight WithMessage:str];
     [self.view addSubview:self.tipView];
-    
     
 }
 

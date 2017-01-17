@@ -137,12 +137,17 @@
     
     [self addProgress];
     
+    
+    
+    
     [DBNetworkTool getAllCitysGET:url parameters:nil success:^(id responseObject) {
 
         [weak_self removeProgress];
+        
+        
 
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
-            
+
             if (![[responseObject objectForKey:@"message"] isKindOfClass:[NSNull class]])
             {
                 weak_self.dataArray = [responseObject objectForKey:@"message"];
@@ -153,6 +158,7 @@
                 }
                 else if (weak_self.dataArray.count == 0)
                 {
+                    [self tipShow:@"没有相关数据"];
                     NSLog(@"没有数据");
                 }
    

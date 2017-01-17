@@ -43,8 +43,7 @@
     
     //记录优惠活动还是优惠券
     UIControl * actBt ;
-    
-    
+
     //活动弹窗
     UIView * saleView ;
     
@@ -102,10 +101,6 @@
 @property (nonatomic,strong)UIView  *tipView;
 
 @property (nonatomic,strong)DBProgressAnimation * progress ;
-
-
-
-
 
 
 
@@ -178,22 +173,16 @@
 
     [DBNetworkTool Get:url parameters:pardic success:^(id responseObject) {
         
-        
-        
-        
          [weak_self removeProgress];
         
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
             _priceDic = [responseObject objectForKey:@"message"];
-        
-            
+
             NSNumber * number = [NSNumber numberWithInteger:button];
             
             if (button == 661) {
-                
-                
-                
+
                 [weak_self loadCoupons];
             }
             else{
@@ -201,8 +190,7 @@
             }
 
         }
-        
-        
+    
     } failure:^(NSError *error) {
         
 //        NSNumber * number = [NSNumber numberWithInteger:662];
@@ -400,7 +388,7 @@
     
     
     
-    _orderScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, ScreenWidth, ScreenHeight- 64)];
+    _orderScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, ScreenWidth, ScreenHeight- 64 )];
     
     NSUserDefaults  * user = [NSUserDefaults standardUserDefaults];
     
@@ -417,7 +405,7 @@
     }
     else
     {
-        _orderScrollView.contentSize = CGSizeMake(ScreenWidth, ScreenHeight + 64);
+        _orderScrollView.contentSize = CGSizeMake(ScreenWidth, ScreenHeight + 64 );
 
         if (_addValueArr.count > 0)
         {
@@ -743,8 +731,8 @@
 
     }
     
-    
-    takePlace.font = [ UIFont systemFontOfSize:12];
+    takePlace.numberOfLines = 2 ;
+    takePlace.font = [ UIFont systemFontOfSize:11];
     
     takePlace.adjustsFontSizeToFitWidth = YES ;
     
@@ -816,8 +804,8 @@
 
     
     
-
-    retuenPlace.font = [ UIFont systemFontOfSize:12];
+    retuenPlace.numberOfLines = 2 ;
+    retuenPlace.font = [ UIFont systemFontOfSize:11];
     retuenPlace.adjustsFontSizeToFitWidth = YES ;
     retuenPlace.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
 
@@ -1328,8 +1316,7 @@
     
     [_priceView addSubview:premiumLabel];
     
-    
-    
+
     //
     UIView * lineView3 = [[UIView alloc]initWithFrame:CGRectMake( CGRectGetMaxX(premiumLabel.frame)+10,premiumLabel.frame.origin.y + 10 , 0.5 , 20)];
     lineView3.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
@@ -1345,9 +1332,7 @@
     
     
     NSString * basicInsuranceAmount =[NSString stringWithFormat:@"%@",[_priceDic objectForKey:@"basicInsuranceAmount"]];
-   
-    
-    
+
     NSString*costPremiumStr = [NSString stringWithFormat:@"均价%@元/天,共%@天",basicInsuranceAmount,daySum];
     
     NSLog(@"%@",costPremiumStr);
@@ -1555,8 +1540,7 @@
                     
                 {
                     price = [commissionstr integerValue]* 7;
-                    
-                    
+
                     commission.text = [NSString stringWithFormat:@"均价%@元/天(上限7天),共7天",commissionstr];
                 }
                 
@@ -1651,16 +1635,107 @@
     [_priceView addSubview:lineView8];
 
     
-    //创建送车上门费用
+    
+    
+    //创建异地异店还车
   
     UIView * takeStatelineView = [[UIView alloc]init] ;
-
-
     
     takeStatelineView.frame = lineView8.frame ;
     [_priceView addSubview:takeStatelineView];
     
 
+    UILabel * difCostLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, ScreenWidth / 3 - 40 , 40)];
+   
+    difCostLabel.numberOfLines = 2 ;
+    difCostLabel.font = [ UIFont systemFontOfSize:12];
+    
+    difCostLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
+    
+    //
+    UIView * diflineView = [[UIView alloc]initWithFrame:CGRectMake( CGRectGetMaxX(otherCostLabel.frame)+10,difCostLabel.frame.origin.y + 10 , 0.5 , 20)];
+    diflineView.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
+    
+   
+    
+    
+    
+    //地异店还车费用
+    UILabel * difCost = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(lineView5.frame)+10 , difCostLabel.frame.origin.y, ScreenWidth / 3 - 20, difCostLabel.frame.size.height)];
+
+    difCost.font =[UIFont systemFontOfSize:11];
+    
+   
+    
+    
+    //手续费用合计
+    UILabel * difCostTotal = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth * 2 / 3 , difCostLabel.frame.origin.y, ScreenWidth / 3 - 20, difCostLabel.frame.size.height)];
+    
+    difCostTotal.textAlignment = 2;
+    
+
+    NSMutableAttributedString * dicPricestr ;
+    
+
+    
+    
+    UIView * diflineView2 = [[UIView alloc]initWithFrame:CGRectMake( 0 ,CGRectGetMaxY(difCostLabel.frame) , ScreenWidth , 0.5)];
+    diflineView2.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
+    
+    
+
+    
+    
+    
+    
+    if (![[self.priceDic objectForKey:@"doorToDoor"]isKindOfClass:[NSNull class]] && [self.priceDic objectForKey:@"doorToDoor"]  && [NSArray arrayWithArray:[self.priceDic objectForKey:@"doorToDoor"]].count > 0  ) {
+        
+ 
+         NSDictionary  * difprice = [[NSArray arrayWithArray:[self.priceDic objectForKey:@"doorToDoor"]]firstObject];
+        
+        takeStatelineView.frame = CGRectMake(takeStatelineView.frame.origin.x, takeStatelineView.frame.origin.y, ScreenWidth, 40) ;
+        
+        CGSize scroller =_orderScrollView.contentSize ;
+        
+        scroller.height += 40 ;
+        
+        
+        CGRect newFrame = _priceView.frame ;
+        newFrame.size.height += 40  ;
+        _priceView.frame= newFrame;
+
+        
+        _orderScrollView.contentSize = scroller ;
+
+        //费用名称
+        difCostLabel.text = [difprice objectForKey:@"chargeName"];
+        [takeStatelineView addSubview:difCostLabel];
+
+         [takeStatelineView addSubview:diflineView];
+        
+        //费用说明
+        [takeStatelineView addSubview:difCost];
+        NSDictionary *difCostDic = [[NSArray arrayWithArray:[difprice objectForKey:@"details"]]firstObject] ;
+        difCost.text =[NSString stringWithFormat:@"%@元/次,共1次",[difCostDic objectForKey:@"price"]];
+
+        NSString * price = [NSString stringWithFormat:@"%@",[difCostDic objectForKey:@"price"]];
+        
+        
+        //费用总计
+        [takeStatelineView addSubview:difCostTotal];
+        dicPricestr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥ %@",price]];
+        [dicPricestr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1] range:NSMakeRange(0,price.length + 2)];
+        //    [str addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:NSMakeRange(19,6)];
+        [dicPricestr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, 1)];
+        [dicPricestr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(1, price.length + 1)];
+        //    [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(19, 6)];
+        difCostTotal.attributedText = dicPricestr;
+        [takeStatelineView addSubview:diflineView2];
+        
+    }
+
+ 
+    
 //优惠活动
     
 //    DBShowListModel * model = [[NSArray arrayWithArray:self.model.vendorStorePriceShowList]firstObject] ;
@@ -1717,17 +1792,81 @@
     reducePrice.attributedText = reducePricestr;
     reducePrice.adjustsFontSizeToFitWidth = YES ;
     
-  
-    if (![[self.priceDic objectForKey:@"activityShows"] isKindOfClass:[NSNull class]])
-    {
-        totleCostView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(takeStatelineView.frame), ScreenWidth  , 80)];
+    
+    
+    
+//到店取车
+    
+    //    DBShowListModel * model = [[NSArray arrayWithArray:self.model.vendorStorePriceShowList]firstObject] ;
+    
+    
+    //优惠价格
+    UILabel * getCarStore = [[UILabel alloc]initWithFrame:CGRectMake(20, 0 , ScreenWidth / 3 - 40 , 40)];
+    getCarStore.text = @"到店取车";
+    getCarStore.font = [ UIFont systemFontOfSize:12];
+    
+    getCarStore.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
+    
+    
+    //竖线
+    UIView * getCarStorelineView = [[UIView alloc]initWithFrame:CGRectMake( CGRectGetMaxX(getCarStore.frame)+10,getCarStore.frame.origin.y + 10 , 0.5 , 20)];
+    getCarStorelineView.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
+    
+    
+    //横线
+    UIView * getCarStorelastlineView = [[UIView alloc]initWithFrame:CGRectMake( 0 ,CGRectGetMaxY(getCarStore.frame), ScreenWidth , 0.5)];
+    getCarStorelastlineView.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
+    
+    
+
+    //优惠说明
+    UILabel * getCarStoreExplace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(getCarStorelineView.frame)+10 , getCarStore.frame.origin.y, ScreenWidth / 3 +20, getCarStore.frame.size.height)];
+    getCarStoreExplace.font = [ UIFont systemFontOfSize:11];
+    getCarStoreExplace.adjustsFontSizeToFitWidth = YES ;
+    
+    
+    //    reduceExplace.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
+    
+    //优惠价格
+    
+    UILabel * getCarStorePrice= [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth * 2 / 3 + 10  , getCarStore.frame.origin.y, ScreenWidth / 3 - 30, getCarStore.frame.size.height)];
+    
+    
+    getCarStorePrice.textAlignment = 2 ;
+    
+    NSString * getCarStoreStr;
+    if (![[self.priceDic objectForKey:@"toStoreReduce"]isKindOfClass:[NSNull class]]) {
         
         
-        reduceExplace.text = [[[self.priceDic objectForKey:@"activityShows"]firstObject]objectForKey:@"activityDescription"];
+        getCarStoreExplace.text = [NSString stringWithFormat:@"优惠%@",[self.priceDic objectForKey:@"toStoreReduce"]];
+
+        getCarStoreStr = [NSString stringWithFormat:@"%@",[self.priceDic objectForKey:@"toStoreReduce"]] ;
+
+        NSMutableAttributedString *getCarStorePricestr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥-%@",[NSString stringWithFormat:@"%@",getCarStoreStr]]];
+        
+        
+        
+        [getCarStorePricestr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1] range:NSMakeRange(0,getCarStoreStr.length + 2)];
+        //    [str addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:NSMakeRange(19,6)];
+        [getCarStorePricestr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, 1)];
+        [getCarStorePricestr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(1, getCarStoreStr.length + 1)];
+        //    [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(19, 6)];
+        getCarStorePrice.attributedText = getCarStorePricestr;
+        getCarStorePrice.adjustsFontSizeToFitWidth = YES ;
 
         
-        
-        
+    }
+
+    
+    
+    
+    
+
+    
+    
+    if (![[self.priceDic objectForKey:@"activityShows"] isKindOfClass:[NSNull class]])
+    {
+       
         [totleCostView addSubview:reduce];
         [totleCostView addSubview:reducelineView];
         [totleCostView addSubview:reducelastlineView];
@@ -1735,16 +1874,52 @@
         
         [totleCostView addSubview:reducePrice];
         
+        if (![[self.priceDic objectForKey:@"toStoreReduce"]isKindOfClass:[NSNull class]]) {
+          
+            
+            getCarStoreExplace.text = [NSString stringWithFormat:@"优惠%@",[self.priceDic objectForKey:@"toStoreReduce"]];
+            getCarStorePrice.text = [NSString stringWithFormat:@"%@",[self.priceDic objectForKey:@"toStoreReduce"]];
+
+            [totleCostView addSubview:getCarStore];
+            [totleCostView addSubview:getCarStorelineView];
+            [totleCostView addSubview:getCarStorelastlineView];
+            [totleCostView addSubview:getCarStoreExplace];
+            
+            [totleCostView addSubview:getCarStorePrice];
+            
+            
+            
+            
+            CGSize scroller =_orderScrollView.contentSize ;
+            
+            scroller.height += 80 ;
+            _orderScrollView.contentSize = scroller ;
+            
+            
+            temporaryReduceFrame.origin.y = CGRectGetMaxY(getCarStore.frame);
+            
+        }else
+        {
+            CGSize scroller =_orderScrollView.contentSize ;
+            
+            scroller.height += 40 ;
+            _orderScrollView.contentSize = scroller ;
+            
+            
+            temporaryReduceFrame.origin.y = CGRectGetMaxY(reduce.frame);
+        }
         
-        CGSize scroller =_orderScrollView.contentSize ;
         
-        scroller.height += 40 ;
-        _orderScrollView.contentSize = scroller ;
-        
-        
-        temporaryReduceFrame.origin.y = CGRectGetMaxY(reduce.frame);
+       
 
         activityId = [[[self.priceDic objectForKey:@"activityShows"]firstObject]objectForKey:@"id"];
+        
+        
+        
+        
+        
+        
+        
  
     }
     else
@@ -1752,28 +1927,40 @@
         
         
         
-     
-//        if (couponArray.count > 0 )
-//        {
+         totleCostView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(takeStatelineView.frame), ScreenWidth  , 80)];
         
-             totleCostView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(takeStatelineView.frame), ScreenWidth  , 80)];
+        
+        if (![[self.priceDic objectForKey:@"toStoreReduce"]isKindOfClass:[NSNull class]]) {
+            
+            
+            
+            [totleCostView addSubview:getCarStore];
+            [totleCostView addSubview:getCarStorelineView];
+            [totleCostView addSubview:getCarStorelastlineView];
+            [totleCostView addSubview:getCarStoreExplace];
+            
+            [totleCostView addSubview:getCarStorePrice];
+
+            CGSize scroller =_orderScrollView.contentSize ;
+            
+            scroller.height += 80 ;
+            _orderScrollView.contentSize = scroller ;
+            
+            
+            temporaryReduceFrame.origin.y = CGRectGetMaxY(getCarStore.frame);
+            
+        }else
+
+        {
+           
             CGSize scroller =_orderScrollView.contentSize ;
             
             scroller.height += 40 ;
             _orderScrollView.contentSize = scroller ;
+
             
-            
-//            temporaryReduceFrame.origin.y = CGRectGetMaxY(reduce.frame);
- 
-            
-//        }
-//        else
-//        {
-//            totleCostView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(takeStatelineView.frame), ScreenWidth  , 40)];
-//
-//        }
-//        
-       
+        }
+        
    
     }
     
@@ -1796,6 +1983,17 @@
     lineView9.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     
     [totleCostView addSubview:lineView9];
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 
 //费用合计
@@ -1916,7 +2114,7 @@
     [showCarBt addTarget:self action:@selector(sumbitBt:) forControlEvents:UIControlEventTouchUpInside];
     [baseView addSubview:showCarBt];
     
-    
+
     NSLog(@"%f",CGRectGetMaxY(frame));
     
     
@@ -1927,13 +2125,6 @@
 -(void)changeColor:(UIButton*)button{
     
     button.backgroundColor = [UIColor grayColor];
-    
-}
-
-//创建提交按钮
--(void)setSubmit:(CGRect)frame
-{
-
     
 }
 
@@ -2284,6 +2475,7 @@
                 activityId = nil ;
                 
                 
+               
                 
                 
             }
@@ -3057,10 +3249,47 @@
 {
     
     
-    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    NSLog(@"订单提交");
+    
+    
+    
+    __weak typeof(self) weak_self = self ;
+    [DBNetworkTool judgeIsBlacGET:nil parameters:nil success:^(id responseObject) {
+        
+        DBLog(@"11111111%@",responseObject);
+        
+        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
+            
+            if ([responseObject objectForKey:@"message"]) {
+                
+                [weak_self tipShow:@"服务繁忙"];
+            }
+            
+        }
+        else{
+            
+            [weak_self judgeIsblack];
+        }
+        
+        
+    } failure:^(NSError *error) {
+        
+        [weak_self tipShow:@"数据加载失败"];
+        
+    }];
+    
+    
+    
+}
 
+
+
+-(void)judgeIsblack{
+    
+    
+    NSLog(@"订单提交");
+    
     NSString * url;
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
     
     if ([[user objectForKey:@"takeState"]isEqualToString:@"1"])
     {
@@ -3070,59 +3299,50 @@
     
     else
     {
-        url = [NSString stringWithFormat:@"%@/api/user/%@/doorToDoorOrder",Host,[user objectForKey:@"userId"]];
-//        url = [NSString stringWithFormat:@"%@/api/user/%@/doortodoororder",Host,[user objectForKey:@"userId"]];
-
+        url = [NSString stringWithFormat:@"%@/api/door/user/order",Host];
+        //        url = [NSString stringWithFormat:@"%@/api/user/%@/doortodoororder",Host,[user objectForKey:@"userId"]];
+        
     }
-
+    
     NSMutableDictionary * parDic = [NSMutableDictionary dictionary];
     
     NSLog(@"%@",self.priceDic);
-
-    
     
     NSLog(@"以下是订单参数*************************************************");
-
+    
     parDic = [DBOrderData createOrderInfoWithPriceDic:self.priceDic CarDic:self.model Price:_totalePrice PayWay:self.payWay WithAddValueArr:_addValueArr];
-
-
+    
+    
     //优惠券
     if (couponId)
     {
-        
-        
         parDic[@"couponNumber"] = couponId ;
     }
     else if (activityId)
     {
-
         parDic[@"activityId"] = activityId;
         
         parDic[@"reduce"] = [self.priceDic objectForKey:@"reduce"];
- 
     }
-    
+    else{
+        parDic[@"couponNumber"] = @"" ;
+        parDic[@"activityId"] = @"0";
+    }
+      
     NSLog(@"%@",parDic);
-
-    
-    
-    
     NSLog(@"以上是订单参数*************************************************");
-
+    
     [self addProgress];
     
     __weak typeof(self)weak_self = self ;
     [DBNetworkTool addOrderPost:url parameters:parDic success:^(id responseObject) {
-        
-        
+ 
         [self removeProgress];
         
         NSLog(@"%@",responseObject);
-
+        
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
-            
-            [weak_self tipShow:@"下单成功"];
             
             DBOrderPayViewController * order = [[DBOrderPayViewController alloc]init];
             order.payWay = weak_self.payWay ;
@@ -3131,32 +3351,34 @@
             order.totalCost = weak_self.totalePrice;
             
             order.orderNumber =[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"message"]];
-
+            
             [UIView animateWithDuration:2 animations:^{
+                
+                [weak_self tipShow:@"下单成功"];
 
             } completion:^(BOOL finished) {
                 
                 [weak_self.navigationController pushViewController:order animated:YES];
-
+                
             }];
-
+            
         }
         else
         {
             [weak_self tipShow:[responseObject objectForKey:@"message"]];
         }
-   
+        
     } failure:^(NSError *error)
      
-    {
-        NSLog(@"%@",error);
-        [weak_self tipShow:@"链接服务器失败"];
-        [self removeProgress];
-
-    }];
-
+     {
+         NSLog(@"%@",error);
+         [weak_self tipShow:@"数据加载失败"];
+         [self removeProgress];
+         
+     }];
+    
+    
 }
-
 
 
 #pragma mark -- UITableViewDelegate

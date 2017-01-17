@@ -374,7 +374,7 @@
     chooseBt.frame = CGRectMake(50, CGRectGetMaxY(carveLine.frame)+50, ScreenWidth-100, 30);
     chooseBt.layer.cornerRadius = 3;
     chooseBt.backgroundColor = [UIColor colorWithRed:0.91 green:0.76 blue:0.17 alpha:1];
-    [chooseBt setTitle:@"去申请" forState:UIControlStateNormal];
+    [chooseBt setTitle:@"立即申请" forState:UIControlStateNormal];
     [chooseBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     chooseBt.titleLabel.font = [UIFont systemFontOfSize:14 ];
     [chooseBt addTarget:self action:@selector(chooseBt) forControlEvents:UIControlEventTouchUpInside];
@@ -954,13 +954,10 @@
 
 -(void)goSafari
 {
-    
-    
-    
+
     UIApplication *application = [UIApplication sharedApplication];
     
     [application openURL:[NSURL URLWithString:@"http://www.b-car.cn/Pages/8.jsp"]];
-    
     
 }
 

@@ -64,6 +64,7 @@ typedef void (^ProgressBlock)(NSString * progress);
 //门店坐标
 
 -(void)setStoreAnnotationWith:(NSDictionary*)dic;
+-(void)setplaceAnnotationWith:(NSDictionary*)dic;
 -(void)setMapViewCenter:(NSString*)latitude and:(NSString*)longitude;
 //创建搜索范围
 //-(void)setSearchScope;

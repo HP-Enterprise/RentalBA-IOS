@@ -16,7 +16,7 @@
             startingLineNumber = "118"
             endingLineNumber = "118"
             landmarkName = "-ValidateBt"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -48,38 +48,6 @@
             startingLineNumber = "63"
             endingLineNumber = "63"
             landmarkName = "-setOrderScrollview"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GJCAR.COM/&#x987a;&#x98ce;&#x8f66;&#x8f66;&#x578b;&#x5217;&#x8868;/DBFreeRideViewController.m"
-            timestampString = "499315050.258724"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1257"
-            endingLineNumber = "1257"
-            landmarkName = "-sumbitBt"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GJCAR.COM/&#x4e3b;&#x754c;&#x9762;/DBmainViewController.m"
-            timestampString = "499939783.430791"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1694"
-            endingLineNumber = "1694"
-            landmarkName = "-takeCity:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -586,9 +586,7 @@
         
         viewFrame.origin.y -= moveLenth ;
         
-        
-        
-        
+
          self.scrollView.frame = viewFrame;
         
         
@@ -603,10 +601,7 @@
 
 - (void)keyBoardDidHide:(NSNotification *)notif {
     NSLog(@"====keyboard hidden====");
-//    NSDictionary *info = [notif userInfo];
-//    NSValue *aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
-//    CGSize keyboardSize = [aValue CGRectValue].size;
-//    CGPoint keyboardPoint = [aValue CGRectValue].origin;
+
     CGRect viewFrame = self.scrollView.frame;
     viewFrame.origin.y += moveLenth ;
 

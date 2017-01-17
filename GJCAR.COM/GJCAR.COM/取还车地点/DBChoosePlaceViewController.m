@@ -311,7 +311,7 @@
     };
     
     //加载搜索范围经纬度
-    [self loadSearchPoints];
+//    [self loadSearchPoints];
     
 
 }

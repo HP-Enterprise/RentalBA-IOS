@@ -491,45 +491,23 @@
     
     
     
-    [DBNetworkTool checkOrderGET:url parameters:nil success:^(id responseObject)
-     {
-         
-         
-         
-         
-         
-         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
-         {
+    [DBNetworkTool checkOrderGET:url parameters:nil success:^(id responseObject){
+         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]){
              
              _OrderDic = [responseObject objectForKey:@"message"];
              
 
-             
-             
-             
              [self performSelectorOnMainThread:@selector(generateData) withObject:nil waitUntilDone:YES];
              
          }
-         
-         else
-             
-         {
-             
-             
-             
+         else{
              
          }
          
-         
      } failure:^(NSError *error) {
 
-         
      }];
-
-    
-    
 }
-
 
 
 
@@ -577,13 +555,15 @@
     /*============================================================================*/
     /*=======================需要填写商户app申请的===================================*/
     /*============================================================================*/
-//    NSString *partner = @"2088311106439495";
-//    NSString *seller = @"huachen_zulin@163.com";
-//    NSString *privateKey = @"MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAOEclJmrVzeQp9Hdk7VYvKFSH3UXIav/c/KEGxUt8HchGBYS14GJwhnvc07jGILVbReCS57d+pcZHw2E2RrqvDMyzx8LK5T8g649JTAMhwMwRoM/fbpVB0a95H229YBNhmCv2IHihhkGzYt8tZBbwTLun16AhB2CmqLxVXnyerUpAgMBAAECgYBF8OVSoWOlxfH+SIO+EmX5EVTowlkZ4XKa5OStPeq6eLPNF+mRO8Xs3PLMjc5tx/XvGfJ416smCw4U2zPBIzF5eZKAfsakpsLVXZEhdZlmqoJOiKakFCO18uTU4ve48fKeoyb6X8qxhZLeamA7km3Bjisb5L9Gt2Ak9ddRyBRAAQJBAPboZc4qUtN6JeADkEA56rU1C5H9Eny00pAGdRDDNPpDA4IJ/FecN5hsTlkZOk0ebeFjuvkPnCNb5xXOd/FNoSkCQQDpZrXNcqtF/EecVt4/riBaKp/Y40oyF4nL0VAwXCLr7FSILqgOjwpwaWLKXQWisoK4b6M6rE7/qJbrfaifQvQBAkEAz/uBTkIelN9Oqj22NDPVPqEZRvdbrEqRGBsoX19f7/OlL9QDiTUhK7cH5Eu47Z9VRcfBhu0cRDi1FoxeQph2yQJBAOHF1Aknahwp3I+TzCsnYe42mydvPd9Uu5uoHvyYs8Mped+92h0zKvLwTnrYHtJyAVctzmS8NzLBPzQO+qUMXAECQHSaXCxkfN6/M75BAcnYFgOYntbOekFwKAmTVb8au23Ul6/z6S1F3bQtrwcfj3OTs4tEVVhjUyCvGkhCCfmDGmg=";
+    //新支付宝账号
     
-    NSString *partner = @"2088221353698177";
-    NSString *seller = @"zucheyun@b-car.cn";
-    NSString *privateKey = @"MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBALTC/6PbrpCw2IK5pNFwfJ9xmR5tpRkbcLcGHbuu0mB9cBeK5mzvGiCSQp1SYXaaNIsffA1wkKtuwTD2KXYraG1wh2bYNb8WtBTUtwJxLEHaPtMV9/uBrbqDfOtddp96KR+GnQEAF/6HkKsMfxf8mHzfrBv2kyQCbhiAVBrx6PzdAgMBAAECgYB+aYBuD0vdVE+V3E4vSgNdXgw/A17aWB5TYKuafYASiqbBUBolRHF5JdAARYRzdRQZ10LiAz6pJSNmIkCMq36zHXK6WakLn4iNmxKYuwkCvz0Jmk1EBurBIvrcmlESW1IPTp/EFVoD/6m4q133d3XsxjlVUCGZ5AFKX9+9eVWd4QJBANv8D9Af2zzPzhXyIQ4ajQnnC8yHaTWGTFHRk/+Nn114dpZNEfXZNs3Pog4I6epz+VgSw2du/0Dyafgmn2kmKoMCQQDSWwljq7BqYSRcuqvHPjmSRtaSo9WdQ5TnYW9J/mDgByfAMRYFeX0Xpls7BHDjo+MK+7jvth4zUpSnIeyJUx0fAkEAg/dzOQRTTejPlaS6Ja7R2xXqoxi8iap2EEMsiIraBoWkhkfXtWdIFDEx4z9/q/FErIwdAui4YarK3V22FasapwJBAIlLwAIc8mVMiCY59Jpz47G0qKJHaspdbNfkgXXDIUm3gdtwblYeaGZCPzNy/5ekxTDLAXb74BRRZxL7El7DL7MCQAN+bV2TmstYA7Ea2osPloAMZHuKZNhcgPr4gxMNLeWPlKjnnydY7Xg2xFvmmSfJ6Wh5et1wdpleXGeMArsx8YM=";
+    NSString *partner = @"2088311106439495";
+    NSString *seller = @"huachen_zulin@163.com";
+    NSString *privateKey = @"MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBALfGjge8qE7k+7aZxRyrDHxynviQSRp1awTt6uuQrYJr6XbVZZJcYf39tOMiRE2AzksZVWlZcq/sQKRUwC9yVqZzNq4Ke2vVdfftkNk+6oNSvG10HSUSTDKhCxDwluO2+NqCoCAQw1P/168V/7YdcyvptOuP1vgPWH2s/X63j7flAgMBAAECgYAC93+ffFozO9scbYsTFWfUMn2CgcHMXYzmvXiHaQSEEH3qXzOOk1M5qHjdGdaEccniyHvqgXkqgePhQ0T+/xeK/Vq3npBMyTPg2BbuFi/fRCErcOpdQOXmtbze/FKsSS0HJ7QeNgLnGjrJ5KhknKQmGNEFjQXBdE+44TDHf11T2QJBAOJQCb5WjhZ2tSz5D3XNtrGf7CFyTLQVFklUS0YABYtXIZ9QPJaZkaNtEMxr8PeEnL462pBhrDnaQlZuvoaulHMCQQDP4g0AL6uJmpdyvApcuMH7gEyNwRCuwKRqNGtdugwuN6k5oLnT56zLQ2Pdl1WX9Kv44JIycFdunWYv7PNz8kRHAkAbcGzeAQyVOKta2o+/TsPZ4XP10i/unafoGCpQQGxrqpLPCCFweQopcG3a+zNqL0/52JTrcIw7L3VfmWnMVpp1AkBdczvu6n8NY65TSI7L8c5aFenUC4dJV5ZRm/Dr+FfDawgqvMLsrIfz8/5vvbkfj0DDp4hxHilfs2gdgUJLzAu/AkAyZj56I8sJ/2DK+e0xRivwDNcNepp7ZbgUTgQSZGl8cNH3gqWmd3CG4MYLrHXZC0vrnNdAhU+lqFcvN3w4TSB/";
+    
+//    NSString *partner = @"2088221353698177";
+//    NSString *seller = @"zucheyun@b-car.cn";
+//    NSString *privateKey = @"MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBALTC/6PbrpCw2IK5pNFwfJ9xmR5tpRkbcLcGHbuu0mB9cBeK5mzvGiCSQp1SYXaaNIsffA1wkKtuwTD2KXYraG1wh2bYNb8WtBTUtwJxLEHaPtMV9/uBrbqDfOtddp96KR+GnQEAF/6HkKsMfxf8mHzfrBv2kyQCbhiAVBrx6PzdAgMBAAECgYB+aYBuD0vdVE+V3E4vSgNdXgw/A17aWB5TYKuafYASiqbBUBolRHF5JdAARYRzdRQZ10LiAz6pJSNmIkCMq36zHXK6WakLn4iNmxKYuwkCvz0Jmk1EBurBIvrcmlESW1IPTp/EFVoD/6m4q133d3XsxjlVUCGZ5AFKX9+9eVWd4QJBANv8D9Af2zzPzhXyIQ4ajQnnC8yHaTWGTFHRk/+Nn114dpZNEfXZNs3Pog4I6epz+VgSw2du/0Dyafgmn2kmKoMCQQDSWwljq7BqYSRcuqvHPjmSRtaSo9WdQ5TnYW9J/mDgByfAMRYFeX0Xpls7BHDjo+MK+7jvth4zUpSnIeyJUx0fAkEAg/dzOQRTTejPlaS6Ja7R2xXqoxi8iap2EEMsiIraBoWkhkfXtWdIFDEx4z9/q/FErIwdAui4YarK3V22FasapwJBAIlLwAIc8mVMiCY59Jpz47G0qKJHaspdbNfkgXXDIUm3gdtwblYeaGZCPzNy/5ekxTDLAXb74BRRZxL7El7DL7MCQAN+bV2TmstYA7Ea2osPloAMZHuKZNhcgPr4gxMNLeWPlKjnnydY7Xg2xFvmmSfJ6Wh5et1wdpleXGeMArsx8YM=";
     /*============================================================================*/
     /*============================================================================*/
     /*============================================================================*/

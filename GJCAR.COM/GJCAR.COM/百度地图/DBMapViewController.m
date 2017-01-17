@@ -158,10 +158,10 @@
     
     //    [_mapView setCompassPosition:CGPointMake(180,200)];
     
-    [_Button setImage:[UIImage imageNamed:@"localtion_btn@2x"] forState:UIControlStateNormal];
-    [_Button addTarget:self action:@selector(locationButton) forControlEvents:UIControlEventTouchUpInside];
-    
-    
+//    [_Button setImage:[UIImage imageNamed:@"localtion_btn@2x"] forState:UIControlStateNormal];
+//    [_Button addTarget:self action:@selector(locationButton) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    
     _centerView = [[UIImageView alloc]initWithFrame:CGRectMake(frame.size.width / 2 - 6 , frame.size.height / 2 - 8, 12, 17)];
     [_mapView addSubview:_centerView];
     _centerView.image =[UIImage imageNamed:@"mapCenter"];
@@ -215,7 +215,35 @@
     
 }
 
-
+-(void)setplaceAnnotationWith:(NSDictionary*)dic
+{
+    
+    
+    NSArray* array = [NSArray arrayWithArray:_mapView.annotations];
+    
+    
+    NSLog(@"清除前地图标注的个数%ld",_mapView.annotations.count);
+    
+    
+    [_mapView removeAnnotations:array];
+    
+    
+    BMKPointAnnotation* annotation = [[BMKPointAnnotation alloc]init];
+    
+    
+    CLLocationCoordinate2D coor;
+    
+    coor.latitude = [[NSString stringWithFormat:@"%@",[dic objectForKey:@"latitude"]] doubleValue];
+    coor.longitude =[[NSString stringWithFormat:@"%@",[dic objectForKey:@"longitude"]] doubleValue];
+    annotation.coordinate = coor;
+    
+    
+    [_mapView setCenterCoordinate:coor animated:YES];
+    
+    
+    [_mapView addAnnotation:annotation];
+    
+}
 
 #pragma mark - ***** 定位功能 *****
 
@@ -241,6 +269,8 @@
     
     coor.latitude = [latitude doubleValue];
     coor.longitude =[longitude doubleValue];
+    
+    
     
     [_mapView setCenterCoordinate:coor animated:YES];
 

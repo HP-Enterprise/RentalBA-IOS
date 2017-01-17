@@ -38,7 +38,14 @@
     [self setUI];
     
 }
-
+-(void)goSafari
+{
+    
+    UIApplication *application = [UIApplication sharedApplication];
+    
+    [application openURL:[NSURL URLWithString:@"http://www.b-car.cn/Pages/8.jsp"]];
+    
+}
 -(void)setUI
 {
     
@@ -46,9 +53,13 @@
     self.view.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.96 alpha:1];
     
     UIImageView * imageV =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenWidth*571/777)];
-    imageV.image = [UIImage imageNamed:@"截图"];
+    imageV.image = [UIImage imageNamed:@"截图.jpeg"];
     [self.view addSubview:imageV];
+    imageV.userInteractionEnabled = YES ;
+
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goSafari)];
     
+    [imageV addGestureRecognizer:tap];
 
     UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(imageV.frame), ScreenWidth, ControlHeight - ScreenWidth*571/777)];
     baseView.backgroundColor = [UIColor whiteColor];
@@ -167,7 +178,7 @@
     chooseBt.frame = CGRectMake(50, CGRectGetMaxY(carveLine1.frame)+50, ScreenWidth-100, 30);
     chooseBt.layer.cornerRadius = 3;
     chooseBt.backgroundColor = [UIColor colorWithRed:0.91 green:0.76 blue:0.17 alpha:1];
-    [chooseBt setTitle:@"立即去选车" forState:UIControlStateNormal];
+    [chooseBt setTitle:@"立即选车" forState:UIControlStateNormal];
     [chooseBt setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     chooseBt.titleLabel.font = [UIFont systemFontOfSize:14 ];
     [chooseBt addTarget:self action:@selector(chooseBt) forControlEvents:UIControlEventTouchUpInside];
@@ -197,19 +208,15 @@
             
             if (![[responseObject objectForKey:@"message"] isKindOfClass:[NSNull class]])
             {
-                
-                
+
                 NSArray * array =[NSArray arrayWithArray:[responseObject objectForKey:@"message"]];
-                
                 
                 if (array.count > 0 )
                 {
                     
                     returnLabel.text = [array[0]objectForKey:@"cityName"];
                     _returnCityId = [NSString stringWithFormat:@"%@",[array[0] objectForKey:@"id"]];
-
-                    
-                    
+ 
                 }
                 else if (array.count == 0)
                 {
@@ -288,22 +295,27 @@
 {
     [self.tipView removeFromSuperview];
     
-    if (self.takeCityId == nil || self.returnCityId == nil)
-    {
-        [self tipShow:@"请选择取还车城市"];
-    }
-    else
-    {
-        
-        DBTailwindViewController * carList = [[DBTailwindViewController alloc]init];
+//    if (self.takeCityId == nil || self.returnCityId == nil)
+//    {
+//        [self tipShow:@"请选择取还车城市"];
+//    }
 
-        carList.takeCityId = self.takeCityId ;
-        carList.returnCityId = self.returnCityId ;
-        
-        
-        [self.navigationController pushViewController:carList animated:YES];
+    DBTailwindViewController * carList = [[DBTailwindViewController alloc]init];
 
+    if (!self.takeCityId) {
+        self.takeCityId = @"";
     }
+    if (!self.returnCityId) {
+        self.returnCityId = @"";
+    }
+    
+    carList.takeCityId = self.takeCityId ;
+    carList.returnCityId = self.returnCityId ;
+    
+    
+    [self.navigationController pushViewController:carList animated:YES];
+
+//    }
     
     
     

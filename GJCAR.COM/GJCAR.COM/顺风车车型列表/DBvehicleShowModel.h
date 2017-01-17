@@ -66,7 +66,7 @@
 
 //
 @property (strong, nonatomic) NSString<Optional>* bid;
-@property (strong, nonatomic) NSString<Optional>* business;
+//@property (strong, nonatomic) NSString<Optional>* business;
 @property (strong, nonatomic) NSString<Optional>* colour;
 @property (strong, nonatomic) NSString<Optional>* gps;
     

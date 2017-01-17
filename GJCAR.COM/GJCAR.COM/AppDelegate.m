@@ -9,6 +9,9 @@
 #import "AppDelegate.h"
 #import "DBNetManager.h"
 
+
+#import "DBKeyChain.h"
+#import "DBSurveillance.h"
 //首页
 #import "DBmainViewController.h"
 
@@ -71,6 +74,8 @@
     //百度统计
     [self baiduMobStat];
 
+    
+    
     // 要使用百度地图，请先启动BaiduMapManager
     _mapManager = [[BMKMapManager alloc]init];
     BOOL ret = [_mapManager start:@"e6G2Ph7L8BxSru8AQ7cZndgliC12BeG3" generalDelegate:self];
@@ -88,6 +93,12 @@
     //设置数据库
     [self setDBFM];
     
+    //激活申报
+    [self activateReport];
+    
+    
+    
+    
     return YES;
 }
 -(void)baiduMobStat
@@ -98,9 +109,6 @@
     statTracker.enableDebugOn = YES;
     
     [statTracker startWithAppId:@"dfbafc3372"]; // 设置您在mtj网站上添加的app的appkey,此处AppId即为应用的appKey
-    
-    
-
 }
 
 #pragma mark 检测是否最新版本
@@ -126,11 +134,6 @@
     self.window.rootViewController = nav;
 
     
-    
-    
-    
-    
-    
 //    DBFreeRideViewController * tabBar = [[DBFreeRideViewController alloc]init];
 //        DBLongRentInfoViewController * tabBar = [[DBLongRentInfoViewController alloc]init];
 
@@ -142,25 +145,33 @@
 
 -(void)setDBFM
 {
-    
 //    DBManager * manager = [DBManager shareManager];
 
+}
+#pragma mark 首次激活申报
+-(void)activateReport{
 
+    if ([DBKeyChain loadIDFa]) {
+        DBLog(@"%@",[DBKeyChain loadIDFa]);
+    }
+    else{
+        DBLog(@"%@",[DBSurveillance getIDFA]);
+        [DBKeyChain saveIDFAdata:nil];
+    }
+    
+    
 }
 
 #pragma mark 设置网络监控
 + (void)netWorkStatus
 {
-    
     /**
      AFNetworkReachabilityStatusUnknown          = -1,  // 未知
      AFNetworkReachabilityStatusNotReachable     = 0,   // 无连接
      AFNetworkReachabilityStatusReachableViaWWAN = 1,   // 3G 花钱
      AFNetworkReachabilityStatusReachableViaWiFi = 2,   // WiFi
      */
-    
-   
-    
+
     // 如果要检测网络状态的变化,必须用检测管理器的单例的startMonitoring
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     
@@ -179,7 +190,6 @@
         NSLog(@"*********************************************网络状态  %ld",status);
 
     }];
-    
 }
 
 //支付宝

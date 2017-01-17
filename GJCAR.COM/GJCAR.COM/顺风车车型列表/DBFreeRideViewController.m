@@ -35,6 +35,7 @@
     
     UIView * temporaryView ;
 }
+
 @property (nonatomic,strong)UIScrollView * scrollView ;
 
 @property (nonatomic,strong)UIView * tipView;
@@ -68,8 +69,6 @@
     // Do any additional setup after loading the view.
     
     [self setNavgationView];
-    
-
     
     [self loadData];
     
@@ -145,6 +144,9 @@
     [DBNetworkTool Get:url parameters:nil success:^(id responseObject) {
         
         
+        
+        
+        
 //        [self removeProgress];
         
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
@@ -157,7 +159,6 @@
             [self loadUserInfo];
 //            [self performSelectorOnMainThread:@selector(loadUserInfo) withObject:nil waitUntilDone:YES];
          
-          
         }
 
         else
@@ -213,19 +214,10 @@
     _scrollView.showsHorizontalScrollIndicator = NO ;
     _scrollView.showsVerticalScrollIndicator = NO ;
     
-    
     [self.view addSubview:_scrollView];
-    
 
-    
     [self setCarInfoView];
-    
-    
 }
-
-
-
-
 #pragma mark ---创建车型信息
 -(void)setCarInfoView
 {
@@ -234,13 +226,21 @@
     baseView.backgroundColor = [UIColor whiteColor];
     [_scrollView addSubview:baseView];
     
-    
-    
     //车辆图片
     UIImageView * carImageV  = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 100, 60)];
 
-    carImageV.image = [UIImage imageNamed:@"img-05.jpg"];
+//    carImageV.image = [UIImage imageNamed:@"img-05.jpg"];
     [baseView addSubview:carImageV];
+    
+    
+    NSString* encodedString = [[NSString stringWithFormat:@"%@%@",Host,[_newmodel.vehicleShow.vehicleModelShow.picture stringByReplacingOccurrencesOfString:@".." withString:@""]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    
+    [carImageV sd_setImageWithURL:[NSURL URLWithString:
+                                 encodedString] placeholderImage:[UIImage imageNamed:@"img-05.jpg"]];
+    
+
+    
     
     
     //城市
@@ -260,24 +260,18 @@
 
     NameLabel.text = [NSString stringWithFormat:@"%@",_newmodel.vehicleShow.vehicleModelShow.model];
     
-    
     [baseView addSubview:NameLabel];
 
-    
     //横线
     UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake( cityLabel.frame.origin.x , CGRectGetMaxY(NameLabel.frame) , ScreenWidth - cityLabel.frame.origin.x, 0.5)];
     lineView.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     [baseView addSubview:lineView];
-
-    
     //里程
 
     UIImageView * maxMileageImageV = [[UIImageView alloc]initWithFrame:CGRectMake(cityLabel.frame.origin.x, CGRectGetMaxY(lineView.frame)+5, 20, 20)];
     maxMileageImageV.image = [UIImage imageNamed:@"maxMileage"];
     [baseView addSubview:maxMileageImageV];
     
-    
-
     UILabel *  maxMileageLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(maxMileageImageV.frame)+10, lineView.frame.origin.y, lineView.frame.size.width/2, 30)];
     maxMileageLabel.text = @"限使用里程" ;
     
@@ -290,21 +284,16 @@
     maxMileage.textAlignment = 2 ;
     [baseView addSubview:maxMileage];
     
-    
-    
     //横线
     UIView * lineView1 = [[UIView alloc]initWithFrame:CGRectMake( cityLabel.frame.origin.x , CGRectGetMaxY(maxMileage.frame) , ScreenWidth - cityLabel.frame.origin.x, 0.5)];
     lineView1.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     [baseView addSubview:lineView1];
-    
     
     //费用自理
     
     UIImageView * costImageV = [[UIImageView alloc]initWithFrame:CGRectMake(cityLabel.frame.origin.x, CGRectGetMaxY(lineView1.frame)+5, 20, 20)];
     costImageV.image = [UIImage imageNamed:@"costType"];
     [baseView addSubview:costImageV];
-    
-    
     
     UILabel *  costLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(costImageV.frame)+10, lineView1.frame.origin.y, lineView.frame.size.width/2, 30)];
     costLabel.text = @"燃油费路桥费" ;
@@ -323,8 +312,6 @@
     lineView2.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     [baseView addSubview:lineView2];
     
-
-    
     //价格
     UILabel * priceLabel = [[UILabel alloc]initWithFrame:CGRectMake( cityLabel.frame.origin.x , CGRectGetMaxY(lineView2.frame)+ 10 , ScreenWidth - cityLabel.frame.origin.x, 30)];
     
@@ -339,10 +326,7 @@
     //    [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(19, 6)];
     priceLabel.attributedText = str;
 
-    
     [baseView addSubview:priceLabel];
-    
-    
     
     //横线
     UIView * coverlineView = [[UIView alloc]initWithFrame:CGRectMake( 0 , CGRectGetMaxY(priceLabel.frame)-0.5 , ScreenWidth , 0.5)];
@@ -351,7 +335,6 @@
 
     
     NSLog(@"%f",CGRectGetMaxY(coverlineView.frame));
-    
     
     //创建取车城市信息
     [self fullInUserInfo:baseView.frame];
@@ -363,17 +346,12 @@
 #pragma mark ---创建信息完善页面
 -(void)fullInUserInfo:(CGRect)frame
 {
-    
-    
-    
+
     temporaryView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(frame), ScreenWidth, 120)];
-    
     
     //联系人信息
     UIView * mustCost = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
     mustCost.backgroundColor = [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1];
-    
-    
     //    UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake( 0 , 39.5 , ScreenWidth , 0.5)];
     //    lineView.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     //    [mustCost addSubview:lineView];
@@ -386,7 +364,6 @@
     mustCostLabel.font = [UIFont boldSystemFontOfSize:14];
     
     [mustCost addSubview:mustCostLabel];
-    
     
     //姓名
     
@@ -404,15 +381,11 @@
     [nameFiled.field setValue:[DBcommonUtils getColor:@"9e9e9f"] forKeyPath:@"_placeholderLabel.textColor"];
     nameFiled.field.textColor = [DBcommonUtils getColor:@"9e9e9f"];
     
-    
-    
     UIView * changePwLine = [[UIView alloc]initWithFrame:CGRectMake(0, 0 , ScreenWidth , 0.5)];
     changePwLine.backgroundColor = [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:1];
     
     [nameFiled addSubview:changePwLine];
     [temporaryView addSubview:nameFiled];
-    
-    
     
     //证件号码
     
@@ -430,22 +403,17 @@
     [cardNumberFiled.field setValue:[DBcommonUtils getColor:@"9e9e9f"] forKeyPath:@"_placeholderLabel.textColor"];
     cardNumberFiled.field.textColor = [DBcommonUtils getColor:@"9e9e9f"];
     [temporaryView addSubview:cardNumberFiled];
-    
-    
-    
-    
-    
+
     //创建费用view
     
-    if ([userInfoDic objectForKey:@"credentialNumber"]==nil || [[userInfoDic objectForKey:@"credentialNumber"]isKindOfClass:[NSNull class]] || [userInfoDic objectForKey:@"realName"]==nil || [[userInfoDic objectForKey:@"realName"]isKindOfClass:[NSNull class]]|| [[userInfoDic objectForKey:@"realName"]isEqualToString:@""])
+    if ([userInfoDic objectForKey:@"credentialNumber"]==nil || [[userInfoDic objectForKey:@"credentialNumber"]isKindOfClass:[NSNull class]] || [[userInfoDic objectForKey:@"credentialNumber"]isEqualToString:@""] || [userInfoDic objectForKey:@"realName"]==nil || [[userInfoDic objectForKey:@"realName"]isKindOfClass:[NSNull class]] || [[userInfoDic objectForKey:@"realName"]isEqualToString:@""])
     {
         
         [_scrollView addSubview:temporaryView];
         
         _scrollView.contentSize = CGSizeMake(ScreenWidth, _scrollView.contentSize.height + 120 );
         [self setCityInfo:temporaryView.frame];
-        
-        
+
     }
     
     else
@@ -453,13 +421,7 @@
         [self setCityInfo:frame];
         
     }
-    
-    
-    
 }
-
-
-
 
 #pragma mark ----创建取车城市信息
 -(void)setCityInfo:(CGRect)frame
@@ -1205,25 +1167,18 @@
         if ([DBcommonUtils compareOneDay:dateString withAnotherDay: [self.model.takeCarDateEnd substringWithRange:NSMakeRange(0, 10)]] == 1)
         {
             
-            
-            
             [self tipShow:@"取车时间不在规定时间范围内,请重新选择!"];
             return NO;
-            
         }
-        
         
         else
         {
-            
-            
             
             //当日期相同
             if ([DBcommonUtils compareOneDay:[self.model.takeCarDateEnd substringWithRange:NSMakeRange(0, 10)] withAnotherDay:dateString] == 0)
             {
                 
-                
-                
+
                 if ([[self.model.takeCarDateEnd substringWithRange:NSMakeRange(11, 2)]integerValue]<[[hour substringWithRange:NSMakeRange(0, 2)]integerValue])
                 {
                     [self tipShow:@"取车时间不在规定时间范围内,请重新选择!"];
@@ -1254,21 +1209,16 @@
 -(void)sumbitBt
 {
     
-    
-    
-    
+
     if (![self checkDateWithDate:[_takeStart substringWithRange:NSMakeRange(0, 10)] withHour:[_takeStart substringWithRange:NSMakeRange(11, 5)]])
     {
         return;
     }
-    
 
-    [self.tipView removeFromSuperview];
-    
     
     [self addProgress];
     
-    if ([userInfoDic objectForKey:@"credentialNumber"]==nil || [[userInfoDic objectForKey:@"credentialNumber"]isKindOfClass:[NSNull class]] || [userInfoDic objectForKey:@"realName"]==nil || [[userInfoDic objectForKey:@"realName"]isKindOfClass:[NSNull class]] || [[userInfoDic objectForKey:@"realName"]isEqualToString:@""])
+    if ([userInfoDic objectForKey:@"credentialNumber"]==nil || [[userInfoDic objectForKey:@"credentialNumber"]isKindOfClass:[NSNull class]] || [[userInfoDic objectForKey:@"credentialNumber"]isEqualToString:@""] || [userInfoDic objectForKey:@"realName"]==nil || [[userInfoDic objectForKey:@"realName"]isKindOfClass:[NSNull class]] || [[userInfoDic objectForKey:@"realName"]isEqualToString:@""])
     {
 
 
@@ -1366,6 +1316,7 @@
 
 //判断证件是否有效
 //身份证号
+//身份证号
 -(BOOL)validateIdentityCard
 {
     
@@ -1375,41 +1326,66 @@
     //        flag =NO;
     //        return flag;
     //    }
+    //    (^\d{15}$)|(^\d{17}([0-9]|X)$)
+    NSString * regex1=@"^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$";
+    NSString * regex2=@"^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X|x)$";
     
-    NSString * regex2=@"^(\\d{14}|\\d{17})(\\d|[xX])$";
+    NSPredicate *regextestmobile1 = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex1];
+    NSPredicate *regextestmobile2 = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex2];
     
-    
-    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex2];
-    
-    
-    return [regextestmobile evaluateWithObject:cardNumberFiled.field.text];
-    
+    if (cardNumberFiled.field.text.length == 15) {
+        
+        return [regextestmobile1 evaluateWithObject:cardNumberFiled.field.text];
+        
+    }
+    else if (cardNumberFiled.field.text.length == 18){
+        return [regextestmobile2 evaluateWithObject:cardNumberFiled.field.text];
+    }
+    else{
+        return NO ;
+    }
+     
+}
+
+
+-(void)sumbitOrder
+{
+    __weak typeof(self) weak_self = self ;
+    [DBNetworkTool judgeIsBlacGET:nil parameters:nil success:^(id responseObject) {
+        
+        DBLog(@"11111111%@",responseObject);
+        
+        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
+            
+            if ([responseObject objectForKey:@"message"]) {
+                
+                [weak_self tipShow:@"服务器繁忙"];
+            }
+            
+        }
+        else{
+            
+            [weak_self judgeIsblack];
+        }
+        
+    } failure:^(NSError *error) {
+        [weak_self tipShow:@"数据加载失败"];
+    }];
     
 }
 
 
 
 
-
-
--(void)sumbitOrder
-{
+-(void)judgeIsblack{
     
-   
-
     
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
     NSString * url = [NSString stringWithFormat:@"%@/api/user/%@/freeRideOrder",Host,[user objectForKey:@"userId"]];
     
     NSMutableDictionary * parDic = [NSMutableDictionary dictionary];
     
-    
-    
     DBFreeRideReturnCarStoreShowsModel * storeModel =_newmodel.returnCarStoreShows[_returnStoreId];
-    
-    
-
-    
     
     parDic[@"basicInsuranceAmount"] = @"0";
     
@@ -1417,44 +1393,36 @@
     parDic[@"modelId"] = _newmodel.vehicleShow.modelId;
     parDic[@"orderState"] = @"1";
     parDic[@"orderType"] = @"3";
-
+    
     parDic[@"payAmount"] = _newmodel.price;
     parDic[@"payWay"] = @"3";
     parDic[@"poundageAmount"] = @"0";
     parDic[@"rentalAmount"] = _newmodel.price;
-
+    
     [user objectForKey:@"rentalIds"];
     
-    
-    
     NSArray * array =@[_newmodel.id];
-  
+    
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
     
     NSDate* takeStart = [formatter dateFromString:_takeStart];
-
+    
     NSString *takeStartSp = [NSString stringWithFormat:@"%ld", (long)[takeStart timeIntervalSince1970]*1000];
-
+    
     
     NSDate* takeEnd = [formatter dateFromString:_takeEnd];
     
     NSString *takeEndSp = [NSString stringWithFormat:@"%ld", (long)[takeEnd timeIntervalSince1970]*1000];
     
-
+    
     NSLog(@"%@    %@",takeStartSp,takeEndSp);
-
     
-    
-    
-    
-
     parDic[@"rentalId"] = array;
     
-
     parDic[@"returnCarAddress"] = storeModel.storeName;
     parDic[@"returnCarCity"] = _newmodel.returnCarCityShow.id;
-   
+    
     parDic[@"returnCarDate"] = takeEndSp;
     parDic[@"returnCarStoreId"] = storeModel.id ;
     parDic[@"serviceType"] = @"0";
@@ -1467,66 +1435,55 @@
     parDic[@"tenancyDays"] = _newmodel.maxRentalDay;
     parDic[@"timeoutPrice"] = @"0";
     parDic[@"totalTasicInsuranceAmount"] = @"0";
-
-
+    
     parDic[@"totalTimeoutPrice"] = @"0";
     parDic[@"userId"] = [user objectForKey:@"userId"];
     parDic[@"vehicleId"] = _newmodel.vehicleId;
-    parDic[@"vendorId"] = @"1";
-
-
-    
-
+    parDic[@"vendorId"] = _newmodel.vendorId;
+    parDic[@"source"] = @"5" ;
     
     
     
     [DBNetworkTool POST:url parameters:parDic success:^(id responseObject)
-    {
-        [self removeProgress];
-        
-        
-        
-        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
-        {
-            [self tipShow:@"提交订单成功"];
-
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-//                DBMyOrderViewController * order = [[DBMyOrderViewController alloc]init];
-//                 order.orderIndex = 3 ;
-                
-                
-                DBOrderPayViewController * orderPay = [[DBOrderPayViewController alloc]init];
-                
-                orderPay.orderIndex = 3;
-                orderPay.orderNumber = [responseObject objectForKey:@"message"];
-                orderPay.totalCost = _newmodel.price ;
-                orderPay.payWay = @"3";
-                orderPay.freeRideModel = _newmodel ;
-                
-                [self.navigationController pushViewController:orderPay animated:YES];
-                
-                return ;
-                
-            });
-
-            
-        }
-       else
-       {
-
-           [self tipShow:[responseObject objectForKey:@"message"] ];
-       }
+     {
+         [self removeProgress];
+         
+         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
+         {
+             [self tipShow:@"提交订单成功"];
+             
+             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                 
+                 //                DBMyOrderViewController * order = [[DBMyOrderViewController alloc]init];
+                 //                 order.orderIndex = 3 ;
+                 
+                 DBOrderPayViewController * orderPay = [[DBOrderPayViewController alloc]init];
+                 
+                 orderPay.orderIndex = 3;
+                 orderPay.orderNumber = [responseObject objectForKey:@"message"];
+                 orderPay.totalCost = _newmodel.price ;
+                 orderPay.payWay = @"3";
+                 orderPay.freeRideModel = _newmodel ;
+                 
+                 [self.navigationController pushViewController:orderPay animated:YES];
+                 
+                 return ;
+             });
+         }
+         else
+         {
+             
+             [self tipShow:[responseObject objectForKey:@"message"] ];
+         }
+         
+         NSLog(@"%@",responseObject);
+         
+     } failure:^(NSError *error) {
+         
+         NSLog(@"%@",error);
+         [self removeProgress];
+     }];
     
-        NSLog(@"%@",responseObject);
- 
-    } failure:^(NSError *error) {
-        
-        NSLog(@"%@",error);
-        [self removeProgress];
-    }];
-    
-
 }
 
 - (void)tipShow:(NSString *)str

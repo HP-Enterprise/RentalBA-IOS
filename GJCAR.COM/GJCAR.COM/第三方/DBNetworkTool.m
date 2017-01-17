@@ -93,9 +93,7 @@
     
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
   
-    
-    
-    
+
 //    AFJSONResponseSerializer *response = (AFJSONResponseSerializer *)manager.responseSerializer;
 //    response.removesKeysWithNullValues = YES;
 //    
@@ -107,11 +105,23 @@
      manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
     
     [manager GET:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        
+        
+        
+        
         if(success) {
+            
+            DBLog(@"%@",responseObject);
+
             success(responseObject);
+            
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if(failure) {
+            
+            DBLog(@"%@",error);
+
             failure(error);
         }
     }];
@@ -154,8 +164,10 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    
+
+
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
+
     [manager.requestSerializer setValue:[user objectForKey:@"token"] forHTTPHeaderField:@"cookie"];
     
     NSLog(@"注销 token打印出来了%@",[user objectForKey:@"token"]);
@@ -300,15 +312,11 @@
     
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
     
-    
     [manager PUT:url parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
         
         NSLog(@"%@",responseObject);
         
-        
         self.changePwBlock(responseObject);
-        
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@",error);
@@ -401,11 +409,15 @@
     
     
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        
         if(success) {
             success(responseObject);
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        
         if(failure) {
             failure(error);
         }
@@ -449,10 +461,13 @@
 
     [manager GET:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if(success) {
+            
             success(responseObject);
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        
         if(failure) {
             failure(error);
         }
@@ -478,23 +493,50 @@
     
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
     
-    
     [manager PUT:url parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSLog(@"%@",responseObject);
         
-        
         self.cancelOrderBlcok(responseObject);
-
         
            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
+        self.cancelOrderBlcok(error);
         NSLog(@"%@",error);
         
     }];
 }
 
 
-
+//判断是否是黑名单用户
++(void)judgeIsBlacGET:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure {
+    
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    
+    
+    url = [NSString stringWithFormat:@"%@/api/isBlack/%@",Host,[user objectForKey:@"userId"]];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    
+    
+    [manager GET:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if(success) {
+            
+            success(responseObject);
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        
+        if(failure) {
+            failure(error);
+        }
+    }];
+    
+}
 
 @end

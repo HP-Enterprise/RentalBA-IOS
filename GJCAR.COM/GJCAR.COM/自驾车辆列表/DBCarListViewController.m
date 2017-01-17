@@ -122,10 +122,12 @@
     //监测网络状态
     [self checkNet];
     
-
+    [self setData];
+    
+    
     [self loadDate];
     
-    [self setData];
+    
 
 }
 
@@ -185,7 +187,6 @@
    
     indexBt = button;
 
-    
     NSUserDefaults  * user = [NSUserDefaults standardUserDefaults];
     
     NSString * url = [NSString stringWithFormat:@"%@/api/rentalPack/prices",Host];
@@ -195,28 +196,20 @@
     lastModel = model ;
     NSMutableDictionary * parDic = [NSMutableDictionary dictionary];
     
-    
-    
     NSString * startDate = [[user objectForKey:@"takeCarDate"] stringByReplacingCharactersInRange:NSMakeRange(8, 2) withString:@"01"];
     
     NSInteger month = [[startDate substringWithRange:NSMakeRange(5, 2)]integerValue]+1;
-    
-   
     
     NSString * endDate = [startDate stringByReplacingCharactersInRange:NSMakeRange(5, 2) withString:[NSString stringWithFormat:@"%02ld",month]];
      lastMonth = startDate ;
     
     parDic[@"startDate"] = startDate ;
 
-    
     parDic[@"endDate"] = endDate;
     
-  
     parDic[@"modelId"] = model.vehicleModelShow.id ;
     
-    parDic[@"storeId"] =[self.storeIndoDic objectForKey:@"id"];
-    
-
+    parDic[@"storeId"] =[self.takeStoreInfoDic objectForKey:@"id"];
     
     [self addProgress];
     [DBNetworkTool Get:url parameters:parDic success:^(id responseObject) {
@@ -229,26 +222,15 @@
           
             [self loadPriceClick:button];
             
-            
             [user setObject:parDic forKey:@"carSection"];
             
-            
         }
-
+        
     } failure:^(NSError *error) {
         
         [self removeProgress];
         
     }];
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 }
 
@@ -269,17 +251,14 @@
     _lastArray = [NSMutableArray array];
     _carsArray = [NSMutableArray array];
 
-    
-    
     NSString * url = [NSString stringWithFormat:@"%@/api/searchVehicleRentalPack?orderType=priceLow&pageSize=100&brandId=&carGroup=&currentPage=1&userId=%@",Host,[user objectForKey:@"userId"]];
-
     NSMutableDictionary * parDic = [NSMutableDictionary dictionary];
-    
+
+
 //    parDic[@"startDate"] =[user objectForKey:@"takeTime"];
 //    parDic[@"endDate"] = [user objectForKey:@"returnTime"];
 //    parDic[@"takeCarCityId"] = [self.takeCityInfoDic objectForKey:@"id"];
 
-    
     parDic[@"startDate"] =[user objectForKey:@"takeTime"];
     parDic[@"endDate"] = [user objectForKey:@"returnTime"];
     parDic[@"applicationSide"] = @"5";
@@ -295,33 +274,30 @@
     //门店选车
     else
     {
-        parDic[@"latitude"] =[self.storeIndoDic objectForKey:@"latitude"];
-        parDic[@"longitude"] =[self.storeIndoDic objectForKey:@"longitude"];
-
+        parDic[@"latitude"] =[self.takeStoreInfoDic objectForKey:@"latitude"];
+        parDic[@"longitude"] =[self.takeStoreInfoDic objectForKey:@"longitude"];
 //        parDic[@"takeCarStoreId"] =@"7";
-        parDic[@"takeCarStoreId"] =[self.storeIndoDic objectForKey:@"id"];
+        
+        parDic[@"takeCarStoreId"] =[self.takeStoreInfoDic objectForKey:@"id"];
+        
+        parDic[@"returnCarCityId"] =[self.returnCityInfoDic objectForKey:@"id"];
+        parDic[@"returnCarStoreId"] =[self.returnStoreInfoDic objectForKey:@"id"];
+        
         NSLog(@"%@",parDic[@"takeCarStoreId"]);
         
-
     }
-    
-    
     
     NSLog(@"%@",self.takeCityInfoDic);
     NSLog(@"%@",[self.takeCityInfoDic objectForKey:@"id"]);
     NSLog(@"%@",parDic[@"latitude"]);
     NSLog(@"%@",parDic[@"longitude"]);
-    http://www.gjcar.com/api/searchVehicleRentalPack?orderType=priceLow&pageSize=100&brandId=&carGroup=&currentPage=1&userId=54240&applicationSide=5&endDate=1477101600000&latitude="31.098064"&longitude="121.42315"&startDate=1476928800000&takeCarCityId =73&takeCarStoreId=17
 
 //    __weak typeof(self)weak_self = self;
 
-    
     [DBNetworkTool Get:url parameters:parDic success:^(id responseObject) {
-        
         
         [self removeProgress];
         
-
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
             
@@ -329,7 +305,6 @@
             {
                 
                 [self tipShow:@"没有相关数据"];
-                
                 
                 return ;
             }
@@ -342,17 +317,13 @@
                 {
               
                     DBCarModel * model = [[DBCarModel alloc]initWithDictionary:dic error:nil];
-                    
 
                     [_carsArray addObject:model];
-
                     
                     [showPriceArray addObject:@[]];
                     [_dataArray addObject:@[]];
                     
                     DBShowListModel * activityModel = [model.vendorStorePriceShowList firstObject] ;
-                    
-                    
                     
                     if (!activityModel.activityShows) {
                         [_activityArray addObject:@"-1"];
@@ -378,18 +349,12 @@
             [self tipShow:@"没有相关数据"];
         }
         
-
-        
     } failure:^(NSError *error) {
         
-    
         [self removeProgress];
         
-        
         NSLog(@"%@",error);
-        
-
-        
+    
     }];
 
 }
@@ -609,21 +574,19 @@
         
         NSString * carTurnk;
         
-        if (carModel.vehicleModelShow.carTrunk == nil)
+
+        if ([carModel.vehicleModelShow.carTrunk integerValue] == 1 )
         {
-            carTurnk = @"";
-            
+            carTurnk = @"3厢";
+        }
+        else if ([carModel.vehicleModelShow.carTrunk integerValue] == 2)
+        {
+            carTurnk = @"2厢";
         }
         else{
-            if ([carModel.vehicleModelShow.carTrunk integerValue] == 1 )
-            {
-                carTurnk = @"3厢";
-            }
-            else if ([carModel.vehicleModelShow.carTrunk integerValue] == 2)
-            {
-                carTurnk = @"2厢";
-            }
+            carTurnk = @"" ;
         }
+        
         
         
         NSString * seat ;
@@ -760,7 +723,7 @@
         
         
         
-        
+
         //分割线
         UIView * lineView2 = [[UIView alloc]initWithFrame:CGRectMake( 0 , CGRectGetMaxY(priceLabel.frame)+5 , ScreenWidth , 0.5)];
         lineView2.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
@@ -768,7 +731,7 @@
         
         NSLog(@"%f",CGRectGetMaxY(lineView2.frame));
         
-        
+ 
         
         //创建日历按钮
         UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -1002,7 +965,7 @@
     
     parDic[@"modelId"] = model.vehicleModelShow.id ;
     
-    parDic[@"storeId"] =[self.storeIndoDic objectForKey:@"id"];
+    parDic[@"storeId"] =[self.takeStoreInfoDic objectForKey:@"id"];
 
     [user setObject:[NSString stringWithFormat:@"%ld",button.tag - 300] forKey:@"carSection"];
 
@@ -1157,16 +1120,14 @@
         //跳转价格服务详情
         DBOrderServeViewController * orderServe = [[DBOrderServeViewController alloc]init];
         
-        
 //        orderinfo.indexControl = 0;
         orderServe.model = _carsArray[control.tag - 400] ;
 
         orderServe.activityDic = chooseDic ;
 
+        
+        
         if (!chooseDic) {
-            
-
-            
             
             
         }
@@ -1281,7 +1242,7 @@
     
     parDic[@"modelId"] = lastModel.vehicleModelShow.id ;
     
-    parDic[@"storeId"] =[self.storeIndoDic objectForKey:@"id"];
+    parDic[@"storeId"] =[self.takeStoreInfoDic objectForKey:@"id"];
     
     
     

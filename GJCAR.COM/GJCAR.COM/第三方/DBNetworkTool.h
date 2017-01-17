@@ -14,7 +14,7 @@ typedef void (^ChangePwBlock)(NSDictionary *dic);
 typedef void (^verifyCodeBlock)(NSDictionary *dic);
 
 //取消订单
-typedef void (^cancelOrderBlock)(NSDictionary *dic);
+typedef void (^cancelOrderBlock)(id dic);
 
 @interface DBNetworkTool : NSObject
 
@@ -79,5 +79,6 @@ typedef void (^cancelOrderBlock)(NSDictionary *dic);
 
 //取消订单
 -(void)cancelOrderPUT:(NSString *)url parameters:(NSDictionary *)parameters;
-
+//判断是否是黑名单用户
++(void)judgeIsBlacGET:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
 @end

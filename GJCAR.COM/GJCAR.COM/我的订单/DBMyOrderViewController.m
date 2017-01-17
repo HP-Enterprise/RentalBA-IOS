@@ -43,11 +43,9 @@
     //创建列表
     [self setTableView];
     
-    
 //    //加载数据
 //    [self loadOrderData];
-    
-    
+
 }
 
 #pragma mark 加载动画
@@ -86,8 +84,13 @@
             //门到门
             break;
         case 1:
+//        http://182.61.22.80:51234/api/door/user/orders?currentPage=1&endTakeCarDate=2017-02-23+00:00:00&orderState=&pageSize=5&startTakeCarDate=2016-09-23+00:00:00&userId=54240
+            
+            
+//            http://182.61.22.80:51234/api/door/clientcanle/1005899/order
+            
         {
-            url = [NSString stringWithFormat:@"%@/api/user/%@/doortodoororder",Host,[user objectForKey:@"userId"]];
+            url = [NSString stringWithFormat:@"%@/api/door/user//orders?userId=%@",Host,[user objectForKey:@"userId"]];
             
         }
             break;
@@ -124,9 +127,24 @@
         
         NSArray * dataArray = [NSArray array];
         
+        
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
-            dataArray = [responseObject objectForKey:@"message"];
+            if (self.orderIndex ==0) {
+                if (![[responseObject objectForKey:@"message"]isKindOfClass:[NSNull class]]) {
+                    dataArray = [responseObject objectForKey:@"message"];
+
+                }
+            }
+            else if (self.orderIndex ==1){
+                if (![[responseObject objectForKey:@"message"]isKindOfClass:[NSNull class]]) {
+                    dataArray = [[responseObject objectForKey:@"message"]objectForKey:@"content"];
+                    
+                }
+
+            }
+     
+            
         }
         
         if (dataArray.count > 0 )
@@ -136,9 +154,7 @@
             {
                 
                 NSLog(@"%@",dic);
-                
 
-                
                 DBOrderModel * model  = [[DBOrderModel alloc]initWithDictionary:dic error:nil];
 
                 NSLog(@"%@",model.carGroupstr);
@@ -299,6 +315,10 @@
         orderInfo.orderIndex = self.orderIndex ;
         orderInfo.model = _orderArray[indexPath.row] ;
       
+        
+        
+        
+        
         if (self.orderIndex == 3)
         {
 
@@ -331,19 +351,15 @@
 {
     
     [self.navigationController popToRootViewControllerAnimated:YES];
-    
 
 }
 
 - (void)tipShow:(NSString *)str
 {
     
-    
-    
     self.tipView = [[DBTipView alloc]initWithHeight:0.8 * ScreenHeight WithMessage:str];
     [self.view addSubview:self.tipView];
-    
-    
+
 }
 
 -(void)viewWillAppear:(BOOL)animated

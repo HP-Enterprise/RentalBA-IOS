@@ -142,7 +142,6 @@
     [self.view addSubview:forgetBt];
 
     
-    
     //注册按钮
     UIButton * signUpBt = [UIButton buttonWithType:UIButtonTypeCustom];
     signUpBt.frame = CGRectMake(25, CGRectGetMaxY(forgetBt.frame)+20, ScreenWidth-50,40*ScreenHeight/667);
@@ -167,8 +166,8 @@
     [self.view addSubview:backBt];
 
     
-
 }
+
 
 -(void)closeBt
 {
@@ -231,7 +230,6 @@
     }
 }
 
-
 //忘记密码按钮点击
 -(void)forgetBt
 {
@@ -240,7 +238,6 @@
     [self.navigationController pushViewController:forgetPw animated:YES];
 }
 
-
 //登录点击
 -(void)SignInBt:(UIButton*)button
 {
@@ -248,8 +245,6 @@
     NSLog(@"登录按钮点击");
     [self.view endEditing:YES];
     [self.tipView removeFromSuperview];
-    
-    
     
     userNameField.field.text =  [userNameField.field.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *MOBILE = @"^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
@@ -286,16 +281,12 @@
 }
 
 
-
 #pragma mark  登录成功跳转页面
 //加载数据
 -(void)loadData:(UIButton*)button
 {
     [self.tipView removeFromSuperview];
-    
-    
-    
-    
+
     NSString *url =[NSString stringWithFormat:@"%@/api/login",Host];
     
     //    NSString * url = @"http://www.rental.hpecar.com/api/login";
@@ -345,11 +336,13 @@
          
             
             NSHTTPCookie *cookie;
+            
+            
 //            NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
             for (cookie in [cookieJar cookiesForURL:[NSURL URLWithString:Host]])
             {
                 if ([[cookie name] isEqualToString:@"token"]) { // 获取响应头数组对象里地名字为token的对象
-                    
+
                     NSLog(@"############%@", [NSString stringWithFormat:@"%@=%@",[cookie name],[cookie value]]);
                     //获取响应头数组对象里地名字为token的对象的数据，这个数据是用来验证用户身份相当于“key”
                     
@@ -377,13 +370,9 @@
                 
                 [user setObject:userNameField.field.text forKey:@"phone"];
                 [user setObject:passWordField.field.text forKey:@"password"];
-                
-                
-
-                
+  
             }
             NSLog(@"####################################\n---%@--",[cookieJar cookies]); // 获取响应头的数组
-            
             
             //           for (int i = 0; i < [cookieJar cookies].count; i++) {
             
@@ -393,18 +382,13 @@
             
             NSLog(@"%ld",[cookieJar cookies].count);
             
-            
-
             //跳转到信息页面
-            
-            
-            
-            
+
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
                 // 1秒后异步执行这里的代码...
                 
-                //自驾
+                //自驾		
                 self.view.userInteractionEnabled = YES ;
                 
                 if (self.indexControl == 0)
@@ -424,33 +408,23 @@
                 //顺风车
                 else if (self.indexControl == 1)
                 {
-                    
-                    
                     DBFreeRideViewController * order = [[DBFreeRideViewController alloc]init];
                     
                     order.model =self.FreeRideModel;
                     
                     [self.navigationController pushViewController:order animated:YES];
                     
-                    
                 }
-                
                 else 
 //
                 {
                 
                     [self.navigationController popToRootViewControllerAnimated:YES];
-                    
                 }
-                
             });
-            
         }
-        
         else
         {
-
-
             [self tipShow:@"账户或密码错误"];
         }
         
@@ -461,7 +435,6 @@
          [self tipShow:@"请检查网络是否可用"];
          [self removeProgress];
          
- 
      }];
     
 }
@@ -499,10 +472,8 @@
 - (void)tipShow:(NSString *)str
 {
     
-
     self.tipView = [[DBTipView alloc]initWithHeight:0.8 * ScreenHeight WithMessage:str];
     [self.view addSubview:self.tipView];
-    
     
 }
 

@@ -30,7 +30,6 @@ typedef void (^freeRidedateBlock)(NSString * str,NSString * hour);
 //年份数组
 @property (nonatomic ,strong)NSMutableArray * yearArray;
 
-
 //时间时间数组
 @property (nonatomic,strong)NSArray * hourArray;
 

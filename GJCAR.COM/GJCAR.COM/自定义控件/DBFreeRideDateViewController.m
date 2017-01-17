@@ -152,11 +152,7 @@
     for (NSInteger i = MIN_YEAR ; i <= MAX_YEAR; i++)
     {
         NSMutableArray * monthArray = [NSMutableArray array];
-        
-        
-        
-        
-        
+
         NSArray * tempAyyay = @[@"31",[self LeepYear:i] ? @"29" : @"28",@"31",@"30",@"31",@"30",@"31",@"31",@"30",@"31",@"30",@"31"];
         
         
@@ -164,34 +160,21 @@
         NSInteger MIN_MONTH = [[model.takeCarDateStart substringWithRange:NSMakeRange(5, 2)]integerValue];
         NSInteger MAX_MONTH = [[model.takeCarDateEnd substringWithRange:NSMakeRange(5, 2)]integerValue];
 
-        
-        
-        
-        
+
         for (NSInteger j = MIN_MONTH ; j<= MAX_MONTH ; j++ )
         {
             
             NSMutableArray * dayArray = [NSMutableArray array];
-            
-            
-            
-            
+
             NSInteger MIN_DAY = [[model.takeCarDateStart substringWithRange:NSMakeRange(8, 2)]integerValue];
             NSInteger MAX_DAY = [[model.takeCarDateEnd substringWithRange:NSMakeRange(8, 2)]integerValue];
             
             if (MIN_MONTH == MAX_MONTH)
             {
-                
-                
-                
                 for (NSInteger z = MIN_DAY ;  z <= MAX_DAY; z ++)
                 {
 
                     NSString * week = [DBcommonUtils weekdayStringFromDate:nil withDateStr:[NSString stringWithFormat:@"2016-%.2ld-%.2ld 10:00:00",j,z]];
-
-                    
-                    
-                    
                     [dayArray addObject:[NSString stringWithFormat:@"%02ld日 %@",z,week]];
   
                 }
@@ -209,16 +192,31 @@
             }
             else
             {
-                
-                
-                
-                for (NSInteger z = MIN_DAY ;  z <= [tempAyyay[j-1]integerValue] - MIN_DAY; z ++)
-                {
+                if (j == MIN_MONTH) {
                     
-                    NSString * week = [DBcommonUtils weekdayStringFromDate:nil withDateStr:[NSString stringWithFormat:@"2016-%.2ld-%.2ld 10:00:00",j,z]];
-                    
-                    [dayArray addObject:[NSString stringWithFormat:@"%02ld日 %@",z,week]];
-                    
+                    for (NSInteger z = MIN_DAY ;  z <= [tempAyyay[j-1]integerValue] ; z ++)
+                    {
+                        
+                        NSString * week = [DBcommonUtils weekdayStringFromDate:nil withDateStr:[NSString stringWithFormat:@"2016-%.2ld-%.2ld 10:00:00",j,z]];
+                        [dayArray addObject:[NSString stringWithFormat:@"%02ld日 %@",z,week]];
+                    }
+                }
+                else if (j == MAX_MONTH){
+                    for (NSInteger z = 1;  z <= MAX_DAY ; z ++)
+                    {
+                        
+                        NSString * week = [DBcommonUtils weekdayStringFromDate:nil withDateStr:[NSString stringWithFormat:@"2016-%.2ld-%.2ld 10:00:00",j,z]];
+                        [dayArray addObject:[NSString stringWithFormat:@"%02ld日 %@",z,week]];
+                    }
+                }
+                else{
+                    for (NSInteger z = 1;   z <= [tempAyyay[j-1]integerValue] ; z ++)
+                    {
+                        
+                        NSString * week = [DBcommonUtils weekdayStringFromDate:nil withDateStr:[NSString stringWithFormat:@"2016-%.2ld-%.2ld 10:00:00",j,z]];
+                        [dayArray addObject:[NSString stringWithFormat:@"%02ld日 %@",z,week]];
+                    }
+
                 }
                 
                 NSMutableDictionary * dic = [NSMutableDictionary dictionary];
@@ -231,16 +229,11 @@
             }
             
         }
-        
-        
-        
-        
-        
+
         NSMutableDictionary * dic = [NSMutableDictionary dictionary];
         [dic setObject:[NSString stringWithFormat:@"%ld",i] forKey:@"year"];
         [dic setObject:monthArray forKey:@"monthList"];
         [_yearArray addObject:dic];
-        
 
     }
     
@@ -268,6 +261,7 @@
         return 0;
     }
 }
+
 
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
     
@@ -323,12 +317,9 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     
-    
     if (component == 0 )
     {
         _rowYear = row ;
-        
-        
         self.date = [self.date  stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:[_yearArray[row]objectForKey:@"year"]];
         
         [self.pickerView reloadAllComponents];
@@ -337,18 +328,13 @@
     else if (component ==1)
     {
         _rowMonth = row ;
-        
-           self.date = [self.date  stringByReplacingCharactersInRange:NSMakeRange(5, 2) withString:[[NSArray arrayWithArray:[_yearArray[_rowYear]objectForKey:@"monthList"]][row]objectForKey:@"month"]];
+        self.date = [self.date  stringByReplacingCharactersInRange:NSMakeRange(5, 2) withString:[[NSArray arrayWithArray:[_yearArray[_rowYear]objectForKey:@"monthList"]][row]objectForKey:@"month"]];
         [self.pickerView reloadComponent:2];
     }
-    
-    
+
     else if (component == 2)
     {
         _rowDay = row ;
-        
-        
-        
         self.date = [self.date  stringByReplacingCharactersInRange:NSMakeRange(8, 6) withString:[NSArray arrayWithArray:[[NSArray arrayWithArray:[_yearArray[_rowYear]objectForKey:@"monthList"]][_rowMonth]objectForKey:@"dayList"]][row]];
     }
     
@@ -356,8 +342,6 @@
     {
         self.hour = _hourArray[row];
     }
-    
-    
     //    self.date = [NSString stringWithFormat:@"%@-%02ld-%02ld",[_yearArray[_rowYear]objectForKey:@"year"],_rowMonth+1,row+1];
     
     
@@ -366,11 +350,7 @@
     //        _rowMonth = row ;
     //        [self.pickerView reloadComponent:2];
     //    }
-    
-    
     //    self.city = _yearArray[row];
-    
-    
 }
 
 
@@ -398,7 +378,6 @@
 }
 
 
-
 -(CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
 {
     return 30;
@@ -406,39 +385,23 @@
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-    
     return 4;
 }
 
 -(NSInteger) pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    
-    
     if (component == 0 )
     {
         return _yearArray.count;
     }
-    
     else if (component ==1)
         
     {
-        
-        
         return  [NSArray arrayWithArray:[_yearArray[_rowYear]objectForKey:@"monthList"]].count;
-        
-        
     }
     
     else if (component==2)
     {
-        
-        //        NSArray * array = [NSArray arrayWithArray:[_yearArray[_rowYear]objectForKey:@"monthList"]];
-        
-        
-        //        for (NSDictionary * dic in array)
-        //        {
-        //            NSLog(@"%@",dic);
-        //        }
         return [NSArray arrayWithArray:[[NSArray arrayWithArray:[_yearArray[_rowYear]objectForKey:@"monthList"]][_rowMonth]objectForKey:@"dayList"]].count;
     }
     
@@ -446,12 +409,9 @@
     {
         
         return _hourArray.count;
-        
-        
     }
     
     return 0;
-    
 }
 
 
@@ -469,8 +429,6 @@
         //        NSLog(@"%@",[[NSArray arrayWithArray:[_yearArray[_rowYear]objectForKey:@"monthList"]][row]objectForKey:@"month"]);
         
         return  [[NSArray arrayWithArray:[_yearArray[_rowYear]objectForKey:@"monthList"]][row]objectForKey:@"month"];
-        
-        
     }
     else if (component == 2)
         
@@ -485,14 +443,11 @@
     }
     
     return nil;
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    
-    
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
@@ -511,7 +466,6 @@
     
     NSLog(@"DBChooseDateViewController  dealloc");
 }
-
 
 
 - (void)didReceiveMemoryWarning {

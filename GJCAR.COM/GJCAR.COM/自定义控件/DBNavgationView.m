@@ -95,7 +95,6 @@
         //        baseView.userInteractionEnabled = YES ;
         
         
-        
         [self addSubview:baseView];
         
         
@@ -134,8 +133,6 @@
                 
                 self.rightButton.titleLabel.font = [UIFont systemFontOfSize:14];
                 self.rightButton.titleLabel.textAlignment =1 ;
-                
-                
                 
                 [self addSubview:self.rightButton];
 

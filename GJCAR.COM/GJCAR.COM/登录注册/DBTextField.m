@@ -105,7 +105,6 @@
     }
     
     
-    
     UIToolbar * topView = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 30)];
     [topView setBarStyle:UIBarStyleDefault];
     

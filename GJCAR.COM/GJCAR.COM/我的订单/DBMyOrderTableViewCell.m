@@ -401,53 +401,118 @@
     NSString * returnTimeStr =[formatter stringFromDate:returnDate];
     NSLog(@"%@",takeTimeStr);
    
-    NSString* encodedString = [[NSString stringWithFormat:@"%@%@",Host,[model.picture stringByReplacingOccurrencesOfString:@".." withString:@""]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    
+    
+    NSString* encodedString;
+    if ([model.orderType isEqualToString:@"2"]) {
+        
+        
+        
+        encodedString = [[NSString stringWithFormat:@"%@%@",Host,[model.vehicleModelShow.picture stringByReplacingOccurrencesOfString:@".." withString:@""]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        _carName.text = model.vehicleModelShow.model ;
+        
+        NSString * carGroup ;
+        if (model.vehicleModelShow.carGroup == nil)
+        {
+            carGroup = @"" ;
+        }
+        else
+        {
+            if ([model.vehicleModelShow.carGroup isEqualToString:@"1"]) {
+                carGroup = @"自动挡";
+            }
+            else{
+                carGroup = @"手动挡";
+            }
+            
+        }
+        
+        
+        NSString * trunk ;
+        if (model.vehicleModelShow.carTrunk == nil)
+        {
+            trunk = @"" ;
+        }
+        
+        else
+        {
+            if ([model.vehicleModelShow.carTrunk isEqualToString:@"1"]) {
+                trunk = @"3厢";
+            }
+            else{
+                trunk = @"2厢";
+            }
+        }
+        
+        NSString * seats ;
+        if (model.vehicleModelShow.seats == nil)
+        {
+            seats = @"" ;
+        }
+        else
+        {
+            seats =[NSString stringWithFormat:@"%@座",model.vehicleModelShow.seats];
 
+        }
+            
+        _carkind.text =[NSString stringWithFormat:@"%@ | %@ | %@",carGroup,trunk,seats];
+
+        
+    }
+    else if ([model.orderType isEqualToString:@"1"]){
+        encodedString = [[NSString stringWithFormat:@"%@%@",Host,[model.picture stringByReplacingOccurrencesOfString:@".." withString:@""]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        _carName.text = model.model ;
+        
+        NSString * carGroup ;
+        if (model.carGroupstr == nil)
+        {
+            carGroup = @"" ;
+        }
+        else
+        {
+            carGroup = model.carGroupstr;
+        }
+        
+        
+        NSString * trunk ;
+        if (model.carTrunkStr == nil)
+        {
+            trunk = @"" ;
+        }
+        
+        else
+        {
+            trunk = model.carTrunkStr ;
+        }
+        
+        NSString * seats ;
+        if (model.seatsStr == nil)
+        {
+            seats = @"" ;
+        }
+        else
+        {
+            seats = model.seatsStr ;
+        }
+        
+        _carkind.text =[NSString stringWithFormat:@"%@ | %@ | %@",carGroup,trunk,seats];
+
+        
+        
+    }
     [_imageV sd_setImageWithURL:[NSURL URLWithString:
-                                 encodedString] placeholderImage:[UIImage imageNamed:@"img-05.jpg"]];
+                                encodedString] placeholderImage:[UIImage imageNamed:@"img-05.jpg"]];
 
-//    [_imageV sd_setImageWithURL:[NSURL URLWithString:
-//                                 [NSString stringWithFormat:@"%@%@",Host,model.picture]] placeholderImage:[UIImage imageNamed:@"img-05.jpg"]];
  
     [_takeTime setTitle:[takeTimeStr substringWithRange:NSMakeRange(5, 5)] forState:UIControlStateNormal];
     [_returnTime setTitle:[returnTimeStr substringWithRange:NSMakeRange(5, 5)] forState:UIControlStateNormal];
     
-    _carName.text = model.model ;
 
-    NSString * carGroup ;
-    if (model.carGroupstr == nil)
-    {
-        carGroup = @"" ;
-    }
-    else
-    {
-        carGroup = model.carGroupstr;
-    }
     
     
-    NSString * trunk ;
-    if (model.carTrunkStr == nil)
-    {
-        trunk = @"" ;
-    }
-    
-    else
-    {
-        trunk = model.carTrunkStr ;
-    }
-    
-    NSString * seats ;
-    if (model.seatsStr == nil)
-    {
-        seats = @"" ;
-    }
-    else
-    {
-        seats = model.seatsStr ;
-    }
 
-    _carkind.text =[NSString stringWithFormat:@"%@ | %@ | %@",carGroup,trunk,seats];
-    
     //取还车星期
     _week.text =[NSString stringWithFormat:@"%@ %@",[DBcommonUtils weekdayStringFromDate:takeDate withDateStr:nil],[takeTimeStr substringWithRange:NSMakeRange(11, 5)]];
 

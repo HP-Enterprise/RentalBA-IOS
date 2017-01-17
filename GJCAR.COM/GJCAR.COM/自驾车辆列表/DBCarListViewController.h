@@ -18,7 +18,15 @@ typedef void (^changeMonthBlock)(NSString*);
 @property (nonatomic,strong)NSDictionary * takeCityInfoDic ;
 @property (nonatomic,strong)NSDictionary * takePlaceInfoDic ;
 
-@property (nonatomic,strong)NSDictionary *storeIndoDic;
+@property (nonatomic,strong)NSDictionary * takeStoreInfoDic;
+
+//还车城市信息
+
+@property (nonatomic,strong)NSDictionary * returnCityInfoDic ;
+@property (nonatomic,strong)NSDictionary * returnPlaceInfoDic ;
+
+@property (nonatomic,strong)NSDictionary * returnStoreInfoDic;
+
 
 @property (nonatomic,weak)changeMonthBlock  changeMonthBlock;
 

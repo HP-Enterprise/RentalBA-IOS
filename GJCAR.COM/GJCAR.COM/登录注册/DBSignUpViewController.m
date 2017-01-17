@@ -352,7 +352,7 @@
     else
         
     {
-        NSString * submitUrl = [NSString stringWithFormat:@"%@/api/register",Host];
+        NSString * submitUrl = [NSString stringWithFormat:@"%@/api/register?registerWay=5",Host];
 
 //        NSString * submitUrl = @"http://www.rental.hpecar.com/api/register";
         
@@ -368,7 +368,7 @@
         
         parDic[@"phone"] = userNameField.field.text;
         parDic[@"code"] = ValidateField.field.text;
-        parDic[@"registerWay"] =@"4";
+//        parDic[@""] =@"5";
         
         NSLog(@"%@",ValidateField.field.text);
         
