@@ -787,9 +787,9 @@
     showCarBt.titleLabel.font = [UIFont systemFontOfSize:14 ];
     showCarBt.layer.cornerRadius = 5 ;
     showCarBt.backgroundColor =[UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
-    [showCarBt addTarget:self action:@selector(sumbitBt) forControlEvents:UIControlEventTouchUpInside];
+    [showCarBt addTarget:self action:@selector(sumbitBt:) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:showCarBt];
-
+    showCarBt.selected = YES ;
     
     
        
@@ -1206,10 +1206,26 @@
 
 
 #pragma mark  ---提交订单按钮点击
--(void)sumbitBt
+-(void)sumbitBt:(UIButton*)button
 {
     
-
+    
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
+    
+    
+    if ( button.selected == NO) {
+        
+        return ;
+    }
+    
+    
+    
     if (![self checkDateWithDate:[_takeStart substringWithRange:NSMakeRange(0, 10)] withHour:[_takeStart substringWithRange:NSMakeRange(11, 5)]])
     {
         return;
@@ -1223,14 +1239,14 @@
 
 
         
-        [self sumbitUserInfo];
+        [self sumbitUserInfo:button];
         
     }
     
     else
     {
 
-        [self sumbitOrder];
+        [self sumbitOrder:button];
         
     }
     
@@ -1242,7 +1258,7 @@
 
 
 #pragma mark  ---提交身份信息
--(void)sumbitUserInfo
+-(void)sumbitUserInfo:(UIButton*)button
 {
     NSString * url =[NSString stringWithFormat:@"%@/api/me",Host];
     //    NSString * url = @"http://www.rental.hpecar.com/api/me";
@@ -1296,7 +1312,7 @@
             
             
             
-            [self sumbitOrder];
+            [self sumbitOrder:button];
         }
         else
         {
@@ -1348,7 +1364,7 @@
 }
 
 
--(void)sumbitOrder
+-(void)sumbitOrder:(UIButton*)button
 {
     __weak typeof(self) weak_self = self ;
     [DBNetworkTool judgeIsBlacGET:nil parameters:nil success:^(id responseObject) {
@@ -1365,7 +1381,7 @@
         }
         else{
             
-            [weak_self judgeIsblack];
+            [weak_self judgeIsblack:button];
         }
         
     } failure:^(NSError *error) {
@@ -1377,8 +1393,9 @@
 
 
 
--(void)judgeIsblack{
-    
+-(void)judgeIsblack:(UIButton*)button{
+
+    [self.tipView removeFromSuperview];
     
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
     NSString * url = [NSString stringWithFormat:@"%@/api/user/%@/freeRideOrder",Host,[user objectForKey:@"userId"]];
@@ -1444,10 +1461,10 @@
     
     
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [DBNetworkTool POST:url parameters:parDic success:^(id responseObject)
      {
-         [self removeProgress];
-         
+
          if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
          {
              [self tipShow:@"提交订单成功"];
@@ -1477,11 +1494,13 @@
          }
          
          NSLog(@"%@",responseObject);
-         
+
+         button.selected =YES ;
+         [MBProgressHUD  hideHUDForView:self.view animated:YES];
      } failure:^(NSError *error) {
-         
+         button.selected = YES ;
          NSLog(@"%@",error);
-         [self removeProgress];
+          [MBProgressHUD  hideHUDForView:self.view animated:YES];
      }];
     
 }

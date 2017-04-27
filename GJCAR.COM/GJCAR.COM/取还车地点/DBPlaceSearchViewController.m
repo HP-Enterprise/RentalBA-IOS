@@ -176,17 +176,9 @@
         
     }
     
-    
     CLLocationCoordinate2DMake(coor.latitude, coor.longitude);
     
-    
-    
-    
-    
     BOOL isIn =  BMKPolygonContainsCoordinate(CLLocationCoordinate2DMake(coor.latitude, coor.longitude), coords,  _serveScopeArray.count);
-    
-    
-    
     
     return isIn;
     

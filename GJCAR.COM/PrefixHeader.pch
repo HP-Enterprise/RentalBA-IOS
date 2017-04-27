@@ -8,9 +8,9 @@
 
 #ifdef __OBJC__
 
+
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
-
 
 //tag 值     DBmainViewController  100  ;
 
@@ -26,6 +26,9 @@
 
 
 #define Host @"http://www.gjcar.com"
+//182.61.39.65:80
+
+//#define Host @"http://182.61.22.80"
 
 
 //baseView.backgroundColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
@@ -49,9 +52,10 @@
 #import "AFNetworking.h"
 #import "DBNetworkTool.h"
 
+#import "MBProgressHUD.h"
+
 //布局
 #import "Masonry.h"
-
 
 //#import <tingyunApp/NBSAppAgent.h>
 //加载图片
@@ -82,25 +86,15 @@
 
 #endif /* PrefixHeader_pch */
 
-
 /*
- 
  参数
- 
  takeState   "0"         "1"
-    
             送车上门      门店取车
  */
-
 /*
- 
  2016.9.10 周6 
- 
  优惠券 活动  选择后价格计算 没有完场 
- 
- 
- 
- 
+
  */
 
 

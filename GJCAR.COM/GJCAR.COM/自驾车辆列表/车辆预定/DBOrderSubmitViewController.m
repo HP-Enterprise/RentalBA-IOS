@@ -24,6 +24,8 @@
 @interface DBOrderSubmitViewController ()<UIScrollViewDelegate,UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
 
 {
+    UIButton * showCarBt ;
+    
     DBTextField *nameFiled;
 
     DBTextField *cardNumberFiled;
@@ -417,6 +419,12 @@
     }
 
     
+    NSString* deviceType = [UIDevice currentDevice].model;
+    NSLog(@"deviceType = %@", deviceType);
+    if ([deviceType isEqualToString:@"iPad"]) {
+        
+        _orderScrollView.contentSize = CGSizeMake(ScreenWidth, _orderScrollView.contentSize.height + 80 );
+    }
 
     _orderScrollView.delegate = self;
 
@@ -685,10 +693,7 @@
     lineView1.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     [_orderScrollView addSubview:lineView1];
 
-    
-    
     //取还车
-    
     
     [self createPlace:lineView1.frame];
     
@@ -727,9 +732,14 @@
     }
     else
     {
-        takePlace.text =[NSString stringWithFormat:@"%@(%@)",[[user objectForKey:@"takeStore"]objectForKey:@"storeName"],[[user objectForKey:@"takeStore"]objectForKey:@"storeAddr"]] ;
+        takePlace.text =[NSString stringWithFormat:@"%@(%@)",[[user objectForKey:@"takeStore"]objectForKey:@"storeName"],[[user objectForKey:@"takeStore"]objectForKey:@"detailAddress"]] ;
 
     }
+    
+    
+    DBLog(@"%@",[user objectForKey:@"takeStore"]);
+    
+    
     
     takePlace.numberOfLines = 2 ;
     takePlace.font = [ UIFont systemFontOfSize:11];
@@ -798,10 +808,12 @@
     }
     else
     {
-        retuenPlace.text =[NSString stringWithFormat:@"%@(%@)",[[user objectForKey:@"returnStore"]objectForKey:@"storeName"],[[user objectForKey:@"returnStore"]objectForKey:@"storeAddr"]] ;
+        retuenPlace.text =[NSString stringWithFormat:@"%@(%@)",[[user objectForKey:@"returnStore"]objectForKey:@"storeName"],[[user objectForKey:@"returnStore"]objectForKey:@"detailAddress"]] ;
 
-          }
+    }
 
+    
+    
     
     
     retuenPlace.numberOfLines = 2 ;
@@ -1682,12 +1694,7 @@
     UIView * diflineView2 = [[UIView alloc]initWithFrame:CGRectMake( 0 ,CGRectGetMaxY(difCostLabel.frame) , ScreenWidth , 0.5)];
     diflineView2.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     
-    
 
-    
-    
-    
-    
     if (![[self.priceDic objectForKey:@"doorToDoor"]isKindOfClass:[NSNull class]] && [self.priceDic objectForKey:@"doorToDoor"]  && [NSArray arrayWithArray:[self.priceDic objectForKey:@"doorToDoor"]].count > 0  ) {
         
  
@@ -1766,6 +1773,8 @@
     reduceExplace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(reducelineView.frame)+10 , reduce.frame.origin.y, ScreenWidth / 3 +20, reduce.frame.size.height)];
     reduceExplace.font = [ UIFont systemFontOfSize:11];
     reduceExplace.adjustsFontSizeToFitWidth = YES ;
+    reduceExplace.text = [self.activityDic objectForKey:@"activityDescription"];
+    
     
     
 //    reduceExplace.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
@@ -1866,14 +1875,13 @@
     
     if (![[self.priceDic objectForKey:@"activityShows"] isKindOfClass:[NSNull class]])
     {
-       
+        totleCostView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(takeStatelineView.frame), ScreenWidth  , 80)];
+
         [totleCostView addSubview:reduce];
         [totleCostView addSubview:reducelineView];
         [totleCostView addSubview:reducelastlineView];
         [totleCostView addSubview:reduceExplace];
-        
         [totleCostView addSubview:reducePrice];
-        
         if (![[self.priceDic objectForKey:@"toStoreReduce"]isKindOfClass:[NSNull class]]) {
           
             
@@ -1884,12 +1892,8 @@
             [totleCostView addSubview:getCarStorelineView];
             [totleCostView addSubview:getCarStorelastlineView];
             [totleCostView addSubview:getCarStoreExplace];
-            
             [totleCostView addSubview:getCarStorePrice];
-            
-            
-            
-            
+
             CGSize scroller =_orderScrollView.contentSize ;
             
             scroller.height += 80 ;
@@ -1904,23 +1908,12 @@
             
             scroller.height += 40 ;
             _orderScrollView.contentSize = scroller ;
-            
-            
             temporaryReduceFrame.origin.y = CGRectGetMaxY(reduce.frame);
         }
         
-        
-       
 
         activityId = [[[self.priceDic objectForKey:@"activityShows"]firstObject]objectForKey:@"id"];
-        
-        
-        
-        
-        
-        
-        
- 
+
     }
     else
     {
@@ -2100,7 +2093,7 @@
     
     //创建提交按钮
     //显示更多车辆按钮
-    UIButton * showCarBt = [UIButton buttonWithType:UIButtonTypeCustom];
+    showCarBt = [UIButton buttonWithType:UIButtonTypeCustom];
     showCarBt.frame = CGRectMake(50, CGRectGetMaxY(View.frame)+20 , ScreenWidth - 100  , 30 );
     [showCarBt setTitle:@"确认订单" forState:UIControlStateNormal];
     
@@ -2109,6 +2102,7 @@
     showCarBt.titleLabel.font = [UIFont systemFontOfSize:12 ];
     showCarBt.layer.cornerRadius = 5 ;
     showCarBt.backgroundColor =[UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
+    showCarBt.selected = YES ;
     
 //    [showCarBt addTarget:self action:@selector(changeColor:) forControlEvents:UIControlEventTouchDown];
     [showCarBt addTarget:self action:@selector(sumbitBt:) forControlEvents:UIControlEventTouchUpInside];
@@ -3113,6 +3107,25 @@
 {
 //    button.backgroundColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
 
+    
+    
+    
+     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
+    
+    
+    
+    
+    if ( button.selected == NO) {
+        
+        return ;
+    }
+    
+
      [self.tipView removeFromSuperview];
     
     UIView * agreement = [self.view viewWithTag:553];
@@ -3126,19 +3139,19 @@
     else if ([userInfoDic objectForKey:@"credentialNumber"]==nil || [[userInfoDic objectForKey:@"credentialNumber"]isKindOfClass:[NSNull class]] || [[userInfoDic objectForKey:@"credentialNumber"]isEqualToString:@""]  || [userInfoDic objectForKey:@"realName"]==nil || [[userInfoDic objectForKey:@"realName"]isKindOfClass:[NSNull class]] || [[userInfoDic objectForKey:@"realName"]isEqualToString:@""])
     {
         
-        [self sumbitUserInfo];
+        [self sumbitUserInfo:button];
     }
     
     else
     {
-        [self sumbitOrder];
+        [self sumbitOrder:button];
         
     }
 
 }
 
 #pragma mark  ---提交身份信息
--(void)sumbitUserInfo
+-(void)sumbitUserInfo:(UIButton*)button
 {
     NSString * url =[NSString stringWithFormat:@"%@/api/me",Host];
     //    NSString * url = @"http://www.rental.hpecar.com/api/me";
@@ -3190,7 +3203,7 @@
             [userInfoDic setValue:[NSString stringWithFormat:@"%@",nameFiled.field.text] forKey:@"realName"];
 
             
-            [self sumbitOrder];
+            [self sumbitOrder:button];
             
         }
         else
@@ -3245,12 +3258,9 @@
 }
 
 #pragma mark  ---提交订单信息
--(void)sumbitOrder
+-(void)sumbitOrder:(UIButton*)button
 {
-    
-    
-    
-    
+    [self.tipView removeFromSuperview];
     
     __weak typeof(self) weak_self = self ;
     [DBNetworkTool judgeIsBlacGET:nil parameters:nil success:^(id responseObject) {
@@ -3267,7 +3277,7 @@
         }
         else{
             
-            [weak_self judgeIsblack];
+            [weak_self judgeIsblack:(UIButton*)button];
         }
         
         
@@ -3276,16 +3286,17 @@
         [weak_self tipShow:@"数据加载失败"];
         
     }];
-    
-    
-    
 }
 
 
 
--(void)judgeIsblack{
+-(void)judgeIsblack:(UIButton*)button{
     
-    
+
+    button.selected =NO ;
+
+    [self.tipView removeFromSuperview];
+
     NSLog(@"订单提交");
     
     NSString * url;
@@ -3301,8 +3312,8 @@
     {
         url = [NSString stringWithFormat:@"%@/api/door/user/order",Host];
         //        url = [NSString stringWithFormat:@"%@/api/user/%@/doortodoororder",Host,[user objectForKey:@"userId"]];
-        
     }
+    
     
     NSMutableDictionary * parDic = [NSMutableDictionary dictionary];
     
@@ -3332,14 +3343,14 @@
     NSLog(@"%@",parDic);
     NSLog(@"以上是订单参数*************************************************");
     
-    [self addProgress];
+
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     
     __weak typeof(self)weak_self = self ;
     [DBNetworkTool addOrderPost:url parameters:parDic success:^(id responseObject) {
  
-        [self removeProgress];
-        
-        NSLog(@"%@",responseObject);
+              NSLog(@"%@",responseObject);
         
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
@@ -3353,7 +3364,7 @@
             order.orderNumber =[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"message"]];
             
             [UIView animateWithDuration:2 animations:^{
-                
+
                 [weak_self tipShow:@"下单成功"];
 
             } completion:^(BOOL finished) {
@@ -3368,9 +3379,16 @@
             [weak_self tipShow:[responseObject objectForKey:@"message"]];
         }
         
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        button.selected = YES ;
+
+        
     } failure:^(NSError *error)
      
      {
+         [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+         button.selected = YES ;
          NSLog(@"%@",error);
          [weak_self tipShow:@"数据加载失败"];
          [self removeProgress];

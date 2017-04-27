@@ -94,6 +94,9 @@
         [self removeProgress];
         NSLog(@"%@",responseObject);
       
+        
+        
+        
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
             _voucherArray = [responseObject objectForKey:@"message"];

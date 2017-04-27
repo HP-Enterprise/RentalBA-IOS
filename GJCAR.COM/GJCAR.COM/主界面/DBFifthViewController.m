@@ -141,11 +141,7 @@
     
     CGRect viewFrame = scrollView.frame ;
     
-    
-    
-    
-    
-    
+
     if (CGRectGetMaxY(viewFrame)+ 94 > keyboardPoint.y)
     {
         
@@ -166,9 +162,7 @@
         keyboardDidShow = YES;
         
     }
-    
-    
-    
+
 }
 
 - (void)keyBoardDidHide:(NSNotification *)notif {

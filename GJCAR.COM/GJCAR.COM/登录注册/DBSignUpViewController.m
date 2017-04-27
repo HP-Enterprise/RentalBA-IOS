@@ -9,6 +9,7 @@
 
 #import "DBSignUpViewController.h"
 
+#import "DBSurveillance.h"
 
 @interface DBSignUpViewController ()<UITextFieldDelegate>
 
@@ -39,11 +40,8 @@
     [nav.leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     
 
-    
     UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 63.5, ScreenWidth , 0.5)];
     lineView.backgroundColor = [DBcommonUtils getColor:@"9e9e9f"];
-    
-
     
 }
 
@@ -215,15 +213,12 @@
              parDic[@"channel"]= @"sms";
              parDic[@"purpose"] =@"register";
           
-             //测试环境
             NSString *url  =[NSString stringWithFormat:@"%@/api/verify",Host];
              
              //演示
 //             NSString*url = @"http://www.rental.hpecar.com/api/verify";
     
              [DBNetworkTool codeValidatePOST:url parameters:parDic success:^(id responseObject) {
-                 
-                 
                  
                  [weak_self.tipView removeFromSuperview];
                  [weak_self tipShow:[responseObject objectForKey:@"message"]];
@@ -297,7 +292,6 @@
     
     [self.tipView removeFromSuperview];
     
-    
     userNameField.field.text =  [userNameField.field.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *MOBILE = @"^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
     NSString *CT = @"^1(3|5|8|7)\\d{9}$";
@@ -305,11 +299,8 @@
     NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];  // 小灵通
        NSPredicate *regextestct = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CT];  // 电信
     
-    
     NSString * pwdStr = @"^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,18}$";
     NSPredicate *regextestPwdStr = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", pwdStr];
-    
-    
     
     if(userNameField.field.text.length == 0)
     {
@@ -335,7 +326,6 @@
         
     }
     
-    
     //    else if (![newPwField.field.text isEqualToString:newPwAgField.field.text])
     //    {
     //
@@ -356,11 +346,9 @@
 
 //        NSString * submitUrl = @"http://www.rental.hpecar.com/api/register";
         
-        
         NSMutableDictionary *parDic = [[NSMutableDictionary alloc] init];
         
         NSString * PW = [DBNetworkTool md5Digest:newPwField.field.text];
-        
         
         parDic[@"password"] = PW;
         
@@ -371,23 +359,40 @@
 //        parDic[@""] =@"5";
         
         NSLog(@"%@",ValidateField.field.text);
+    
+        
+        
+//        UIWebView * webView = [[UIWebView alloc]init];
+//        NSURL *url = [NSURL URLWithString: submitUrl];
+//        NSString *body = [NSString stringWithFormat: @"password=%@&phone=%@&code=%@",PW,userNameField.field.text,ValidateField.field.text];
+//        
+//        NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL: url];
+//        [request setHTTPMethod: @"POST"];
+//        [request setHTTPBody: [body dataUsingEncoding: NSUTF8StringEncoding]];
+//        [self.view addSubview:webView];
+//        [webView loadRequest: request];
+
+        
+        
         
 
         [DBNetworkTool verifyPost:submitUrl parameters:parDic success:^(id responseObject)
          {
-             
              NSLog(@"%@",responseObject);
-             
+            
              if ([[responseObject allKeys] containsObject:@"uid"])
              {
-                 
                  NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
                  [user setObject:userNameField.field.text forKey:@"userName"];
                  [user setObject:newPwField.field.text forKey:@"password"];
-                 
+                 [user setObject:[responseObject objectForKey:@"uid"] forKey:@"userId"];
                  [UIView animateWithDuration:2 animations:^{
-                     
+                
                      [self tipShow:@"注册成功"];
+                     
+                     DBSurveillance * surveillance =   [[DBSurveillance alloc] init];
+                     
+                     [surveillance registerReport];
                      
                  } completion:^(BOOL finished) {
                      
@@ -399,19 +404,27 @@
                  }];
                  time = 0;
              }
-             
              else
-                 
              {
-//                 [self.tipView removeFromSuperview];
-                 [self tipShow:[responseObject objectForKey:@"message"]];
-             }
-  
+                 
+                 if ([[responseObject objectForKey:@"message"]isKindOfClass:[NSNull class]]) {
+                     [self tipShow:@"内部错误"];
+
+                 }
+                 else{
+                     [self tipShow:[responseObject objectForKey:@"message"]];
+                 }
+                 DBLog(@"%@",[responseObject objectForKey:@"message"]);
+                 
+                 
+                 
+                 
+//
+                              }
          } failure:^(NSError *error) {
              NSLog(@"%@",error);
 //             [self.tipView removeFromSuperview];
              [self tipShow:@"请检查网络是否可用"];
-
          }];
     }
 }
@@ -419,7 +432,6 @@
 /**
  *  提交注册
  */
-
 
 -(BOOL)textFieldShouldClear:(UITextField *)textField
 {

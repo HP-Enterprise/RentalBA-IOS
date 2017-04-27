@@ -28,7 +28,7 @@
     NSMutableDictionary *attDic = [[NSMutableDictionary alloc] init];
     attDic[NSFontAttributeName] = [UIFont systemFontOfSize:15 / 320.0 * ScreenWidth];
     attDic[NSForegroundColorAttributeName] = [UIColor whiteColor];
-    CGRect strRect = [str boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attDic context:nil];
+    CGRect strRect = [str boundingRectWithSize:CGSizeMake(ScreenWidth, 100) options:NSStringDrawingUsesLineFragmentOrigin attributes:attDic context:nil];
     
     CGFloat tipViewW = strRect.size.width + 30;
     CGFloat tipViewH = ScreenHeight * 0.0625;

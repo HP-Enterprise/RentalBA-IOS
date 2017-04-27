@@ -9,9 +9,7 @@
 #import "AppDelegate.h"
 #import "DBNetManager.h"
 
-
-#import "DBKeyChain.h"
-#import "DBSurveillance.h"
+#import "DBNetwork.h"
 //首页
 #import "DBmainViewController.h"
 
@@ -44,7 +42,7 @@
 //修改身份证
 #import "DBSetCardInfoViewController.h"
 
-
+#import "DBSurveillance.h"
 
 @interface AppDelegate ()<BMKGeneralDelegate>
 
@@ -93,10 +91,9 @@
     //设置数据库
     [self setDBFM];
     
-    //激活申报
+#pragma mark 首次激活申报
     [self activateReport];
-    
-    
+
     
     
     return YES;
@@ -151,15 +148,11 @@
 #pragma mark 首次激活申报
 -(void)activateReport{
 
-    if ([DBKeyChain loadIDFa]) {
-        DBLog(@"%@",[DBKeyChain loadIDFa]);
-    }
-    else{
-        DBLog(@"%@",[DBSurveillance getIDFA]);
-        [DBKeyChain saveIDFAdata:nil];
-    }
+    DBSurveillance * surveillance =   [[DBSurveillance alloc] init];
+
+    [surveillance activateReport];
     
-    
+
 }
 
 #pragma mark 设置网络监控
@@ -185,7 +178,6 @@
         if (status != 0 ) {
         
 //            [[NSNotificationCenter defaultCenter]postNotificationName:@"netChange" object:nil];
-
         }
         NSLog(@"*********************************************网络状态  %ld",status);
 

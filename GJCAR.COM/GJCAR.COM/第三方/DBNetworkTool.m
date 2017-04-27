@@ -108,8 +108,6 @@
         
         
         
-        
-        
         if(success) {
             
             DBLog(@"%@",responseObject);
@@ -123,6 +121,7 @@
             DBLog(@"%@",error);
 
             failure(error);
+            
         }
     }];
 }
@@ -139,8 +138,6 @@
 //
 //    NSLog(@"token打印出来了%@",[user objectForKey:@"token"]);
     
-   
-
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
    
      manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -155,6 +152,7 @@
         }
     }];
 }
+
 
 //DELETE 方法调用
 + (void)DELETE:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure {
@@ -255,6 +253,8 @@
             success(responseObject);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+       
+        
         if(failure) {
             failure(error);
         }
@@ -268,8 +268,7 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    
-    
+
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     
     [manager.requestSerializer setValue:[user objectForKey:@"token"] forHTTPHeaderField:@"cookie"];

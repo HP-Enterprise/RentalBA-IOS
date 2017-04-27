@@ -861,6 +861,15 @@ static NSString * tele = @"400-653-6600" ;
     
     UIImageView * activityView = [[UIImageView alloc]initWithFrame:CGRectMake( 20, ScreenHeight - 150   , 90, 33   )];
 
+    
+    NSString* deviceType = [UIDevice currentDevice].model;
+    NSLog(@"deviceType = %@", deviceType);
+    if ([deviceType isEqualToString:@"iPad"]) {
+        
+        activityView.frame = CGRectMake( 20, ScreenHeight - 70   , 90, 33   );
+        
+    }
+    
     activityView.image = [UIImage imageNamed:@"versionImage"];
     [view addSubview:activityView];
     

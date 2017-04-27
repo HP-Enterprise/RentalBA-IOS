@@ -32,8 +32,6 @@
 {
     BMKReverseGeoCodeOption * _reverseGeoCodeOption ;
     
-    
-    
     BMKUserLocation *_userLocation;
     CLLocationManager * _locationManger;
     int curPage;
@@ -301,11 +299,8 @@
         // 开启定位
     self.locationService.delegate = self;
 
-    
-    
     //跟随定位状态
     _mapView.userTrackingMode = BMKUserTrackingModeFollow;
-    
     _mapView.showsUserLocation = YES;
     
     BMKLocationViewDisplayParam *displayParam = [[BMKLocationViewDisplayParam alloc]init];
@@ -315,10 +310,8 @@
     displayParam.locationViewOffsetX = 0;//定位偏移量(经度)
     displayParam.locationViewOffsetY = 0;//定位偏移量（纬度）
     [_mapView updateLocationViewWithParam:displayParam];
-    
     self.locationService.allowsBackgroundLocationUpdates = NO;
     self.locationService.pausesLocationUpdatesAutomatically = YES;
-    
     [self.locationService startUserLocationService];
 }
 
@@ -374,27 +367,18 @@
 
 -(void)searchCity
 {
-    
-    
-    
-    
-    if (_searcher == nil)
-    {
+
+    if (_searcher == nil){
         _searcher =[[BMKGeoCodeSearch alloc]init];
         _searcher.delegate = self;
         _reverseGeoCodeOption = [[BMKReverseGeoCodeOption alloc]init];
-
     }
 
-    
 //
     _reverseGeoCodeOption.reverseGeoPoint = self.mapView.centerCoordinate;
-  
-    
     //反向编码代理
 //    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
     
-    _reverseGeoCodeOption.reverseGeoPoint = self.mapView.centerCoordinate;
     //_userLocation.location.coordinate;
     BOOL flag = [_searcher reverseGeoCode:_reverseGeoCodeOption];
     
@@ -531,11 +515,8 @@
 (BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error{
     if (error == BMK_SEARCH_NO_ERROR) {
 
-        
         NSLog(@"反向编码结果%@",[NSString stringWithFormat:@"%@",result.addressDetail.city]);
-        
-        
-        
+
         NSDictionary * location = [NSDictionary dictionaryWithObjects:@[[NSString stringWithFormat:@"%f",result.location.latitude],[NSString stringWithFormat:@"%f",result.location.longitude]] forKeys:@[@"latitude",@"longitude"]];
         
         NSDictionary * dic = [NSDictionary dictionaryWithObjects:@[result.addressDetail.city,result.addressDetail.streetName,result.address,location] forKeys:@[@"city",@"streetName",@"address",@"location"]];

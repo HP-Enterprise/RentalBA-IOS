@@ -83,8 +83,19 @@
 -(void)createUI
 {
     
-    DBExplainView * explainView = [[DBExplainView alloc]initWithFrame:CGRectMake(0, 64, ScreenWidth, ScreenHeight) withData:_userInfo];
+    DBExplainView * explainView = [[DBExplainView alloc]initWithFrame:CGRectMake(0, 64, ScreenWidth,225) withData:_userInfo];
     [self.view addSubview:explainView];
+    
+    UIWebView * webView = [[UIWebView alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(explainView.frame), ScreenWidth, ScreenHeight - CGRectGetMaxY(explainView.frame))];
+    
+    NSString *filePath = [[NSBundle mainBundle]pathForResource:@"level" ofType:@"html"];
+    NSString *htmlString = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    [webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:filePath]];
+    
+    [self.view addSubview:webView];
+
+    
+    
 
 }
 

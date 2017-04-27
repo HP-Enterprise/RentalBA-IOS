@@ -243,7 +243,6 @@
 
 + (NSInteger)firstWeekdayInThisMonth:(NSDate *)date with:(NSString*)datestr {
     
-    
     if (datestr != nil)
     {
         NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
@@ -251,7 +250,6 @@
         date = [formatter dateFromString:datestr];
     }
 
-    
     NSCalendar *calendar = [NSCalendar currentCalendar];
     [calendar setFirstWeekday:1];//1.Sun. 2.Mon. 3.Thes. 4.Wed. 5.Thur. 6.Fri. 7.Sat.
     NSDateComponents *comp = [calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:date];
@@ -290,6 +288,9 @@
 }
 
 +(void)clearCache:(NSString *)path{
+    
+    path = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Caches"];
+    
     NSFileManager *fileManager=[NSFileManager defaultManager];
     if ([fileManager fileExistsAtPath:path]) {
         NSArray *childerFiles=[fileManager subpathsAtPath:path];

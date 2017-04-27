@@ -634,13 +634,9 @@
 }
 - (void)tipShow:(NSString *)str
 {
-    
-    
-    
     self.tipView = [[DBTipView alloc]initWithHeight:0.8 * ScreenHeight WithMessage:str];
     [self.view addSubview:self.tipView];
-    
-    
+
 }
 
 -(void)viewWillAppear:(BOOL)animated

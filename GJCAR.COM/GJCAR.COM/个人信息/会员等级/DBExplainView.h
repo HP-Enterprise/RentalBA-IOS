@@ -10,6 +10,9 @@
 #import "DBUserInfoModel.h"
 
 @interface DBExplainView : UIView <UIScrollViewDelegate>
+{
+    CGRect oldframe ;
+}
 
 @property (nonatomic,strong)UIScrollView * myScrollView ;
 @property(nonatomic,strong)UIView * contenView;

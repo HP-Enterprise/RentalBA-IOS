@@ -223,6 +223,13 @@
     
     _scrollView.contentSize = CGSizeMake(ScreenWidth, ScreenHeight +150 + severs.count* 40 );
    
+    NSString* deviceType = [UIDevice currentDevice].model;
+    NSLog(@"deviceType = %@", deviceType);
+    if ([deviceType isEqualToString:@"iPad"]) {
+        
+        _scrollView.contentSize = CGSizeMake(ScreenWidth, ScreenHeight +200 + severs.count* 40 );
+    }
+    
     
     _scrollView.showsVerticalScrollIndicator = NO ;
     _scrollView.showsHorizontalScrollIndicator = NO ;

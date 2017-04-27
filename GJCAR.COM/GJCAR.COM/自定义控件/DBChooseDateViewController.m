@@ -157,7 +157,20 @@
     
     //判断是否有本地文件
     NSString *path = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"daysList"];
+    
+    
+    
+
+    
     NSFileManager *manager = [NSFileManager defaultManager];
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        
+         [manager removeItemAtPath:path error:nil];
+        
+    });
+    
     
     
     if ([manager fileExistsAtPath:path]) {
@@ -174,7 +187,6 @@
             NSArray * tempAyyay = @[@"31",[self LeepYear:i] ? @"29" : @"28",@"31",@"30",@"31",@"30",@"31",@"31",@"30",@"31",@"30",@"31"];
 
 
-            
             for (int j = 1 ; j<13 ; j++ )
             {
                 
@@ -183,7 +195,8 @@
                 for (int z = 1 ;  z <= [tempAyyay[j-1]integerValue]; z ++)
                 {
             
-                    NSString * week = [DBcommonUtils weekdayStringFromDate:nil withDateStr:[NSString stringWithFormat:@"2016-%.2d-%.2d 10:00:00",j,z]];
+                    
+                    NSString * week = [DBcommonUtils weekdayStringFromDate:nil withDateStr:[NSString stringWithFormat:@"%d-%.2d-%.2d 10:00:00",i,j,z]];
                     
                     [dayArray addObject:[NSString stringWithFormat:@"%02d日 %@",z,week]];
 
@@ -204,6 +217,7 @@
             [_yearArray addObject:dic];
 
           [_yearArray writeToFile:path atomically:YES];
+           
         }
     }
 
@@ -290,13 +304,12 @@
     {
          _rowYear = row ;
         
-        
         self.date = [NSString stringWithFormat:@"%@-%02ld-%02ld",[_yearArray[row]objectForKey:@"year"],_rowMonth+1,_rowDay+1];
         
         [self.pickerView reloadAllComponents];
         
-        
     }
+    
     else if (component ==1)
     {
         _rowMonth = row ;

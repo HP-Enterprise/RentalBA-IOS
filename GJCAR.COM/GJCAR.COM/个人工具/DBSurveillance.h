@@ -11,9 +11,9 @@
 
 //#import <AdSupport/AdSupport.h>
 //首先导入头文件信息
-#include <ifaddrs.h>
-#include <arpa/inet.h>
-#include <net/if.h>
+//#include <ifaddrs.h>
+//#include <arpa/inet.h>
+//#include <net/if.h>
 
 @interface DBSurveillance : NSObject
 
@@ -33,11 +33,16 @@
 @property (nonatomic,copy)NSString * sign ;
 @property (nonatomic,copy)NSString * userid ;
 
-
+- (NSDictionary*)getActiveInfoDic ;
+- (NSDictionary*)getRegisterInfoDic ;
 
 //+(NSString*)getIDFA ;
-- (NSString *)getIPAddress:(BOOL)preferIPv4;
+//- (NSString *)getIPAddress:(BOOL)preferIPv4;
 
+#pragma mark 首次激活申报
+-(void)activateReport;
+#pragma mark 注册申报
+-(void)registerReport;
 
 
 @end

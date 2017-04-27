@@ -234,9 +234,7 @@
         
         net.changePwBlock = ^(NSDictionary *dic)
         {
-            
-            
-            
+
             if ([[dic objectForKey:@"status"]isEqualToString:@"true"])
             {
          

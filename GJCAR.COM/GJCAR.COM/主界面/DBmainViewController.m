@@ -400,22 +400,17 @@
                 takedic[@"longitude"] = [[array firstObject] objectForKey:@"longitude"];
                 takedic[@"storeAddr"] = [[array firstObject] objectForKey:@"storeAddr"];
                 takedic[@"storeName"] = [[array firstObject] objectForKey:@"storeName"];
+                takedic[@"detailAddress"] = [[array firstObject] objectForKey:@"detailAddress"];
                 takedic[@"id"] = [weak_self.storeDic objectForKey:@"id"];
-                
                 weak_self.storeDic = takedic ;
-                
                 weak_self.takeStoreDic = takedic ;
-                
                 [user setObject:takedic forKey:@"takeStore"];
                 //            [user setObject:returndic forKey:@"returnStore"];
-                
                 [weak_self.MapViewC setStoreAnnotationWith:takedic];
-                
                 takeplace.text =[weak_self.storeDic objectForKey:@"storeName"];
                 //            takeWeekTime.text=[NSString stringWithFormat:@"%@ %@",[takeWeekTime.text substringWithRange:NSMakeRange(0, 2)],[[array firstObject] objectForKey:@"businessHoursStart"]];
                 
                 if (_returnStoreDic == nil || [_returnStoreDic isKindOfClass:[NSNull class]] || _returnStoreDic.count == 0) {
-                    
                     weak_self.returnStoreDic = takedic ;
                 }
                 
@@ -460,7 +455,7 @@
             if (array.count > 0 )
             {
                 weak_self.storeDic = [array firstObject];
-                
+                weak_self.returnStoreDic = [array firstObject];
                 
                 //            NSMutableDictionary * takedic =[NSMutableDictionary dictionary];
                 NSMutableDictionary * returndic =[NSMutableDictionary dictionary];
@@ -472,6 +467,9 @@
                 returndic[@"longitude"] = [[array firstObject] objectForKey:@"longitude"];
                 returndic[@"storeAddr"] = [[array firstObject] objectForKey:@"storeAddr"];
                 returndic[@"storeName"] = [[array firstObject] objectForKey:@"storeName"];
+                returndic[@"detailAddress"] = [[array firstObject] objectForKey:@"detailAddress"];
+
+                
                 returndic[@"id"] = [[array firstObject] objectForKey:@"id"];
                 
                 
@@ -555,22 +553,17 @@
             if ([self.takeCityName isEqualToString:[NSString stringWithFormat:@"%@市",[dic objectForKey:@"cityName"]]])
             {
                 
-                
                  NSLog(@"%@",[NSString stringWithFormat:@"%@市",[dic objectForKey:@"cityName"]]);
-
                 takeCity.text = [dic objectForKey:@"cityName"] ;
                 returnCity.text = [dic objectForKey:@"cityName"] ;
 
-
                 _takeCityInfoDic = dic ;
                 _returnCityInfoDic = dic ;
-            
-                
-                
+
                 [user setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]] forKey:@"takeCityId"];
                 [user setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"id"]] forKey:@"returnCityId"];
                 
-                
+
                 
                 self.takeCityName  = [NSString stringWithFormat:@"%@市",[dic objectForKey:@"cityName"]];
                 
@@ -663,8 +656,18 @@
 
 
     NSUserDefaults * user =[NSUserDefaults standardUserDefaults];
+    UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0, ControlHeight /2 - 20, ScreenWidth, ControlHeight /2  + 20)];
     
-    UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0, ControlHeight /2 - 30, ScreenWidth, ControlHeight /2  + 30)];
+    
+    NSString* deviceType = [UIDevice currentDevice].model;
+    NSLog(@"deviceType = %@", deviceType);
+    if ([deviceType isEqualToString:@"iPad"]) {
+        
+        baseView.frame = CGRectMake(0, ControlHeight /2 - 50, ScreenWidth, ControlHeight /2  + 50);
+        
+    }
+    
+    
     baseView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:baseView];
     
@@ -1644,15 +1647,13 @@
          //门店
         if ([weak_self.takeState isEqualToString:@"1"])
         {
-            
-            
-            
+
             if ([index isEqualToString:@"take"])
             {
                 
                 //城市信息
                 weak_self.takeCityInfoDic = city ;
-                
+                weak_self.returnCityInfoDic = city ;
                 takeLabel.text = [NSString stringWithFormat:@"%@市",[city objectForKey:@"cityName"]];
                 returnLabel.text = [NSString stringWithFormat:@"%@市",[city objectForKey:@"cityName"]];
                 
@@ -1666,7 +1667,7 @@
                 
                 [self loadStoreDatawithStr:@"take"];
 
-
+            
                 weak_self.returnCityId = [NSString stringWithFormat:@"%@",[city objectForKey:@"id"]];
                 weak_self.returnCityName  = [NSString stringWithFormat:@"%@市",[city objectForKey:@"cityName"]];
                 
@@ -1795,6 +1796,8 @@
             takedic[@"longitude"] = [store objectForKey:@"longitude"];
             takedic[@"storeAddr"] = [store objectForKey:@"storeAddr"];
             takedic[@"storeName"] = [store objectForKey:@"storeName"];
+            takedic[@"detailAddress"] = [store objectForKey:@"detailAddress"];
+
             takedic[@"id"] = [NSString stringWithFormat:@"%@",[store objectForKey:@"id"]];
             [user setObject:takedic forKey:@"takeStore"];
             
@@ -1813,6 +1816,9 @@
                 returndic[@"longitude"] = [store objectForKey:@"longitude"];
                 returndic[@"storeAddr"] = [store objectForKey:@"storeAddr"];
                 returndic[@"storeName"] = [store objectForKey:@"storeName"];
+                returndic[@"detailAddress"] = [store objectForKey:@"detailAddress"];
+                
+                
                 returndic[@"id"] = [NSString stringWithFormat:@"%@",[store objectForKey:@"id"]];
                 
                 [user setObject:returndic forKey:@"returnStore"];
@@ -1843,6 +1849,9 @@
             returndic[@"longitude"] = [store objectForKey:@"longitude"];
             returndic[@"storeAddr"] = [store objectForKey:@"storeAddr"];
             returndic[@"storeName"] = [store objectForKey:@"storeName"];
+            returndic[@"detailAddress"] = [store objectForKey:@"detailAddress"];
+            
+            
             returndic[@"id"] = [NSString stringWithFormat:@"%@",[store objectForKey:@"id"]];
 
            
@@ -2199,20 +2208,29 @@
                 [user setObject:[NSString stringWithFormat:@"%@ %@",week,hour] forKey:@"takeWeek"];
                 
                 
-                
+                NSString * returnstr;
                 if (days == 88)
                 {
-                    [user setObject:[DBcommonUtils dateWithDays:1 frome:str] forKey:@"returnCarDate"];
+                    returnstr = [DBcommonUtils dateWithDays:1 frome:str] ;
                 }
                 else if(days < 88){
+                    returnstr = [DBcommonUtils dateWithDays:2 frome:str] ;
                     
-                    [user setObject:[DBcommonUtils dateWithDays:2 frome:str] forKey:@"returnCarDate"];
                 }
+                [user setObject:returnstr forKey:@"returnCarDate"];
                 
                 
+                NSString* returntimeStr =[NSString stringWithFormat:@"%@ %@",returnstr,[NSString stringWithFormat:@"%@:00",hour]];
+ 
+
+                NSDate*returndate = [formatter dateFromString:returntimeStr];
+
+                NSString * returnweek =[DBcommonUtils weekdayStringFromDate:returndate withDateStr:nil];
+                
+                [user setObject:[NSString stringWithFormat:@"%@ %@",returnweek,hour] forKey:@"returnWeek"];
                 
                 
-                [UIView animateWithDuration:0.3 animations:^{
+                [UIView animateWithDuration:0.1 animations:^{
                     
                     CGRect frame = weak_datePicker.view.frame ;
                     frame = CGRectMake(0, ControlHeight , ScreenWidth, 240);
@@ -2240,7 +2258,7 @@
 
         }
         else{
-            [UIView animateWithDuration:0.3 animations:^{
+            [UIView animateWithDuration:0.1 animations:^{
                 
                 CGRect frame = weak_datePicker.view.frame ;
                 frame = CGRectMake(0, ControlHeight , ScreenWidth, 240);
@@ -2283,7 +2301,7 @@
 
 
     __weak typeof(self)weak_self =self ;
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:0.1 animations:^{
         
         CGRect frame = weak_self.datePicker.view.frame ;
         frame = CGRectMake(0, ControlHeight - 240, ScreenWidth, 240);
@@ -2310,6 +2328,10 @@
     __weak typeof(_datePicker)weak_datePicker = _datePicker;
     _datePicker.DateBlock = ^(NSString * str,NSString * newhour,NSInteger index)
     {
+        
+        
+        
+        
         [weak_self.tipView removeFromSuperview];
         
         NSLog(@"taketimeStr:%@",[user objectForKey:@"takeCarDate"]);
@@ -2430,7 +2452,7 @@
                 dayLabel.text =[NSString stringWithFormat:@"%ld",(long)days] ;
                     
 
-                [UIView animateWithDuration:0.3 animations:^{
+                [UIView animateWithDuration:0.1 animations:^{
                     
                     CGRect frame = weak_datePicker.view.frame ;
                     frame  = CGRectMake(0, ControlHeight , ScreenWidth, 240);
@@ -2645,13 +2667,9 @@
         
     }
     
-    
-    
     BOOL isIn =  BMKPolygonContainsCoordinate(CLLocationCoordinate2DMake(coor.latitude, coor.longitude), coords,_serveScopeArray.count );
     
-    
-    
-    
+
     return isIn;
     
     

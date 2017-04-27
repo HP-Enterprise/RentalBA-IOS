@@ -277,16 +277,12 @@
         parDic[@"latitude"] =[self.takeStoreInfoDic objectForKey:@"latitude"];
         parDic[@"longitude"] =[self.takeStoreInfoDic objectForKey:@"longitude"];
 //        parDic[@"takeCarStoreId"] =@"7";
-        
         parDic[@"takeCarStoreId"] =[self.takeStoreInfoDic objectForKey:@"id"];
-        
         parDic[@"returnCarCityId"] =[self.returnCityInfoDic objectForKey:@"id"];
         parDic[@"returnCarStoreId"] =[self.returnStoreInfoDic objectForKey:@"id"];
-        
         NSLog(@"%@",parDic[@"takeCarStoreId"]);
         
     }
-    
     NSLog(@"%@",self.takeCityInfoDic);
     NSLog(@"%@",[self.takeCityInfoDic objectForKey:@"id"]);
     NSLog(@"%@",parDic[@"latitude"]);
@@ -294,13 +290,15 @@
 
 //    __weak typeof(self)weak_self = self;
 
+    
     [DBNetworkTool Get:url parameters:parDic success:^(id responseObject) {
         
         [self removeProgress];
         
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
-            
+
+
            if ([responseObject objectForKey:@"message"] == nil || [[responseObject objectForKey:@"message"]isKindOfClass:[NSNull class]] || [[responseObject objectForKey:@"message"]isKindOfClass:[NSArray class]])
             {
                 
@@ -1340,6 +1338,10 @@
     [[BaiduMobStat defaultStat]pageviewEndWithName:@"短租自驾车辆列表"];
 }
 - (void)didReceiveMemoryWarning {
+    
+    
+    
+    
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

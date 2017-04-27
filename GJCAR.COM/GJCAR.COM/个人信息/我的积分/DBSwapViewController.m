@@ -92,31 +92,31 @@
             NSMutableArray * coupArray = [NSMutableArray array];
             NSInteger applySource ;
 
-            
-            
+        
             for (NSDictionary * dic in [responseObject objectForKey:@"message"]) {
                 
-                
-                
+
                 if (![[dic objectForKey:@"applySource"] isKindOfClass:[NSNull class]] && ![[dic objectForKey:@"applySource"]isEqualToString:@""]) {
                     
                     applySource = [[dic objectForKey:@"applySource"]integerValue];
-                    
-                    
-                    if (applySource == 2) {
+
+                    if (applySource == 2 || applySource == 0) {
                         
                         [coupArray addObject:dic];
                     }
-                }
-                else{
-                    [coupArray addObject:dic];
- 
-                }
 
+                }
+                
             }
             
+
             _couponArray = [NSArray arrayWithArray:coupArray];
             
+            if (_couponArray.count  ==  0) {
+                
+                [self tipShow:@"没有可兑换的优惠券"];
+                
+            }
             [_tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
             
         }

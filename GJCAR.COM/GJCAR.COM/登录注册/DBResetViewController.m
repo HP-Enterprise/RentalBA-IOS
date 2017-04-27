@@ -145,8 +145,7 @@
         NSString * url =[NSString stringWithFormat:@"%@/api/resetpwd",Host];
 //        NSString * url =@"http://www.rental.hpecar.com/api/resetpwd";
         
-        
-        
+
         DBNetworkTool *net = [[DBNetworkTool alloc]init];
         [net changePwdPUT:url parameters:dic];
         net.changePwBlock = ^(NSDictionary *dic)

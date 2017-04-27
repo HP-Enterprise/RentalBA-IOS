@@ -428,7 +428,6 @@
 {
     
     //当前定位城市
-    
     UIView * location = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(frame), ScreenWidth, 20)];
     location.backgroundColor = [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1] ;
     [self.view addSubview:location];
@@ -674,9 +673,6 @@
 //标签数
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    
-    
-    
     return _indexArray.count;
 }
 
@@ -692,8 +688,6 @@
 //点击右侧索引表项时调用
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
 
-    
-    
     NSString *key = [_indexArray objectAtIndex:index];
     NSLog(@"sectionForSectionIndexTitle key=%@",key);
     
@@ -709,17 +703,9 @@
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
 
     NSInteger count ;
-    
-    
-    
-    
-    
 
     if ([user objectForKey:@"historyCity"]) {
-        
-        
-        
-        
+
         if (indexPath.section == 0)
         {
             return 50 ;
@@ -739,13 +725,10 @@
 
     }
     else{
-        
-        
-        
+
         if (indexPath.section == 0)
         {
-            
- 
+
             if ([NSArray arrayWithArray:_dataArray[0]].count%3 == 0)
             {
                 count =  [NSArray arrayWithArray:_dataArray[0]].count/3;
@@ -828,11 +811,8 @@
             [weak_self.navigationController popViewControllerAnimated:YES];
         };
         return cell;
-
     }
-    
-    
-    
+
     
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cityCell"];
     if (cell == nil)
@@ -860,7 +840,6 @@
         
         if (indexPath.section > 1)
         {
-           
             self.cityChooseBlock(_dataArray[indexPath.section][indexPath.row],self.index);
             
             [self addHistoryCity:_dataArray[indexPath.section][indexPath.row]];
