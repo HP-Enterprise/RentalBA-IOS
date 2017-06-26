@@ -9,7 +9,7 @@
 #import "DBVoucherViewController.h"
 
 #import "DBvoucherTableViewCell.h"
-@interface DBVoucherViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface DBVoucherViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
 {
     UILabel * none ;
@@ -26,7 +26,7 @@
 @property (nonatomic,strong)UIButton * lastBt;
 
 @property (nonatomic,strong)NSString * state;
-
+@property (nonatomic,strong)UIView * tipView ;
 
 @property (nonatomic,strong)NSArray * voucherArray ;
 
@@ -136,11 +136,16 @@
 {
     
     self.view.backgroundColor = [UIColor whiteColor];
-    DBNavgationView * nav = [[DBNavgationView alloc]initNavgationWithTitle:@"我的优惠券" withLeftBtImage:@"back" withRightImage:nil withFrame:CGRectMake(0, 0, ScreenWidth , 64)];
+    
+    
+//    DBNavgationView * nav = [[DBNavgationView alloc]initNavgationWithTitle:@"我的优惠券" withLeftBtImage:@"back" withRightImage:nil withFrame:CGRectMake(0, 0, ScreenWidth , 64)];
+    
+    
+    DBNavgationView * nav = [[DBNavgationView alloc]initNavgationWithTitle:@"我的优惠券" withLeftBtImage:@"back" withRightImage:nil withRightTitle:@"兑换优惠券" withFrame:CGRectMake(0, 0, ScreenWidth , 64)];
     [self.view addSubview:nav];
     
     [nav.leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    
+    [nav.rightButton addTarget:self action:@selector(showView) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -152,13 +157,8 @@
     UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, ScreenWidth, 30)];
     baseView.backgroundColor =[UIColor colorWithRed:0.94 green:1 blue:1 alpha:1];
     [self.view addSubview:baseView];
-    
-    
-    
-    
-    
+
     //创建分类按钮
-    
     //未使用的优惠券
     UIButton * wouldUser = [UIButton buttonWithType:UIButtonTypeCustom];
     
@@ -316,20 +316,117 @@
     
 }
 
-
+#pragma mark -- 导航栏点击事件
 -(void)back
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)showView{
+    
+    
+    
+    [TCAlertView shareManage].field.field.text = @"";
+    [TCAlertView shareManage].field.field.delegate = self ;
+    [[TCAlertView shareManage]showAlertWithMessage:@"兑换优惠券" Block:^{
 
--(void)viewWillAppear:(BOOL)animated
+        [self.tipView removeFromSuperview];
+        if ([[TCAlertView shareManage].field.field.text isEqualToString:@""]) {
+            
+            [self tipShow:@"请输入兑换码"];
+        }
+        else{
+            
+            [self exchangeCoupon] ;
+        }
+        
+    }];
+    
+}
+
+//兑换优惠券
+
+-(void)exchangeCoupon{
+    [self addProgress];
+
+    NSString * newStr = [[TCAlertView shareManage].field.field.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    NSString * url = [NSString stringWithFormat:@"%@/api/me/coupon/receive?number=%@",Host,newStr];
+    
+    [DBNetworkTool exchangeCouponPost:url parameters:nil success:^(id responseObject) {
+        
+        [[TCAlertView shareManage] closeView];
+        
+        if ([[responseObject allKeys]containsObject:@"message"]) {
+            
+            if ([[responseObject objectForKey:@"message"]isKindOfClass:[NSString class]]) {
+                
+                [self tipShow:[responseObject objectForKey:@"message"]];
+                
+                if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
+
+                }
+                else{
+                    [TCAlertView shareManage].field.field.text = @"" ;
+                }
+            }
+        }
+
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
+                
+                [self loadData];
+            }
+        });
+        
+        [self removeProgress];
+       
+    } failure:^(NSError *error) {
+        
+        [self tipShow:@"连接失败"];
+
+    }];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
+{  //string就是此时输入的那个字符textField就是此时正在输入的那个输入框返回YES就是可以改变输入框的值NO相反
+    
+    
+    NSString * toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string]; //得到输入框的内容
+    
+    DBLog(@"%@",toBeString);
+    if ([TCAlertView shareManage].field.field == textField)  //判断是否时我们想要限定的那个输入框
+    {
+        NSString *CT = @"^[A-Za-z0-9]+$";
+        NSPredicate *regextestct = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CT];
+        
+        if ([regextestct evaluateWithObject:toBeString] == YES)
+        {
+            return YES ;
+        }
+        else if ([toBeString isEqualToString:@""]){
+            return YES ;
+        }
+        
+    }
+    return  NO ;
+
+}
+
+
+
+- (void)tipShow:(NSString *)str
 {
     
+    self.tipView = [[DBTipView alloc]initWithHeight:0.8 * ScreenHeight WithMessage:str];
+    [self.view addSubview:self.tipView];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:YES];
     [[NSNotificationCenter defaultCenter]postNotificationName:@"tabBarHid" object:nil];
-    
     
     //    [[NSNotificationCenter defaultCenter]postNotificationName:@"tabBarShow" object:nil];
 }

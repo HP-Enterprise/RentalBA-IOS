@@ -174,10 +174,7 @@
 }
 
 #pragma mark ******************************加载数据
--(void)loadCitys
-{
-    
-    
+-(void)loadCitys{
     
     if (_cityArray == nil)
     {
@@ -194,7 +191,7 @@
         _takeStoreDic  = [ NSDictionary dictionary];
         
         
-        NSString  * url =[NSString stringWithFormat:@"%@/api/china/city",Host];
+        NSString  * url =[NSString stringWithFormat:@"%@/api/china/cityHasStore?available=1&isLocation=1",Host];
         
         __weak typeof(self)weak_self = self;
         
@@ -400,11 +397,14 @@
                 takedic[@"longitude"] = [[array firstObject] objectForKey:@"longitude"];
                 takedic[@"storeAddr"] = [[array firstObject] objectForKey:@"storeAddr"];
                 takedic[@"storeName"] = [[array firstObject] objectForKey:@"storeName"];
-                takedic[@"detailAddress"] = [[array firstObject] objectForKey:@"detailAddress"];
+                takedic[@"detailAddress"] = [NSString stringWithFormat:@"%@",[[array firstObject] objectForKey:@"detailAddress"]];
                 takedic[@"id"] = [weak_self.storeDic objectForKey:@"id"];
                 weak_self.storeDic = takedic ;
                 weak_self.takeStoreDic = takedic ;
-                [user setObject:takedic forKey:@"takeStore"];
+                NSDictionary * dic = [NSDictionary dictionaryWithDictionary:takedic];
+                
+                
+                [user setObject:dic forKey:@"takeStore"];
                 //            [user setObject:returndic forKey:@"returnStore"];
                 [weak_self.MapViewC setStoreAnnotationWith:takedic];
                 takeplace.text =[weak_self.storeDic objectForKey:@"storeName"];
@@ -467,13 +467,14 @@
                 returndic[@"longitude"] = [[array firstObject] objectForKey:@"longitude"];
                 returndic[@"storeAddr"] = [[array firstObject] objectForKey:@"storeAddr"];
                 returndic[@"storeName"] = [[array firstObject] objectForKey:@"storeName"];
-                returndic[@"detailAddress"] = [[array firstObject] objectForKey:@"detailAddress"];
+                returndic[@"detailAddress"] = [NSString stringWithFormat:@"%@",[[array firstObject] objectForKey:@"detailAddress"]];
 
                 
                 returndic[@"id"] = [[array firstObject] objectForKey:@"id"];
                 
+                NSDictionary * dic = [NSDictionary dictionaryWithDictionary:returndic];
                 
-                [user setObject:returndic forKey:@"returnStore"];
+                [user setObject:dic forKey:@"returnStore"];
                 
                 
                 returnplace.text =[weak_self.storeDic objectForKey:@"storeName"];
@@ -1490,11 +1491,8 @@
     DBCityStoreViewController * store = [[DBCityStoreViewController alloc]init];
     
     
-    switch (control.tag)
-    {
-        case 111:
-        {
-            
+    switch (control.tag){
+        case 111:{
             //index 用来标记取车 还车之分
             cityList.indexKind = 0;
             cityList.index = @"take";
@@ -1502,35 +1500,29 @@
             
         }
             break;
-        case 112:
-        {
+        case 112: {
             cityList.indexKind = 0;
             cityList.index = @"return";
              [self.navigationController pushViewController:cityList animated:YES];
         }
             break;
       
-        case 113:
-        {
+        case 113: {
             
             // takeState 用来标记门店取车还是送车上门
             
-            if (self.takeCityName != nil)
-            {
+            if (self.takeCityName != nil) {
             
                 if ([self.takeState isEqualToString:@"0"])
                 {
                     
                     choosePlace.index = @"take";
-                    if ([[_takeCityInfoDic objectForKey:@"latitude"]isKindOfClass:[NSNull class]])
-                    {
+                    if ([[_takeCityInfoDic objectForKey:@"latitude"]isKindOfClass:[NSNull class]])  {
                         [self tipShow:@"数据错误"];
                     }
-                    else
-                    {
+                    else   {
                         choosePlace.takeCityInfoDic = _takeCityInfoDic ;
-                        if (self.coor.latitude != 0)
-                        {
+                        if (self.coor.latitude != 0)  {
                             choosePlace.coor = self.coor ;
 
                         }
@@ -1553,8 +1545,7 @@
                     
                 }
             }
-            else
-            {
+            else {
                 [self tipShow:@"请先选择城市"];
             }
             
@@ -1571,20 +1562,17 @@
                 if (self.returnCityName != nil)
                     
                 {
-                    if ([self.takeState isEqualToString:@"0"])
-                    {
+                    if ([self.takeState isEqualToString:@"0"]){
                         
                         choosePlace.index = @"return";
                         
-                        if ([[_returnCityInfoDic objectForKey:@"latitude"]isKindOfClass:[NSNull class]])
-                        {
+                        if ([[_returnCityInfoDic objectForKey:@"latitude"]isKindOfClass:[NSNull class]]) {
                             [self tipShow:@"数据错误"];
                         }
                         else
                         {
                             choosePlace.takeCityInfoDic = _returnCityInfoDic ;
-                            if (self.coor.latitude != 0)
-                            {
+                            if (self.coor.latitude != 0) {
                                 choosePlace.coor = self.coor ;
                                 
                             }
@@ -1594,7 +1582,6 @@
                             
                             
                             [self.navigationController pushViewController:choosePlace animated:YES];
-                            
                         }
                         
                     }
@@ -1763,25 +1750,18 @@
 
     store.storeChooseBlock = ^(NSDictionary *store,NSString * index)
     {
-        
-        
-        
-        if ([[store objectForKey:@"latitude"]isKindOfClass:[NSNull class]]|| [store objectForKey:@"latitude"] ==nil )
-        {
+
+        if ([[store objectForKey:@"latitude"]isKindOfClass:[NSNull class]]|| [store objectForKey:@"latitude"] ==nil ){
             return ;
         }
-        else
-        {
-            
-        
-            [weak_self.MapViewC setStoreAnnotationWith:store];
+        else{
 
+            [weak_self.MapViewC setStoreAnnotationWith:store];
         }
         
         
         
-        if ([index isEqualToString:@"take"])
-        {
+        if ([index isEqualToString:@"take"]){
 
             takeStore.text = [store objectForKey:@"storeName"];
             
@@ -1796,7 +1776,7 @@
             takedic[@"longitude"] = [store objectForKey:@"longitude"];
             takedic[@"storeAddr"] = [store objectForKey:@"storeAddr"];
             takedic[@"storeName"] = [store objectForKey:@"storeName"];
-            takedic[@"detailAddress"] = [store objectForKey:@"detailAddress"];
+            takedic[@"detailAddress"] = [NSString stringWithFormat:@"%@",[store objectForKey:@"detailAddress"]];
 
             takedic[@"id"] = [NSString stringWithFormat:@"%@",[store objectForKey:@"id"]];
             [user setObject:takedic forKey:@"takeStore"];
@@ -1816,7 +1796,7 @@
                 returndic[@"longitude"] = [store objectForKey:@"longitude"];
                 returndic[@"storeAddr"] = [store objectForKey:@"storeAddr"];
                 returndic[@"storeName"] = [store objectForKey:@"storeName"];
-                returndic[@"detailAddress"] = [store objectForKey:@"detailAddress"];
+                returndic[@"detailAddress"] = [NSString stringWithFormat:@"%@",[store objectForKey:@"detailAddress"]];
                 
                 
                 returndic[@"id"] = [NSString stringWithFormat:@"%@",[store objectForKey:@"id"]];
@@ -1831,7 +1811,6 @@
             
             weak_self.takeStoreDic = takedic;
             weak_self.storeDic = takedic ;
- 
 
         }
         
@@ -1854,15 +1833,12 @@
             
             returndic[@"id"] = [NSString stringWithFormat:@"%@",[store objectForKey:@"id"]];
 
-           
-            
             weak_self.returnStoreDic = returndic ;
             [user setObject:returndic forKey:@"returnStore"];
 
         }
     };
-    
-    
+
     //地点显示
 
     choosePlace.placeChooseBlock = ^(NSDictionary * place,NSString *index)

@@ -187,12 +187,16 @@
         cell = [[DBStoreListTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"storeCell"];
     }
 
+    if (![[_storeArray[indexPath.row]objectForKey:@"storeName"]isKindOfClass:[NSNull class]]) {
+        cell.storeName.text = [NSString stringWithFormat:@"%@",[_storeArray[indexPath.row]objectForKey:@"storeName"]];
+
+    }
     
-    
-    
-    cell.storeName.text = [_storeArray[indexPath.row]objectForKey:@"storeName"];
-    cell.storeAddr.text = [_storeArray[indexPath.row]objectForKey:@"detailAddress"];
-    
+    if (![[_storeArray[indexPath.row]objectForKey:@"detailAddress"] isKindOfClass:[NSNull class]]) {
+        cell.storeAddr.text = [NSString stringWithFormat:@"%@",[_storeArray[indexPath.row]objectForKey:@"detailAddress"]];
+       
+    }
+
     cell.selectionStyle = 0 ;
     return cell ;
 
@@ -205,23 +209,16 @@
     [self.tipView removeFromSuperview];
     
     
-    
-    if ([[_storeArray[indexPath.row] objectForKey:@"latitude"]isKindOfClass:[NSNull class]]|| [_storeArray[indexPath.row] objectForKey:@"latitude"] ==nil)
-    {
-        
+    if ([[_storeArray[indexPath.row] objectForKey:@"latitude"]isKindOfClass:[NSNull class]]|| [_storeArray[indexPath.row] objectForKey:@"latitude"] ==nil){
         [self tipShow:@"数据错误"];
         
     }
-    else
-    {
-        
-        
-        
+    else if ([[_storeArray[indexPath.row] objectForKey:@"detailAddress"]isKindOfClass:[NSNull class]]){
+        [self tipShow:@"数据错误"];
+    }
+    else{
         self.storeChooseBlock(_storeArray[indexPath.row],self.index);
-        
-        
         [self.navigationController popViewControllerAnimated:YES];
-
     }
    
 }

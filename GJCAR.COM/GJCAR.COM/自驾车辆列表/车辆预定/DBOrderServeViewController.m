@@ -693,34 +693,31 @@
             
 
                 
-            if ([[_priceDic objectForKey:@"daySum"]integerValue]<=7)
-            {
-                price = [commissionstr integerValue]* [[_priceDic objectForKey:@"daySum"]integerValue];
-                
-                commissionStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"￥ %@X%@=%ld(上限7天)",commissionstr,[_priceDic objectForKey:@"daySum"],price]];
-                
-            }
+//            if ([[_priceDic objectForKey:@"daySum"]integerValue]<=7){
+//                
+//                
+//                price = [commissionstr integerValue]* [[_priceDic objectForKey:@"daySum"]integerValue];
+//                commissionStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"￥ %@X%@=%ld(上限7天)",commissionstr,[_priceDic objectForKey:@"daySum"],price]];
+//            }
+//            else{
+//                
+//                price = [commissionstr integerValue]* 7;
+//                commissionStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"均价50元/天(上限7天,每30天一周期)，共65天",commissionstr,@"7",price]];
+//            }
             
-            else
-                
-            {
-                price = [commissionstr integerValue]* 7;
-                
-                
-                commissionStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"￥ %@X%@=%ld(上限7天)",commissionstr,@"7",price]];
-            }
             
 
-            
-            //
+            price = [DBcommonUtils calculateRegardless:[[_priceDic objectForKey:@"daySum"]integerValue]] * [commissionstr integerValue];
+            commissionStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"￥ %ld",price]];
+
             //    [str addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(0,5)];
             //    [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(6,12)];
             //    [str addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:NSMakeRange(19,6)];
             [commissionStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, 1)];
-            [commissionStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(1, commissionStr.length-1)];
+            [commissionStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(1, commissionStr.length-1)];
             //    [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(19, 6)];
             commission.attributedText = commissionStr;
-            
+
             //选择开关
             
             //    UISwitch * commissionSwitch = [UISwitch
@@ -733,13 +730,13 @@
             commissionSwitch.onTintColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
             
             [baseView addSubview:commissionSwitch];
-            [commissionSwitch addTarget:self action:@selector(switchIsOn:) forControlEvents:UIControlEventTouchUpInside];
+//            [commissionSwitch addTarget:self action:@selector(switchIsOn:) forControlEvents:UIControlEventTouchUpInside];
+            [commissionSwitch addTarget:self action:@selector(switchs:) forControlEvents:UIControlEventValueChanged];
+            
             [commissionSwitch setSelected:NO];
             commissionSwitch.tag = 500;
             
-            
-            
-            
+
             //保险费分割线
             UIView * lineView2 = [[UIView alloc]initWithFrame:CGRectMake( 20 , CGRectGetMaxY(commission.frame) , ScreenWidth - 40 , 0.5)];
             lineView2.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
@@ -1159,10 +1156,7 @@
     
     
 }
--(void)switchIsOn:(UISwitch*)switchs
-{
-    
-
+-(void)switchIsOn:(UISwitch*)switchs{
     
     if (switchs.isOn == YES)
     {
@@ -1174,13 +1168,23 @@
 
     }
 
+}
+-(void)switchs:(UISwitch*)switchs{
     
-
-    
+    if (switchs.isOn == YES)
+    {
+        [_chooseAddValueArr addObject:_addValueArr[switchs.tag - 500]];
+    }
+    else if (switchs.isOn == NO)
+    {
+        [_chooseAddValueArr removeObject:_addValueArr[switchs.tag - 500]];
+        
+    }
 }
 
-- (void)tipShow:(NSString *)str
-{
+
+
+- (void)tipShow:(NSString *)str{
     
     self.tipView = [[DBTipView alloc]initWithHeight:0.8 * ScreenHeight WithMessage:str];
     [self.view addSubview:self.tipView];

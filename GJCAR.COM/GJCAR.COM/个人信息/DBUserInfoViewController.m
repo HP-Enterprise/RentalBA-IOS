@@ -230,7 +230,9 @@
     
     
     UIImageView * imageV = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth - 60 , 5, 30, 30 )];
-    imageV.image = [UIImage imageNamed:@"xmen.jpg"];
+    imageV.layer.cornerRadius = 15 ;
+    imageV.layer.masksToBounds = YES ;
+    imageV.image = [UIImage imageNamed:@"newUserImage"];
     [baseView addSubview:imageV];
     
 

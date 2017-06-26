@@ -45,7 +45,15 @@
 }
 
 
+//计算不计免赔
++ (NSInteger)calculateRegardless:(NSInteger)days{
+    
 
+    NSInteger costDay  =   days / 30 * 7  +  (days % 30 > 7 ? 7 : days % 30) ;
+    return costDay ;
+    
+    
+}
 
 //计算字符串长度
 +(CGSize)calculateStringLenth:(NSString*)string withWidth:(CGFloat)width withFontSize:(NSInteger)font

@@ -388,28 +388,28 @@
 
     _priceArray = [NSArray array];
         
-    NSString * url = [NSString stringWithFormat:@"%@/api/rentalPack/prices",Host];
+    NSString * url = [NSString stringWithFormat:@"%@/api/rentalPack/prices_a",Host];
     
 
-    NSString * startDate =[[user objectForKey:@"takeCarDate"] stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate];
+//    NSString * startDate =[[user objectForKey:@"takeCarDate"] stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate];
  
     NSString * endMonth =[_nowDate substringWithRange:NSMakeRange(5, 2) ];
 
-    NSString * endDate = [startDate stringByReplacingCharactersInRange:NSMakeRange(5, 2) withString:[NSString stringWithFormat:@"%02ld",[endMonth integerValue]+1]];
-
+//    NSString * endDate = [startDate stringByReplacingCharactersInRange:NSMakeRange(5, 2) withString:[NSString stringWithFormat:@"%02ld",[endMonth integerValue]+1]];
+    
+    
+    NSString * startDate = @"2017-07-01";
+    NSString * endDate = @"2017-08-01";
     
     NSMutableDictionary * parDic = [NSMutableDictionary dictionary];
     
     
     parDic[@"startDate"] = [startDate stringByReplacingCharactersInRange:NSMakeRange(8, 2) withString:@"01"];
     
-    
     parDic[@"endDate"] = [endDate stringByReplacingCharactersInRange:NSMakeRange(8, 2) withString:@"01"];;
-    
     
     parDic[@"modelId"] =  [[user objectForKey:@"carSection"]objectForKey:@"modelId"] ;
 
-    
     parDic[@"storeId"] = [[user objectForKey:@"carSection"]objectForKey:@"storeId"] ;
 
     
@@ -418,16 +418,16 @@
     [DBNetworkTool Get:url parameters:parDic success:^(id responseObject) {
         
 
-        if ([[responseObject objectForKey:@"status"] isEqualToString:@"true"])
-        {
+        if ([[responseObject objectForKey:@"status"] isEqualToString:@"true"]){
 
             _priceArray = [NSArray arrayWithArray:[responseObject objectForKey:@"message"]] ;
-            
-            
-            
+
+//            NSMutableArray * newArr = [NSMutableArray arrayWithArray:_priceArray];
+//            [newArr replaceObjectAtIndex:0 withObject:[NSNull alloc]];
+//            _priceArray = [NSArray arrayWithArray:newArr];
+//            
             [self rentalDate:days];
 
-            
         }
         
     } failure:^(NSError *error) {
@@ -474,7 +474,6 @@
 
      [cell config:nil];
    
-
     if (_daysArray.count > 0 )
     {
 
@@ -507,32 +506,18 @@
                 }
                 
             }
-            
-            
-            
 
             NSLog(@"%@",_priceArray[index-1]);
-            
-            
-            
-            
 
             if ([_priceArray[index-1]isKindOfClass:[NSNull class]])
             {
                 cell.priceLable.text =@"_";
-
             }
-
-            else
-            {
-                
+            else{
                 NSDictionary * dic = _priceArray[index-1] ;
-                
 
                 NSString *  date  = [[NSString stringWithFormat:@"%@",[dic objectForKey:@"date"]] substringWithRange:NSMakeRange(8, 2)];
 
-                    
-                    
                 if ([date integerValue] == index)
                 {
                     cell.priceLable.text =[NSString stringWithFormat:@"￥%@",[_priceArray[index-1]objectForKey:@"rentalAmount"]];
@@ -601,6 +586,7 @@
             {
                 if ([index isEqualToString:@"next"])
                 {
+                    
                     if ([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:endMonth]== -1)
                     {
                         

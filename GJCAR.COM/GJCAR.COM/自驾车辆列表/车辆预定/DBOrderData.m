@@ -150,14 +150,9 @@
             if ([[dic objectForKey:@"chargeName"]isEqualToString:@"不计免赔"]){
 
                 NSLog(@"%ld",[[priceDic objectForKey:@"daySum"]integerValue]);
+            
+                poundage[@"serviceAmount"] = [NSString stringWithFormat:@"%ld",[[details objectForKey:@"price"]integerValue]* [DBcommonUtils calculateRegardless:[[priceDic objectForKey:@"daySum"]integerValue]]] ;
                 
-                if ([[priceDic objectForKey:@"daySum"]integerValue]<=7)  {
-                    poundage[@"serviceAmount"] = [NSString stringWithFormat:@"%ld",[[details objectForKey:@"price"]integerValue]* [[priceDic objectForKey:@"daySum"]integerValue]] ;
-                }
-                
-                else {
-                    poundage[@"serviceAmount"] = [NSString stringWithFormat:@"%ld",[[details objectForKey:@"price"]integerValue]* 7] ;
-                }
             }
             else{
                 poundage[@"serviceAmount"] = [NSString stringWithFormat:@"%@",[details objectForKey:@"price"]];

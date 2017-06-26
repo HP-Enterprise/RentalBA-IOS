@@ -46,12 +46,10 @@
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 #define ControlHeight ([UIScreen mainScreen].bounds.size.height - 90)
 
-
 #define BascColor [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1]
 //网络请求
 #import "AFNetworking.h"
 #import "DBNetworkTool.h"
-
 #import "MBProgressHUD.h"
 
 //布局
@@ -80,7 +78,7 @@
 #import "DBAlertView.h"
 #import "DBTipView.h"
 #import "DBProgressAnimation.h"
-
+#import "TCAlertView.h"
 //百度统计
 #import "BaiduMobStat.h"
 

@@ -71,7 +71,9 @@ typedef void (^cancelOrderBlock)(id dic);
 //查询订单
 + (void)checkOrderGET:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
 
+//兑换优惠券
 
++ (void)exchangeCouponPost:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;
 
 #pragma mark 赶脚
 +(void)getAllCitysGET:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure;

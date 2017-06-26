@@ -13,10 +13,8 @@
 // 用户首次激活
 + (void)activateStatisticalPOST:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure {
     
-    
     url = [NSString stringWithFormat:@"%@/api/advertise/jf/ios/active",Host];
-    
-    
+
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -27,25 +25,20 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         if(success) {
-            
             DBLog(@"%@",[responseObject objectForKey:@"message"]);
             success(responseObject);
-            
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if(failure) {
-            
             DBLog(@"%@",error);
             failure(error);
-            
         }
     }];
 }
 
 // 用户注册
 + (void)sigUpStatisticalPOST:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure {
-    
     
     url = [NSString stringWithFormat:@"%@/api/advertise/jf/ios/register",Host];
     

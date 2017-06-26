@@ -1286,8 +1286,8 @@
                 
                 UILabel * commission = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(lineView1.frame)+15 , commissionLabel.frame.origin.y, ScreenWidth / 3 + 20, commissionLabel.frame.size.height)];
                 
-                commission.font = [UIFont systemFontOfSize:12];
-                
+                commission.font = [UIFont systemFontOfSize:10];
+                commission.numberOfLines = 2 ;
                 commission.adjustsFontSizeToFitWidth = YES;
                 
                 [addbaseView addSubview:commission];
@@ -1304,36 +1304,34 @@
                 
                 premiumCostTotal.textAlignment = 2;
                 
-                
                 [addbaseView addSubview:premiumCostTotal];
-                
                 
                 NSString * days = _model.tenancyDays ;
                 NSString * dayPrice;
                 
                 price = [commissionstr integerValue];
-                
-                
- 
+
                 if ([[array[i]objectForKey:@"description"]isEqualToString:@"不计免赔"])
                 {
 
-                   
-                    if ([days integerValue]<=7)
-
-                    {
-                        dayPrice  =[NSString stringWithFormat:@"%ld",[commissionstr integerValue]/[ days integerValue]];
-                        commission.text = [NSString stringWithFormat:@"均价%@元/天(上限7天),共%@天",dayPrice,days];
-                    }
-                    else
-                        
-                    {
-                        dayPrice  =[NSString stringWithFormat:@"%ld",[commissionstr integerValue]/7];
-                        commission.text = [NSString stringWithFormat:@"均价%@元/天(上限7天),共7天",dayPrice];
-                    }
+//                    if ([days integerValue]<=7)
+//
+//                    {
+//                        dayPrice  =[NSString stringWithFormat:@"%ld",[commissionstr integerValue]/[ days integerValue]];
+//                        commission.text = [NSString stringWithFormat:@"均价%@元/天(上限7天),共%@天",dayPrice,days];
+//                    }
+//                    else
+//                        
+//                    {
+//                        dayPrice  =[NSString stringWithFormat:@"%ld",[commissionstr integerValue]/7];
+//                        commission.text = [NSString stringWithFormat:@"均价%@元/天(上限7天),共7天",dayPrice];
+//                    }
                     
+                    dayPrice =[NSString stringWithFormat:@"%ld",price /[DBcommonUtils calculateRegardless:[days integerValue]]]  ;
+                    commission.text = [NSString stringWithFormat:@"均价%@元/天(上限7天,每30天一周期),共%@天",dayPrice,days];
+
                 }
-                
+
                 else
                 {
                     commission.text = [NSString stringWithFormat:@"均价%@元/次,共1次",commissionstr];

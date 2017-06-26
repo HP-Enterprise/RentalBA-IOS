@@ -40,7 +40,7 @@
 -(void)createUserInfo
 {
     //用户头像
-    UIView * userImage =[[DBSelfView alloc]initWithFrame:CGRectMake(0 , 0, ScreenWidth, 40) withTitle:@"头像" withInfo:[UIImage imageNamed:@"xmen.jpg"] withUserEnble:NO];
+    UIView * userImage =[[DBSelfView alloc]initWithFrame:CGRectMake(0 , 0, ScreenWidth, 40) withTitle:@"头像" withInfo:[UIImage imageNamed:@"newUserImage"] withUserEnble:NO];
     [self addSubview:userImage];
 
     //昵称

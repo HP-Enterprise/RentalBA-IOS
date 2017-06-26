@@ -18,6 +18,9 @@ typedef void (^checknetblock)(NSInteger index);
 //判断新版本
 +(BOOL)isFirstBuldVesion;
 
+//计算不计免赔
++ (NSInteger)calculateRegardless:(NSInteger)days;
+
 
 //计算字符串长度
 +(CGSize)calculateStringLenth:(NSString*)string withWidth:(CGFloat)width withFontSize:(NSInteger)font;

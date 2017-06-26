@@ -7,13 +7,13 @@
 //
 
 #import "DBActiveDetailViewController.h"
-#import <JavaScriptCore/JavaScriptCore.h>
+
 
 
 @interface DBActiveDetailViewController ()<UIScrollViewDelegate,UIWebViewDelegate>
 @property (nonatomic,strong)UIWebView * webView;
 @property (nonatomic)CGFloat historyY;
-@property (nonatomic,strong)JSContext * context ;
+//@property (nonatomic,strong)JSContext * context ;
 @end
 
 @implementation DBActiveDetailViewController
@@ -81,13 +81,13 @@
     
     // 打印异常,由于JS的异常信息是不会在OC中被直接打印的,所以我们在这里添加打印异常信息,
     
-    self.context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-    self.context.exceptionHandler =
-    ^(JSContext *context, JSValue *exceptionValue)
-    {
-        context.exception = exceptionValue;
-        DBLog(@"%@", exceptionValue);
-    };
+//    self.context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+//    self.context.exceptionHandler =
+//    ^(JSContext *context, JSValue *exceptionValue)
+//    {
+//        context.exception = exceptionValue;
+//        DBLog(@"%@", exceptionValue);
+//    };
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType

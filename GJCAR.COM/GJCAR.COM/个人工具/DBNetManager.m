@@ -10,7 +10,6 @@
 
 @implementation DBNetManager
 
-
 //创建网络监测单例
 + (DBNetManager *)sharedManager
 
@@ -18,7 +17,6 @@
     static DBNetManager * netManager = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
-        
         netManager = [[self alloc] init];
     });
     

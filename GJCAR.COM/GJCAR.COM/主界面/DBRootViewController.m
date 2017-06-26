@@ -530,7 +530,9 @@ static NSString * tele = @"400-653-6600" ;
     
     //创建个人信息头像
     UIImageView * userImage = [[UIImageView alloc]initWithFrame:CGRectMake(20, 50   , 60  ,  60  )];
-    userImage.image = [UIImage imageNamed:@"xmen.jpg"];
+    userImage.image = [UIImage imageNamed:@"newUserImage"];
+    userImage.layer.masksToBounds = YES ;
+    userImage.layer.cornerRadius = 30 ;
     [infoView addSubview:userImage];
     userImage.tag = 399 ;
     
@@ -836,7 +838,7 @@ static NSString * tele = @"400-653-6600" ;
     
     name.text = _userInfo.nickName;
     phone.text  =[NSString stringWithFormat:@"%@",_userInfo.phone] ; 
-    imageV.image = [UIImage imageNamed:@"xmen.jpg"];
+    imageV.image = [UIImage imageNamed:@"newUserImage"];
     
     
 //    DBManager * manager = [DBManager shareManager];
@@ -1367,7 +1369,7 @@ static NSString * tele = @"400-653-6600" ;
     
     UIImageView * imageV = [self.view viewWithTag:399];
 
-    imageV.image = [UIImage imageNamed:@"userImage"];
+    imageV.image = [UIImage imageNamed:@"newUserImage"];
 
 }
 
@@ -1403,22 +1405,19 @@ static NSString * tele = @"400-653-6600" ;
                 NSString * oldVersion = [oldversion stringByReplacingOccurrencesOfString:@"." withString:@""];
                 
                 if ([newVersion integerValue] > [oldVersion integerValue]) {
-                    
 //                    UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight )];
 //                    [self.view addSubview:backView];
 //                    backView.backgroundColor = [UIColor colorWithRed:0.69 green:0.69 blue:0.68 alpha:1];
 //                    backView.alpha = 0.3 ;
 //                    [self.view bringSubviewToFront:backView];
                     NSString * flag = [NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"message"]objectForKey:@"forceUpdate"]];
-                    
-                    
+
                     //                 UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight )];
                     //                 [weak_self.view addSubview:backView];
                     //                 backView.backgroundColor = [UIColor colorWithRed:0.69 green:0.69 blue:0.68 alpha:1];
                     //                 backView.alpha = 0.3 ;
                     //                 [weak_self.view bringSubviewToFront:backView];
 
-                    
                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"有新版本可供更新" message:nil preferredStyle:UIAlertControllerStyleAlert];
                     
                     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -1431,25 +1430,19 @@ static NSString * tele = @"400-653-6600" ;
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                             [self loadVersion];
                         });
-
-                    
                     }];
                     
                     if ([flag isEqualToString:@"0"]){
                         [alertController addAction:cancelAction];
                     }
-                    
                     [alertController addAction:okAction];
 
                     [self presentViewController:alertController animated:YES completion:nil];
-
                 }
             }
-            
         }
-
-    } failure:^(NSError *error) {
         
+    } failure:^(NSError *error) {
     }];
     
 }

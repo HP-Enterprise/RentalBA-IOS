@@ -37,7 +37,7 @@ static CGRect oldframe;
     //用户头像
     UIImageView * userImageView = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth/2 - 25 , 30, 50, 50)];
     
-    userImageView.image = [UIImage imageNamed:@"xmen.jpg"];
+    userImageView.image = [UIImage imageNamed:@"newUserImage"];
     userImageView.layer.cornerRadius = 25 ;
     userImageView.layer.masksToBounds = YES ;
     [self.contenView addSubview:userImageView];

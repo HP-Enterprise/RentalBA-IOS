@@ -96,11 +96,11 @@
     {
             //加载自驾城市列表
         case 0:
-            url =[NSString stringWithFormat:@"%@/api/china/cityHasStore?isHot=",Host];
+            url =[NSString stringWithFormat:@"%@/api/china/cityHasStore?isHot=&available=1&isLocation=1",Host];
 
             break;
         case 1:
-            url =[NSString stringWithFormat:@"%@/api/china/cityHasStore?isHot=",Host];
+            url =[NSString stringWithFormat:@"%@/api/china/cityHasStore?isHot=&available=1&isLocation=1",Host];
             
             break;
             
@@ -176,12 +176,11 @@
     }];
     
     
-    
 }
 
 -(void)loadHotCity{
     
-    NSString *  url =[NSString stringWithFormat:@"%@/api/china/cityHasStore?isHot=1",Host];
+    NSString *  url =[NSString stringWithFormat:@"%@/api/china/cityHasStore?isHot=1&available=1&isLocation=1",Host];
 
     __weak typeof(self)weak_self = self;
 
@@ -191,8 +190,7 @@
         
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
             
-            if (![[responseObject objectForKey:@"message"] isKindOfClass:[NSNull class]])
-            {
+            if (![[responseObject objectForKey:@"message"] isKindOfClass:[NSNull class]]) {
                 weak_self.hotCitysArray = [responseObject objectForKey:@"message"];
                 
             }

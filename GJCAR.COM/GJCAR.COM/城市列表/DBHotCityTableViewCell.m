@@ -83,16 +83,12 @@
     
 }
 
--(void)config:(NSArray*)array
-{
+-(void)config:(NSArray*)array{
     
-    
-    for (int i  = 0 ; i < array.count; i++)
-    {
+    for (int i  = 0 ; i < array.count; i++){
         UIButton * button = [self.contentView viewWithTag:200 + i];
         [button setTitle:[array[i]objectForKey:@"cityName"] forState:UIControlStateNormal];
     }
-    
     
 }
 

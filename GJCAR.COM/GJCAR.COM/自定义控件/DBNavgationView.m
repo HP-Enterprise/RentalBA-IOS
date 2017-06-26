@@ -32,7 +32,6 @@
 //        baseView.userInteractionEnabled = YES ;
         
         
-        
         [self addSubview:baseView];
         
         
@@ -124,14 +123,12 @@
         {
             if (RightTitle != nil)
             {
-
                 self.rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                self.rightButton.frame = CGRectMake(ScreenWidth - 54, 20, 44, 44);
+                self.rightButton.frame = CGRectMake(ScreenWidth - 74, 20, 64, 44);
                 [self.rightButton setTitle:RightTitle forState:UIControlStateNormal];
                 [self.rightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal] ;
                 
-                
-                self.rightButton.titleLabel.font = [UIFont systemFontOfSize:14];
+                self.rightButton.titleLabel.font = [UIFont systemFontOfSize:12];
                 self.rightButton.titleLabel.textAlignment =1 ;
                 
                 [self addSubview:self.rightButton];

@@ -448,11 +448,8 @@
             [timer invalidate];
             timer = nil;
 //        }
-        
-       
-    }
 
-    
+    }
     return YES;
 }
 

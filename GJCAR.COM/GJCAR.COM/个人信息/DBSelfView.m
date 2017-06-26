@@ -129,7 +129,7 @@
 -(UIImageView*)userImage{
     if (!_userImage) {
         _userImage = [[UIImageView alloc]initWithFrame:CGRectMake(self.frame.size.width - 60 , 5, 30, 30 )];
-        _userImage.image = [UIImage imageNamed:@"xmen.jpg"];
+        _userImage.image = [UIImage imageNamed:@"newUserImage"];
         _userImage.layer.cornerRadius = 14 ;
         _userImage.layer.masksToBounds = YES ;
         [_infoView addSubview:_userImage];

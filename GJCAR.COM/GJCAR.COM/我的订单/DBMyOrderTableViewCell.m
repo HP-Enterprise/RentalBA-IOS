@@ -330,18 +330,15 @@
     
     UILabel * returnLabel = [[UILabel alloc]initWithFrame:CGRectMake(takeLabel.frame.origin.x, CGRectGetMaxY(takeLabel.frame), takeLabel.frame.size.width, 40)];
 
-    if (self.orderIndex == 0)
-    {
+    if (self.orderIndex == 0){
         takeLabel.text = @"取车地点";
         returnLabel.text = @"还车地点";
     }
-    else if (self.orderIndex ==1)
-    {
+    else if (self.orderIndex ==1){
         takeLabel.text = @"取车地点";
         returnLabel.text = @"还车地点";
     }
-    else if (self.orderIndex ==3)
-    {
+    else if (self.orderIndex ==3){
         takeLabel.text = @"取车门店";
         returnLabel.text = @"还车门店";
     }
@@ -383,10 +380,8 @@
     UIView * lineView5 = [[UIView alloc]initWithFrame:CGRectMake( 0, CGRectGetMaxY(lineView4.frame)+20 , ScreenWidth  , 0.5)];
     lineView5.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
     [self addSubview:lineView5];
-    
-    
+
     NSLog(@"%f",CGRectGetMaxY(lineView5.frame));
-    
 }
 
 
@@ -407,8 +402,6 @@
     NSString* encodedString;
     if ([model.orderType isEqualToString:@"2"]) {
         
-        
-        
         encodedString = [[NSString stringWithFormat:@"%@%@",Host,[model.vehicleModelShow.picture stringByReplacingOccurrencesOfString:@".." withString:@""]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         _carName.text = model.vehicleModelShow.model ;
         
@@ -425,13 +418,10 @@
             else{
                 carGroup = @"手动挡";
             }
-            
         }
         
-        
         NSString * trunk ;
-        if (model.vehicleModelShow.carTrunk == nil)
-        {
+        if (model.vehicleModelShow.carTrunk == nil){
             trunk = @"" ;
         }
         
@@ -466,41 +456,28 @@
         _carName.text = model.model ;
         
         NSString * carGroup ;
-        if (model.carGroupstr == nil)
-        {
+        if (model.carGroupstr == nil) {
             carGroup = @"" ;
         }
-        else
-        {
+        else {
             carGroup = model.carGroupstr;
         }
-        
-        
         NSString * trunk ;
-        if (model.carTrunkStr == nil)
-        {
+        if (model.carTrunkStr == nil){
             trunk = @"" ;
         }
-        
-        else
-        {
+        else {
             trunk = model.carTrunkStr ;
         }
-        
         NSString * seats ;
-        if (model.seatsStr == nil)
-        {
+        if (model.seatsStr == nil)  {
             seats = @"" ;
         }
-        else
-        {
+        else{
             seats = model.seatsStr ;
         }
-        
         _carkind.text =[NSString stringWithFormat:@"%@ | %@ | %@",carGroup,trunk,seats];
 
-        
-        
     }
     [_imageV sd_setImageWithURL:[NSURL URLWithString:
                                 encodedString] placeholderImage:[UIImage imageNamed:@"img-05.jpg"]];

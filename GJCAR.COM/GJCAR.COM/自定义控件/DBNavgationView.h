@@ -24,4 +24,6 @@
 
 -(instancetype)initNavgationWithTitle:(NSString*)title withLeftBtImage:(NSString*)LeftImge withRightImage:(NSString*)rightImage withRightTitle:(NSString*)RightTitle withFrame:(CGRect)frame;
 
+
+
 @end
