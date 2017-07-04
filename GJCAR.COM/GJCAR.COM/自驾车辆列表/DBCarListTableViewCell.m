@@ -109,7 +109,6 @@
      NSUserDefaults * user  =[ NSUserDefaults standardUserDefaults];
 
     
-    
 //    NSInteger  startMonth = [[[user objectForKey:@"takeCarDate"]substringWithRange:NSMakeRange(5, 2)]integerValue];
 //
 //    NSInteger  endMonth = [[[user objectForKey:@"returnCarDate"]substringWithRange:NSMakeRange(5, 2)]integerValue];
@@ -139,8 +138,6 @@
         
         week  = [DBcommonUtils firstWeekdayInThisMonth:[NSDate date] with:[NSString stringWithFormat:@"%@ 10:00:00",[user objectForKey:@"takeCarDate"]]];
 
-       
-
     }
 
     else
@@ -151,37 +148,54 @@
             
             NSLog(@"%d",[DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:endDate]);
 
+            _nowDate = [DBcommonUtils setupRequestMonthWithMonth:1 withDate:_nowDate];
             
-            if ([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:endDate]== -1)
-            {
-                
-                _nowDate = [DBcommonUtils setupRequestMonthWithMonth:1 withDate:_nowDate];
+            NSMutableString * date = [user objectForKey:@"takeCarDate"];
+            
+            
+            
+            days = [DBcommonUtils totaldaysInThisMonth:[NSDate date] with:[NSString stringWithFormat:@"%@ 10:00:00",[date stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate]]];
+            
+            week  = [DBcommonUtils firstWeekdayInThisMonth:[NSDate date] with:[NSString stringWithFormat:@"%@ 10:00:00",[date stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate]]];
+            
+            _isFirst = NO;
 
-                NSMutableString * date = [user objectForKey:@"takeCarDate"];
-                
-                
-                
-                days = [DBcommonUtils totaldaysInThisMonth:[NSDate date] with:[NSString stringWithFormat:@"%@ 10:00:00",[date stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate]]];
-                
-                week  = [DBcommonUtils firstWeekdayInThisMonth:[NSDate date] with:[NSString stringWithFormat:@"%@ 10:00:00",[date stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate]]];
-                
-                
-                _isFirst = NO ;
+//            if ([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:endDate]== 1){
+//                
+//                _isFirst = NO;
+//            }
+                //            {
 
-                
-                
-                
-                
-                NSLog(@"啦啦啦");
-            }
-
-            else
-                
-            {
-                NSLog(@"最大月份");
-                
-                return ;
-            }
+//            if ([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:endDate]== -1)
+//            {
+//                
+//                _nowDate = [DBcommonUtils setupRequestMonthWithMonth:1 withDate:_nowDate];
+//
+//                NSMutableString * date = [user objectForKey:@"takeCarDate"];
+//                
+//                
+//                
+//                days = [DBcommonUtils totaldaysInThisMonth:[NSDate date] with:[NSString stringWithFormat:@"%@ 10:00:00",[date stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate]]];
+//                
+//                week  = [DBcommonUtils firstWeekdayInThisMonth:[NSDate date] with:[NSString stringWithFormat:@"%@ 10:00:00",[date stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate]]];
+//                
+//                
+//                _isFirst = NO ;
+//
+//                
+//                
+//                
+//                
+//                NSLog(@"啦啦啦");
+//            }
+//
+//            else
+//                
+//            {
+//                NSLog(@"最大月份");
+//                
+//                return ;
+//            }
 
         }
         
@@ -189,35 +203,49 @@
         {
             
             NSLog(@"%d",[DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:starDate]);
+            _nowDate = [DBcommonUtils setupRequestMonthWithMonth:-1 withDate:_nowDate];
             
             
             
+            NSMutableString * date = [user objectForKey:@"takeCarDate"];
             
-            if ([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:starDate]== 1)
-            {
-                
-                _nowDate = [DBcommonUtils setupRequestMonthWithMonth:-1 withDate:_nowDate];
-                
-          
-                
-                NSMutableString * date = [user objectForKey:@"takeCarDate"];
+            days = [DBcommonUtils totaldaysInThisMonth:[NSDate date] with:[NSString stringWithFormat:@"%@ 10:00:00",[date stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate]]];
+            
+            week  = [DBcommonUtils firstWeekdayInThisMonth:[NSDate date] with:[NSString stringWithFormat:@"%@ 10:00:00",[date stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate]]];
 
-                days = [DBcommonUtils totaldaysInThisMonth:[NSDate date] with:[NSString stringWithFormat:@"%@ 10:00:00",[date stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate]]];
-                
-                week  = [DBcommonUtils firstWeekdayInThisMonth:[NSDate date] with:[NSString stringWithFormat:@"%@ 10:00:00",[date stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate]]];
-
+      
                 _isFirst = NO ;
-                
-               
+//            if ([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:starDate]== -1){
+//                _isFirst = NO ;
+//            }
 
-                
-            }
-
-            else
-            {
-                NSLog(@"最小月份");
-                return ;
-            }
+                //            {
+            
+//            if ([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:starDate]== 1)
+//            {
+//                
+//                _nowDate = [DBcommonUtils setupRequestMonthWithMonth:-1 withDate:_nowDate];
+//                
+//          
+//                
+//                NSMutableString * date = [user objectForKey:@"takeCarDate"];
+//
+//                days = [DBcommonUtils totaldaysInThisMonth:[NSDate date] with:[NSString stringWithFormat:@"%@ 10:00:00",[date stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate]]];
+//                
+//                week  = [DBcommonUtils firstWeekdayInThisMonth:[NSDate date] with:[NSString stringWithFormat:@"%@ 10:00:00",[date stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate]]];
+//
+//                _isFirst = NO ;
+//                
+//               
+//
+//                
+//            }
+//
+//            else
+//            {
+//                NSLog(@"最小月份");
+//                return ;
+//            }
             
             
         }
@@ -263,24 +291,17 @@
     
     if (_isFirst == YES)
     {
-        
-        
 
-        
         [self rentalDate:days];
        
     }
     else
     {
-        
-        
-        
-        
         [self loadPrice:index withDays:days];
  
     }
 
-    
+
 }
 
 
@@ -291,64 +312,45 @@
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
     
 
-    
-    
     NSInteger  startDay = [[[user objectForKey:@"takeCarDate"]substringWithRange:NSMakeRange(8, 2)]integerValue];
     
     
     NSString *   startMonth = [[user objectForKey:@"takeCarDate"]substringWithRange:NSMakeRange(0, 7)];
 
-    
-    
     NSInteger  endDay = [[[user objectForKey:@"returnCarDate"]substringWithRange:NSMakeRange(8, 2)]integerValue];
     
     
     NSString *  endMonth = [[user objectForKey:@"returnCarDate"]substringWithRange:NSMakeRange(0, 7)];
 
     
-
 //    NSInteger rentalDays = [[user objectForKey:@"rentalDay"]integerValue];
     
     
     if ([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:startMonth]== 0)
-
     {
-        
         if ([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:endMonth]== 0)
         {
             for (NSInteger i = startDay ; i <= endDay; i ++)
             {
-                
-                
+
                 [_rentalArray addObject:[NSString stringWithFormat:@"%ld",i]];
             }
-
         }
         else
         {
-            
-            
-            
+
             for (NSInteger i = startDay ; i <= days; i ++)
             {
-
                 [_rentalArray addObject:[NSString stringWithFormat:@"%ld",i]];
             }
-
-            
+ 
         }
-
     }
-    
     else
     {
-        
-        
         if ([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:endMonth]== 0 )
         {
-            
-            
-            
+
             for (NSInteger i = 0 ; i <= endDay; i ++)
             {
                 
@@ -357,14 +359,17 @@
             }
             
         }
-        else
+        else if([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:startMonth]== 1 && [DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:endMonth]== -1)
         {
-            
             for (NSInteger i = 0 ; i <= days; i ++)
             {
                 
                 [_rentalArray addObject:[NSString stringWithFormat:@"%ld",i]];
             }
+            
+            
+        }
+        else{
             
             
         }
@@ -382,27 +387,24 @@
 
 {
     
-    
     NSUserDefaults  * user = [NSUserDefaults standardUserDefaults];
-
-
+    
     _priceArray = [NSArray array];
         
     NSString * url = [NSString stringWithFormat:@"%@/api/rentalPack/prices_a",Host];
     
 
-//    NSString * startDate =[[user objectForKey:@"takeCarDate"] stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate];
+    NSString * startDate =[[user objectForKey:@"takeCarDate"] stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:_nowDate];
  
     NSString * endMonth =[_nowDate substringWithRange:NSMakeRange(5, 2) ];
 
-//    NSString * endDate = [startDate stringByReplacingCharactersInRange:NSMakeRange(5, 2) withString:[NSString stringWithFormat:@"%02ld",[endMonth integerValue]+1]];
+    NSString * endDate = [startDate stringByReplacingCharactersInRange:NSMakeRange(5, 2) withString:[NSString stringWithFormat:@"%02ld",[endMonth integerValue]+1]];
     
-    
-    NSString * startDate = @"2017-07-01";
-    NSString * endDate = @"2017-08-01";
+//    
+//    NSString * startDate = @"2017-07-01";
+//    NSString * endDate = @"2017-08-01";
     
     NSMutableDictionary * parDic = [NSMutableDictionary dictionary];
-    
     
     parDic[@"startDate"] = [startDate stringByReplacingCharactersInRange:NSMakeRange(8, 2) withString:@"01"];
     
@@ -416,8 +418,10 @@
     
 
     [DBNetworkTool Get:url parameters:parDic success:^(id responseObject) {
+        DBLog(@"%@",responseObject);
         
 
+        
         if ([[responseObject objectForKey:@"status"] isEqualToString:@"true"]){
 
             _priceArray = [NSArray arrayWithArray:[responseObject objectForKey:@"message"]] ;
@@ -498,7 +502,6 @@
 
             for (NSString * date in _rentalArray)
             {
- 
                 if ([[NSString stringWithFormat:@"%ld",index]isEqualToString:date])
                 {
                     cell.backgroundColor =  [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
@@ -517,10 +520,16 @@
                 NSDictionary * dic = _priceArray[index-1] ;
 
                 NSString *  date  = [[NSString stringWithFormat:@"%@",[dic objectForKey:@"date"]] substringWithRange:NSMakeRange(8, 2)];
-
+        
                 if ([date integerValue] == index)
                 {
-                    cell.priceLable.text =[NSString stringWithFormat:@"￥%@",[_priceArray[index-1]objectForKey:@"rentalAmount"]];
+                    if ([[_priceArray[index-1]objectForKey:@"rentalAmount"]isKindOfClass:[NSNull class]]) {
+                        cell.priceLable.text =@"_";
+                    }
+                    else{
+                        cell.priceLable.text =[NSString stringWithFormat:@"￥%@",[_priceArray[index-1]objectForKey:@"rentalAmount"]];
+                    }
+                  
 
                 }
                       
@@ -586,15 +595,15 @@
             {
                 if ([index isEqualToString:@"next"])
                 {
-                    
-                    if ([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:endMonth]== -1)
-                    {
-                        
-
-
-                        weak_headerView.timeLabel.text = [DBcommonUtils setupRequestMonthWithMonth:1 withDate:_nowDate] ;
-
-                    }
+                    weak_headerView.timeLabel.text = [DBcommonUtils setupRequestMonthWithMonth:1 withDate:_nowDate] ;
+//                    if ([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:endMonth]== -1)
+//                    {
+//                        
+//
+//
+//                        weak_headerView.timeLabel.text = [DBcommonUtils setupRequestMonthWithMonth:1 withDate:_nowDate] ;
+//
+//                    }
                     
 
                 }
@@ -603,15 +612,16 @@
                 {
                     
                     
+                    weak_headerView.timeLabel.text = [DBcommonUtils setupRequestMonthWithMonth:-1 withDate:_nowDate] ;
 
-                    if ([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:startMonth]== 1)
-                    {
-                       
-                        
-                        
-                        weak_headerView.timeLabel.text = [DBcommonUtils setupRequestMonthWithMonth:-1 withDate:_nowDate] ;
-                        
-                    }
+//                    if ([DBcommonUtils compareOneMonth:_nowDate withAnotherMonth:startMonth]== 1)
+//                    {
+//                       
+//                        
+//                        
+//                        weak_headerView.timeLabel.text = [DBcommonUtils setupRequestMonthWithMonth:-1 withDate:_nowDate] ;
+//                        
+//                    }
                     
                 }
 

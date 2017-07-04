@@ -185,11 +185,8 @@
         _returnCityInfoDic = [NSDictionary dictionary];
         
         _takePlaceInfoDic = [NSDictionary dictionary];
-        
-        
-        
+
         _takeStoreDic  = [ NSDictionary dictionary];
-        
         
         NSString  * url =[NSString stringWithFormat:@"%@/api/china/cityHasStore?available=1&isLocation=1",Host];
         

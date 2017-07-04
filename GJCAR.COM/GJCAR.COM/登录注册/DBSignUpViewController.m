@@ -351,17 +351,13 @@
         NSString * PW = [DBNetworkTool md5Digest:newPwField.field.text];
         
         parDic[@"password"] = PW;
-        
         NSLog(@"%@",PW);
-        
         parDic[@"phone"] = userNameField.field.text;
         parDic[@"code"] = ValidateField.field.text;
 //        parDic[@""] =@"5";
         
         NSLog(@"%@",ValidateField.field.text);
     
-        
-        
 //        UIWebView * webView = [[UIWebView alloc]init];
 //        NSURL *url = [NSURL URLWithString: submitUrl];
 //        NSString *body = [NSString stringWithFormat: @"password=%@&phone=%@&code=%@",PW,userNameField.field.text,ValidateField.field.text];

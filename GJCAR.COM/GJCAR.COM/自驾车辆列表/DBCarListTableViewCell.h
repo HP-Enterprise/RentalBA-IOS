@@ -21,11 +21,8 @@
 
 @property (nonatomic,strong)NSArray * priceArray ;
 
-
 //当前月份
 @property (nonatomic,copy)NSString * nowMonth;
-
-
 
 //当前月份
 @property (nonatomic,copy)NSString * nowDate;

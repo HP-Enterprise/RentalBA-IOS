@@ -189,7 +189,7 @@
 
     NSUserDefaults  * user = [NSUserDefaults standardUserDefaults];
     
-    NSString * url = [NSString stringWithFormat:@"%@/api/rentalPack/prices",Host];
+    NSString * url = [NSString stringWithFormat:@"%@/api/rentalPack/prices_a",Host];
 
     DBCarModel * model =  _carsArray[index];
     
@@ -201,7 +201,9 @@
     NSInteger month = [[startDate substringWithRange:NSMakeRange(5, 2)]integerValue]+1;
     
     NSString * endDate = [startDate stringByReplacingCharactersInRange:NSMakeRange(5, 2) withString:[NSString stringWithFormat:@"%02ld",month]];
-     lastMonth = startDate ;
+  
+    
+    lastMonth = startDate ;
     
     parDic[@"startDate"] = startDate ;
 
@@ -614,10 +616,7 @@
         
         nextImage.image = [UIImage imageNamed:@"next"];
         
-        
-        
-       
-        
+
         //优惠活动
         
         UIImageView * saleCarView  = [[UIImageView alloc]initWithFrame:CGRectMake(carName.frame.origin.x, CGRectGetMaxY(carInfo.frame)+5, 35, 16)];
@@ -1030,17 +1029,14 @@
     //判断列表是否展开
     if (button.selected == NO)
     {
-        
-        
+
         [_dataArray replaceObjectAtIndex:section withObject:@[@"1"]];
 
         [showPriceArray replaceObjectAtIndex:button.tag-300 withObject:priceArray];
 
-        
+
         NSIndexPath *temIndexPath = [NSIndexPath indexPathForRow:0 inSection:section];
-        
-        
-        
+
         [_carListTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:temIndexPath] withRowAnimation:UITableViewRowAnimationFade];
 
         button.selected = YES ;
@@ -1181,7 +1177,7 @@
     [self.tipView removeFromSuperview];
     
     
-    NSString * url = [NSString stringWithFormat:@"%@/api/rentalPack/prices",Host];
+    NSString * url = [NSString stringWithFormat:@"%@/api/rentalPack/prices_a",Host];
     
     NSMutableDictionary * parDic = [NSMutableDictionary dictionary];
     
@@ -1216,10 +1212,7 @@
     {
         if ([[lastMonth substringWithRange:NSMakeRange(5, 2)]integerValue] < 12)
         {
-   
             month = [[lastMonth substringWithRange:NSMakeRange(5, 2)]integerValue]+1;
-            
-
         }
         else
         {
@@ -1236,7 +1229,6 @@
     
     
     parDic[@"endDate"] = endDate;
-    
     
     parDic[@"modelId"] = lastModel.vehicleModelShow.id ;
     
