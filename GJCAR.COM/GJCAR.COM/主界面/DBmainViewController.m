@@ -700,7 +700,7 @@
 //    invoiceSwitch.onTintColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
 //    
 //    [baseView addSubview:invoiceSwitch];
-//    [invoiceSwitch addTarget:self action:@selector(switchIsOn:) forControlEvents:UIControlEventTouchUpInside];
+//    [invoiceSwitch addTarget:self action:@selector(switchIsOn:) forControlEvents:UIControlEventValueChanged];
 //    [invoiceSwitch setOn:YES animated:NO] ;
 //    
 //    

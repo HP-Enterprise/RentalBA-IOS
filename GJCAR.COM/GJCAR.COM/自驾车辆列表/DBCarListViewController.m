@@ -1176,46 +1176,34 @@
     
     [self.tipView removeFromSuperview];
     
-    
     NSString * url = [NSString stringWithFormat:@"%@/api/rentalPack/prices_a",Host];
     
     NSMutableDictionary * parDic = [NSMutableDictionary dictionary];
     
-
     NSInteger month;
-    
     
     NSString * startDate;
     
     NSString * endDate;
     
-    if ([[noti object]isEqualToString:@"last"])
-    {
-        if ([[lastMonth substringWithRange:NSMakeRange(5, 2)]integerValue] > 1)
-        {
+    if ([[noti object]isEqualToString:@"last"]) {
+        if ([[lastMonth substringWithRange:NSMakeRange(5, 2)]integerValue] > 1){
             month = [[lastMonth substringWithRange:NSMakeRange(5, 2)]integerValue]-1;
-
         }
-        else
-        {
+        else{
             [self tipShow:@"没有数据"];
             return ;
         }
         
         startDate = [lastMonth stringByReplacingCharactersInRange:NSMakeRange(5, 2) withString:[NSString stringWithFormat:@"%02ld",month]];
-        
         endDate = lastMonth ;
         
     }
-    else
-        
-    {
-        if ([[lastMonth substringWithRange:NSMakeRange(5, 2)]integerValue] < 12)
-        {
+    else{
+        if ([[lastMonth substringWithRange:NSMakeRange(5, 2)]integerValue] < 12) {
             month = [[lastMonth substringWithRange:NSMakeRange(5, 2)]integerValue]+1;
         }
-        else
-        {
+        else {
             [self tipShow:@"没有数据"];
             return ;
         }
@@ -1226,7 +1214,6 @@
     }
 
     parDic[@"startDate"] = startDate ;
-    
     
     parDic[@"endDate"] = endDate;
     
