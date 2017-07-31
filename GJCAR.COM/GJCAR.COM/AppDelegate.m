@@ -28,6 +28,15 @@
 //顺风车预定
 #import "DBFreeRideViewController.h"
 
+//极光
+// 引入JPush功能所需头文件
+#import "JPUSHService.h"
+// iOS10注册APNs所需头文件
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+#import <UserNotifications/UserNotifications.h>
+#endif
+#import "DBJPUSHData.h"
+
 //支付宝
 #import <AlipaySDK/AlipaySDK.h>
 //百度地图
@@ -44,7 +53,7 @@
 
 #import "DBSurveillance.h"
 
-@interface AppDelegate ()<BMKGeneralDelegate>
+@interface AppDelegate ()<BMKGeneralDelegate,JPUSHRegisterDelegate>
 
 {
     NSDictionary *_launchDict;
@@ -54,6 +63,7 @@
     CLLocationManager * _locationManger;
     
 }
+@property (strong , nonatomic)  DBJPUSHData * pushdata;
 
 @end
 
@@ -71,8 +81,9 @@
     
     //百度统计
     [self baiduMobStat];
-
     
+    //推送设置
+    [self setJPushOptions:launchOptions];
     
     // 要使用百度地图，请先启动BaiduMapManager
     _mapManager = [[BMKMapManager alloc]init];
@@ -108,6 +119,58 @@
     [statTracker startWithAppId:@"dfbafc3372"]; // 设置您在mtj网站上添加的app的appkey,此处AppId即为应用的appKey
 }
 
+-(void)setJPushOptions:(NSDictionary *)launchOptions{
+    
+    //    if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
+    //#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+    //        JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+    //        entity.types = UNAuthorizationOptionAlert|UNAuthorizationOptionBadge|UNAuthorizationOptionSound;
+    //        [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+    //#endif
+    //    } else
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+        //可以添加自定义categories
+        [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                          UIUserNotificationTypeSound |
+                                                          UIUserNotificationTypeAlert)
+                                              categories:nil];
+    } else {
+        //categories 必须为nil
+        [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                          UIRemoteNotificationTypeSound |
+                                                          UIRemoteNotificationTypeAlert)
+                                              categories:nil];
+    }
+    // Required
+    // init Push
+    // notice: 2.1.5版本的SDK新增的注册方法，改成可上报IDFA，如果没有使用IDFA直接传nil
+    // 如需继续使用pushConfig.plist文件声明appKey等配置内容，请依旧使用[JPUSHService setupWithOption:launchOptions]方式初始化。
+    //6f93f92777938b23e5bcba49
+    [JPUSHService setupWithOption:launchOptions appKey:@"a267bfd16979f6bea6e92208"
+                          channel:@"App Store"
+                 apsForProduction:NO
+            advertisingIdentifier:nil];
+    
+    
+    //2.1.9版本新增获取registration id block接口。
+    [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
+        if(resCode == 0){
+            NSLog(@"registrationID获取成功：%@",registrationID);
+            
+        }
+        else{
+            NSLog(@"registrationID获取失败，code：%d",resCode);
+        }
+    }];
+    //JPush 监听登陆成功
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(networkDidLogin:)
+                                                 name:kJPFNetworkDidLoginNotification
+                                               object:nil];
+    
+    
+    _pushdata = [DBJPUSHData shareDBJPUSHData];
+}
 #pragma mark 检测是否最新版本
 -(void)checkFirstVersion
 {
@@ -220,38 +283,156 @@
     if ([url.host isEqualToString:@"safepay"]) {
         //跳转支付宝钱包进行支付，处理支付结果
         [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-          
-            
             NSLog(@"result = %@",resultDic);
-            
-            
-            if ([[NSString stringWithFormat:@"%@",[resultDic objectForKey:@"resultStatus"]]isEqualToString:@"9000"])
-            
-            {
+            if ([[NSString stringWithFormat:@"%@",[resultDic objectForKey:@"resultStatus"]]isEqualToString:@"9000"]){
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"PresentView" object:nil];
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"PopView" object:nil];
-
             }
            
             //result = {
             //            memo = "";
             //            result = "partner=\"2088221353698177\"&seller_id=\"zucheyun@b-car.cn\"&out_trade_no=\"KW11WQBELFWEZ3Y\"&subject=\"\U79df\U8f66\U76d2\U5b50\"&body=\"\U5e03\U52a0\U8fea\U5a01\U9f99\"&total_fee=\"0.01\"&notify_url=\"http://www.xxx.com\"&service=\"mobile.securitypay.pay\"&payment_type=\"1\"&_input_charset=\"utf-8\"&it_b_pay=\"30m\"&show_url=\"m.alipay.com\"&success=\"true\"&sign_type=\"RSA\"&sign=\"pe4+Og1JIqFakQCLB09XHBniQ3POAGfbf1D3FditheyU8GwV1lN685HdP3boSOSldw1hEpeBuzPeg5MP22hMUCnWtmUFrXHeXxQKVUp8P7ck0EZvZy/hbacoSyGIa6zxX1BVxeqqKT08QHHGNfcz3zCebNylbiInfjbPIhVq47I=\"";
             //            resultStatus = 9000;
- 
         }];
     }
-    
     return YES;
 }
 
 
 
 - (void)processAuth_V2Result:(NSURL *)resultUrl
-             standbyCallback:(CompletionBlock)completionBlock
-{
+             standbyCallback:(CompletionBlock)completionBlock{
     
     
 }
+
+
+
+
+
+
+
+#pragma mark ----推送相关设置
+- (void)networkDidLogin:(NSNotification *)notification {
+    NSLog(@"已登录");
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kJPFNetworkDidLoginNotification
+                                                  object:nil];
+}
+
+- (void)application:(UIApplication *)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    
+    /// Required - 注册 DeviceToken
+    NSLog(@"%@", [NSString stringWithFormat:@"Device Token: %@", deviceToken]);
+    
+    [JPUSHService registerDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application
+didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"did Fail To Register For Remote Notifications With Error: %@", error);
+}
+
+
+#pragma mark- JPUSHRegisterDelegate
+#pragma mark ----接收推送消息
+
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo
+fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    
+    // 取得 APNs 标准信息内容
+    //    NSDictionary *aps = [userInfo valueForKey:@"aps"];
+    //    NSString *content = [aps valueForKey:@"alert"];                 // 推送显示的内容
+    //    NSInteger badge = [[aps valueForKey:@"badge"] integerValue];    // badge数量
+    //    NSString *sound = [aps valueForKey:@"sound"];                   // 播放的声音
+    //
+    //    // 取得Extras字段内容
+    //    NSString *customizeField1 = [userInfo valueForKey:@"customizeExtras"];  // 服务端中Extras字段，key是自己定义的
+    //    NSLog(@"\nAppDelegate:\ncontent =[%@], badge=[%ld], sound=[%@], customize field  =[%@]",content,badge,sound,customizeField1);
+    
+    [self getCurrentVC:userInfo];
+    
+    [JPUSHService handleRemoteNotification:userInfo];
+    
+    
+    NSLog(@"iOS7及以上系统，收到通知");
+    
+    if ([[UIDevice currentDevice].systemVersion floatValue]<10.0 || application.applicationState==0) {
+        
+        NSLog(@"iOS7及以上系统，前台 %@",userInfo);
+    }
+    else{
+        NSLog(@"iOS7及以上系统，后台 %@",userInfo);
+    }
+    
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (UIViewController *)getCurrentVC:(NSDictionary*)dic{
+    
+    NSString * message = [[dic objectForKey:@"aps"]objectForKey:@"alert"];
+    UIViewController *result = nil;
+    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
+    if (window.windowLevel != UIWindowLevelNormal){
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(UIWindow * tmpWin in windows){
+            if (tmpWin.windowLevel == UIWindowLevelNormal) {
+                window = tmpWin;
+                break;
+            }
+        }
+    }
+    UIView *frontView = [[window subviews] objectAtIndex:0];
+    id nextResponder = [frontView nextResponder];
+    if ([nextResponder isKindOfClass:[UIViewController class]]){
+        result = nextResponder;
+        NSLog(@"当前控制器%@",result);
+    }
+    else{
+        result = window.rootViewController;
+    }
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"收到新的推送" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"reloadOrder" object:nil];
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [result presentViewController:alertController animated:YES completion:nil];
+    
+    NSLog(@"%@",result);
+    return result;
+    
+}
+// iOS 10 Support
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
+    // Required
+    NSDictionary * userInfo = notification.request.content.userInfo;
+    if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        [JPUSHService handleRemoteNotification:userInfo];
+    }
+    completionHandler(UNNotificationPresentationOptionAlert); // 需要执行这个方法，选择是否提醒用户，有Badge、Sound、Alert三种类型可以选择设置
+}
+
+// iOS 10 Support
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+    // Required
+    NSDictionary * userInfo = response.notification.request.content.userInfo;
+    if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        [JPUSHService handleRemoteNotification:userInfo];
+    }
+    completionHandler();  // 系统要求执行这个方法
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    
+    // Required,For systems with less than or equal to iOS6
+    [JPUSHService handleRemoteNotification:userInfo];
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -261,10 +442,15 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [application setApplicationIconBadgeNumber:0];
+    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [application setApplicationIconBadgeNumber:0];
+    [JPUSHService setBadge:0];
+    [application cancelAllLocalNotifications];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

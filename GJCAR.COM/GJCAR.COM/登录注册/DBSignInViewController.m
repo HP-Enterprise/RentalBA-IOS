@@ -21,6 +21,8 @@
 //顺风车订单
 #import "DBFreeRideViewController.h"
 
+// 引入JPush功能所需头文件
+#import "JPUSHService.h"
 
 @interface DBSignInViewController ()
 
@@ -367,7 +369,7 @@
                     [manager addUserValueUserid:[[responseObject objectForKey:@"message"]objectForKey:@"uid"] WithUserName:userNameField.field.text andPaw:passWordField.field.text andToken:[NSString stringWithFormat:@"%@=%@",[cookie name],[cookie value]]];
                     
                 }
-                
+                [JPUSHService setAlias:userNameField.field.text callbackSelector:nil object:nil];
                 [user setObject:userNameField.field.text forKey:@"phone"];
                 [user setObject:passWordField.field.text forKey:@"password"];
   

@@ -148,16 +148,11 @@
     [self addProgress];
     
     [DBNetworkTool Get:url parameters:pardic success:^(id responseObject) {
-        
-        
-        
-        
+
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
             _priceDic = [responseObject objectForKey:@"message"];
-            
-            
-            
+
             //加载增值服务
             [self loadAddValue];
         
@@ -186,24 +181,17 @@
     
     
     /*
-     
      ttp://121.40.157.200:41234/api/searchAmountDetail?activityId=0&endDate=1467597600000&isDoorToDoor=1&latitude=30.598055&longitude=114.305794&modelId=21&startDate=1467424800000&storeId=5&userId=21
      */
     
     DBShowListModel * model =[[NSArray arrayWithArray:_model.vendorStorePriceShowList]firstObject];
-    
 
-
-    
     NSString * url = [NSString stringWithFormat:@"%@/api/searchAmountDetail?activityId=&modelId=%@&storeId=%@",Host,_model.vehicleModelShow.id,model.id];
     
     
     
-      NSLog(@"%@-----%@",_model.vehicleModelShow.id,model.id);
-    
-    
-    
-    
+    NSLog(@"%@-----%@",_model.vehicleModelShow.id,model.id);
+
     NSMutableDictionary * pardic = [NSMutableDictionary dictionary];
     
     NSDictionary * takePlace = [user objectForKey:@"takePlace"];
@@ -225,13 +213,9 @@
     
     [DBNetworkTool Get:url parameters:pardic success:^(id responseObject) {
         
-        
-        
-        
-        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
-        {
-            _priceDic = [responseObject objectForKey:@"message"];
 
+        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
+            _priceDic = [responseObject objectForKey:@"message"];
             [self loadAddValue];
             
         }
@@ -332,22 +316,12 @@
     
     [DBNetworkTool Get:url parameters:pardic success:^(id responseObject) {
         
-        
-        
-        
         [self removeProgress];
         
-        
-        
-        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
-        {
+        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]){
             
-            if (![[responseObject objectForKey:@"message"]isKindOfClass:[NSNull class]])
-            {
+            if (![[responseObject objectForKey:@"message"]isKindOfClass:[NSNull class]])   {
                 _addValueArr = [responseObject objectForKey:@"message"];
-                
-                
-                
                 //添加异地还车
                 [self addDifferentStoreServer:_addValueArr];
             }
@@ -652,100 +626,101 @@
     
     
     
-    for (int i = 0 ; i < Number ; i ++)
-    {
-        
-        
+    for (int i = 0 ; i < Number ; i ++){
         if ([[NSString stringWithFormat:@"%@",[_addValueArr[i]objectForKey:@"chargeName"]]isEqualToString:@"不计免赔"])
         {
-            //不计免赔服务
-            
-            UILabel * commissionLabel = [[UILabel alloc]initWithFrame:CGRectMake(mustCostLabel.frame.origin.x, CGRectGetMaxY(mustCost.frame) , ScreenWidth/3 - mustCostLabel.frame.origin.x, 40)];
-            commissionLabel.text = [_addValueArr[i]objectForKey:@"chargeName"];
-            commissionLabel.font = [ UIFont systemFontOfSize:14];
-            
-            commissionLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
-            
-            [baseView addSubview:commissionLabel];
             
             
-            //
-            UIView * lineView1 = [[UIView alloc]initWithFrame:CGRectMake( commissionLabel.frame.size.width - 0.5 , 10 , 0.5 , 20)];
-            lineView1.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
-            [commissionLabel addSubview:lineView1];
-            
-            
-            //不计免赔服务
-            
-            UILabel * commission = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(commissionLabel.frame)+20 , commissionLabel.frame.origin.y, ScreenWidth / 2 , commissionLabel.frame.size.height)];
-            
-            [baseView addSubview:commission];
-            
-            
-            NSDictionary *commissionDic = [[NSArray arrayWithArray:[_addValueArr[i] objectForKey:@"details"]]firstObject] ;
-            
-            NSString * commissionstr =[NSString stringWithFormat:@"%@",[commissionDic objectForKey:@"price"]];
-            
-            NSMutableAttributedString *commissionStr;
-            
-            
-            NSInteger  price;
-            
-
+            if (![[NSString stringWithFormat:@"%@",[[self.activityDic objectForKey:@"activityTypeShow"]objectForKey:@"hostType"]]isEqualToString:@"8"]) {
+                //不计免赔服务
                 
-//            if ([[_priceDic objectForKey:@"daySum"]integerValue]<=7){
-//                
-//                
-//                price = [commissionstr integerValue]* [[_priceDic objectForKey:@"daySum"]integerValue];
-//                commissionStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"￥ %@X%@=%ld(上限7天)",commissionstr,[_priceDic objectForKey:@"daySum"],price]];
-//            }
-//            else{
-//                
-//                price = [commissionstr integerValue]* 7;
-//                commissionStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"均价50元/天(上限7天,每30天一周期)，共65天",commissionstr,@"7",price]];
-//            }
-            
-            
-
-            price = [DBcommonUtils calculateRegardless:[[_priceDic objectForKey:@"daySum"]integerValue]] * [commissionstr integerValue];
-            commissionStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"￥ %ld",price]];
-
-            //    [str addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(0,5)];
-            //    [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(6,12)];
-            //    [str addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:NSMakeRange(19,6)];
-            [commissionStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, 1)];
-            [commissionStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(1, commissionStr.length-1)];
-            //    [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(19, 6)];
-            commission.attributedText = commissionStr;
-
-            //选择开关
-            
-            //    UISwitch * commissionSwitch = [UISwitch
-            //]
-            //
-            //发票开关
-            UISwitch * commissionSwitch = [[UISwitch alloc]initWithFrame:CGRectMake( ScreenWidth - 60 ,CGRectGetMaxY(mustCost.frame) +4.5 , 51, 15)];
-            
-            commissionSwitch.transform = CGAffineTransformMakeScale(0.65, 0.65);
-            commissionSwitch.onTintColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
-            
-            [baseView addSubview:commissionSwitch];
-//            [commissionSwitch addTarget:self action:@selector(switchIsOn:) forControlEvents:UIControlEventTouchUpInside];
-            [commissionSwitch addTarget:self action:@selector(switchs:) forControlEvents:UIControlEventValueChanged];
-            
-            [commissionSwitch setSelected:NO];
-            commissionSwitch.tag = 500;
-            
-
-            //保险费分割线
-            UIView * lineView2 = [[UIView alloc]initWithFrame:CGRectMake( 20 , CGRectGetMaxY(commission.frame) , ScreenWidth - 40 , 0.5)];
-            lineView2.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
-            [baseView addSubview:lineView2];
-            
+                UILabel * commissionLabel = [[UILabel alloc]initWithFrame:CGRectMake(mustCostLabel.frame.origin.x, CGRectGetMaxY(mustCost.frame) , ScreenWidth/3 - mustCostLabel.frame.origin.x, 40)];
+                commissionLabel.text = [_addValueArr[i]objectForKey:@"chargeName"];
+                commissionLabel.font = [ UIFont systemFontOfSize:14];
+                
+                commissionLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
+                
+                [baseView addSubview:commissionLabel];
+                
+                
+                //
+                UIView * lineView1 = [[UIView alloc]initWithFrame:CGRectMake( commissionLabel.frame.size.width - 0.5 , 10 , 0.5 , 20)];
+                lineView1.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
+                [commissionLabel addSubview:lineView1];
+                
+                
+                //不计免赔服务
+                
+                UILabel * commission = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(commissionLabel.frame)+20 , commissionLabel.frame.origin.y, ScreenWidth / 2 , commissionLabel.frame.size.height)];
+                
+                [baseView addSubview:commission];
+                
+                
+                NSDictionary *commissionDic = [[NSArray arrayWithArray:[_addValueArr[i] objectForKey:@"details"]]firstObject] ;
+                
+                NSString * commissionstr =[NSString stringWithFormat:@"%@",[commissionDic objectForKey:@"price"]];
+                
+                NSMutableAttributedString *commissionStr;
+                
+                
+                NSInteger  price;
+                
+                
+                
+                //            if ([[_priceDic objectForKey:@"daySum"]integerValue]<=7){
+                //
+                //
+                //                price = [commissionstr integerValue]* [[_priceDic objectForKey:@"daySum"]integerValue];
+                //                commissionStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"￥ %@X%@=%ld(上限7天)",commissionstr,[_priceDic objectForKey:@"daySum"],price]];
+                //            }
+                //            else{
+                //
+                //                price = [commissionstr integerValue]* 7;
+                //                commissionStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"均价50元/天(上限7天,每30天一周期)，共65天",commissionstr,@"7",price]];
+                //            }
+                
+                
+                
+                price = [DBcommonUtils calculateRegardless:[[_priceDic objectForKey:@"daySum"]integerValue]] * [commissionstr integerValue];
+                commissionStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"￥ %ld",price]];
+                
+                //    [str addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(0,5)];
+                //    [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(6,12)];
+                //    [str addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:NSMakeRange(19,6)];
+                [commissionStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, 1)];
+                [commissionStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(1, commissionStr.length-1)];
+                //    [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(19, 6)];
+                commission.attributedText = commissionStr;
+                
+                //选择开关
+                
+                //    UISwitch * commissionSwitch = [UISwitch
+                //]
+                //
+                //发票开关
+                UISwitch * commissionSwitch = [[UISwitch alloc]initWithFrame:CGRectMake( ScreenWidth - 60 ,CGRectGetMaxY(mustCost.frame) +4.5 , 51, 15)];
+                
+                commissionSwitch.transform = CGAffineTransformMakeScale(0.65, 0.65);
+                commissionSwitch.onTintColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
+                
+                [baseView addSubview:commissionSwitch];
+                //            [commissionSwitch addTarget:self action:@selector(switchIsOn:) forControlEvents:UIControlEventTouchUpInside];
+                [commissionSwitch addTarget:self action:@selector(switchs:) forControlEvents:UIControlEventValueChanged];
+                
+                [commissionSwitch setSelected:NO];
+                commissionSwitch.tag = 500;
+                
+                
+                //保险费分割线
+                UIView * lineView2 = [[UIView alloc]initWithFrame:CGRectMake( 20 , CGRectGetMaxY(commission.frame) , ScreenWidth - 40 , 0.5)];
+                lineView2.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
+                [baseView addSubview:lineView2];
+            }
+            else{
+                baseView.frame = CGRectMake(0, 185, ScreenWidth, 40);
+            }
         }
         
- 
-
     }
     
     
@@ -825,7 +800,7 @@
 //    returnStoreLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
 //    
 //    [baseView addSubview:returnStoreLabel];
-//    
+//
 //    
 //    //
 //    UIView * lineView3 = [[UIView alloc]initWithFrame:CGRectMake( returnStoreLabel.frame.size.width - 0.5 , 10 , 0.5 , 20)];

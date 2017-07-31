@@ -25,10 +25,9 @@
 //          DBSwapViewController   700
 
 
-#define Host @"http://www.gjcar.com"
+//#define Host @"http://www.gjcar.com"
 //182.61.39.65:80
-
-//#define Host @"http://182.61.22.80"
+#define Host @"http://182.61.22.80"
 
 
 //baseView.backgroundColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
@@ -47,6 +46,7 @@
 #define ControlHeight ([UIScreen mainScreen].bounds.size.height - 90)
 
 #define BascColor [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1]
+
 //网络请求
 #import "AFNetworking.h"
 #import "DBNetworkTool.h"

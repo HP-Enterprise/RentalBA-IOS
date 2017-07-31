@@ -330,14 +330,10 @@
                     }
                     else{
                         [_activityArray addObject:@"0"];
-
                     }
-                    
-
                 }
             }
         }
-        
         
         if (_carsArray.count > 0)
         {
@@ -460,7 +456,6 @@
 
         chooseDic = _saleArray[indexPath.section];
 
-    
         label.text  = [[chooseDic objectForKey:@"activityTypeShow"]objectForKey:@"hostTypeDascribe"];
         Namelabel.text  =[NSString stringWithFormat:@"%@",[chooseDic objectForKey:@"name"]];
         NSLog(@"%@",[NSString stringWithFormat:@"%@",[chooseDic objectForKey:@"name"]]);
@@ -491,7 +486,6 @@
         DBShowListModel * model = [[NSArray arrayWithArray:carModel.vendorStorePriceShowList]firstObject] ;
 
         NSLog(@"%ld",section);
-        
         
         //创建背景
         UIView * baseView = [[UIView alloc]init];

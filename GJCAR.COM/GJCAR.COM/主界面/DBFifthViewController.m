@@ -142,27 +142,16 @@
     CGRect viewFrame = scrollView.frame ;
     
 
-    if (CGRectGetMaxY(viewFrame)+ 94 > keyboardPoint.y)
-    {
-        
-        
-        
-        
+    if (CGRectGetMaxY(viewFrame)+ 94 > keyboardPoint.y){
         moveLenth = CGRectGetMaxY(viewFrame) + 94 - keyboardPoint.y ;
-        
         viewFrame.origin.y -= moveLenth ;
-        
-        
-        
-        
+
         scrollView.frame = viewFrame;
-        
-        
+
         [scrollView scrollRectToVisible:viewFrame animated:YES];
         keyboardDidShow = YES;
-        
-    }
 
+    }
 }
 
 - (void)keyBoardDidHide:(NSNotification *)notif {
@@ -180,7 +169,6 @@
     }
     keyboardDidShow = NO;
 }
-
 
 
 

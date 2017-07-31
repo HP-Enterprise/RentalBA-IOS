@@ -91,7 +91,7 @@
 #pragma mark --创建搜索页面
 -(void)setSearchView
 {
-    UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, ScreenWidth, 40)];
+    UIView * baseView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, ScreenWidth, 0)];
     [self.view addSubview:baseView];
     baseView.backgroundColor = [UIColor colorWithRed:0.35 green:0.34 blue:0.35 alpha:1] ;
     

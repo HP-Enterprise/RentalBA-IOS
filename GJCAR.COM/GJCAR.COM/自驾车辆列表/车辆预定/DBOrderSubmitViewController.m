@@ -144,13 +144,10 @@
     if (button == 660) {
         activityBtId = [self.activityDic objectForKey:@"id"];
         url = [NSString stringWithFormat:@"%@/api/searchAmountDetail?activityId=%@&modelId=%@&storeId=%@&userId=%@",Host,activityBtId,_model.vehicleModelShow.id,model.id,[user objectForKey:@"userId"]];
-
     }
     
     else if(button == 661 || button == 662)
     {
-        
-        
         
         url = [NSString stringWithFormat:@"%@/api/searchAmountDetail?activityId=&modelId=%@&storeId=%@&userId=%@",Host,_model.vehicleModelShow.id,model.id,[user objectForKey:@"userId"]];
         
@@ -315,12 +312,8 @@
 
               userInfoDic =[NSMutableDictionary dictionaryWithDictionary:[responseObject objectForKey:@"message"]];
 
-            
-            
              [self performSelectorOnMainThread:@selector(setOrderScrollview) withObject:nil waitUntilDone:YES];
-            
-            
-            
+  
         }
         else
         {
@@ -1487,12 +1480,10 @@
    
     if (_addValueArr.count>0)
     {
-
         CGRect newFrame = _priceView.frame ;
         newFrame.size.height += 40  *_addValueArr.count;
         _priceView.frame= newFrame;
 
-    
         for (int i = 0 ; i < _addValueArr.count ; i ++)
         {
             //不计免赔服务
@@ -1558,9 +1549,7 @@
 //                
                 price = [DBcommonUtils calculateRegardless:[[_priceDic objectForKey:@"daySum"]integerValue]] * [commissionstr integerValue];
                 commission.text = [NSString stringWithFormat:@"均价%@元/天(上限7天,每30天一周期),共%@天",commissionstr,[_priceDic objectForKey:@"daySum"]];
-                
-                
-                
+
             }
             
             else
@@ -1702,7 +1691,6 @@
 
     if (![[self.priceDic objectForKey:@"doorToDoor"]isKindOfClass:[NSNull class]] && [self.priceDic objectForKey:@"doorToDoor"]  && [NSArray arrayWithArray:[self.priceDic objectForKey:@"doorToDoor"]].count > 0  ) {
         
- 
          NSDictionary  * difprice = [[NSArray arrayWithArray:[self.priceDic objectForKey:@"doorToDoor"]]firstObject];
         
         takeStatelineView.frame = CGRectMake(takeStatelineView.frame.origin.x, takeStatelineView.frame.origin.y, ScreenWidth, 40) ;
@@ -1731,7 +1719,6 @@
         difCost.text =[NSString stringWithFormat:@"%@元/次,共1次",[difCostDic objectForKey:@"price"]];
 
         NSString * price = [NSString stringWithFormat:@"%@",[difCostDic objectForKey:@"price"]];
-        
         
         //费用总计
         [takeStatelineView addSubview:difCostTotal];
@@ -1816,10 +1803,18 @@
     
     //优惠价格
     UILabel * getCarStore = [[UILabel alloc]initWithFrame:CGRectMake(20, 0 , ScreenWidth / 3 - 40 , 40)];
+    
+    
     getCarStore.text = @"到店取车";
     getCarStore.font = [ UIFont systemFontOfSize:12];
     
     getCarStore.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
+    
+    if (![[self.priceDic objectForKey:@"activityShows"] isKindOfClass:[NSNull class]])
+       
+        getCarStore.frame = CGRectMake(20, 40 , ScreenWidth / 3 - 40 , 40);
+    {
+    
     
     
     //竖线
@@ -1857,9 +1852,7 @@
         getCarStoreStr = [NSString stringWithFormat:@"%@",[self.priceDic objectForKey:@"toStoreReduce"]] ;
 
         NSMutableAttributedString *getCarStorePricestr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥-%@",[NSString stringWithFormat:@"%@",getCarStoreStr]]];
-        
-        
-        
+
         [getCarStorePricestr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1] range:NSMakeRange(0,getCarStoreStr.length + 2)];
         //    [str addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:NSMakeRange(19,6)];
         [getCarStorePricestr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:10] range:NSMakeRange(0, 1)];
@@ -1872,12 +1865,7 @@
     }
 
     
-    
-    
-    
-
-    
-    
+ 
     if (![[self.priceDic objectForKey:@"activityShows"] isKindOfClass:[NSNull class]])
     {
         totleCostView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(takeStatelineView.frame), ScreenWidth  , 80)];
@@ -1888,8 +1876,7 @@
         [totleCostView addSubview:reduceExplace];
         [totleCostView addSubview:reducePrice];
         if (![[self.priceDic objectForKey:@"toStoreReduce"]isKindOfClass:[NSNull class]]) {
-          
-            
+
             getCarStoreExplace.text = [NSString stringWithFormat:@"优惠%@",[self.priceDic objectForKey:@"toStoreReduce"]];
             getCarStorePrice.text = [NSString stringWithFormat:@"%@",[self.priceDic objectForKey:@"toStoreReduce"]];
 
@@ -2115,10 +2102,10 @@
     
 
     NSLog(@"%f",CGRectGetMaxY(frame));
-    
+
     
 //    [self setSubmit:totleCostView.frame];
-
+    }
 }
 
 -(void)changeColor:(UIButton*)button{
@@ -2136,12 +2123,8 @@
 {
     
     
-    
-    
     UIButton * activityBt = [self.view viewWithTag:652];
 
-    
-    
     NSInteger index = [button integerValue];
     
     

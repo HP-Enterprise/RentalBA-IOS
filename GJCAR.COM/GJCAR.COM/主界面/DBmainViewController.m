@@ -18,7 +18,7 @@
 
 //门店列表
 #import "DBCityStoreViewController.h"
-
+#import "DBStoresListViewController.h"
 #import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
 
 
@@ -1487,7 +1487,8 @@
     
     DBCityStoreViewController * store = [[DBCityStoreViewController alloc]init];
     
-    
+  //  DBStoresListViewController * store = [[DBStoresListViewController alloc]init];
+
     switch (control.tag){
         case 111:{
             //index 用来标记取车 还车之分
@@ -2655,7 +2656,6 @@
 
     self.tipView = [[DBTipView alloc]initWithHeight:0.8 * ControlHeight WithMessage:str];
     [self.view addSubview:self.tipView];
-    
     
 }
 

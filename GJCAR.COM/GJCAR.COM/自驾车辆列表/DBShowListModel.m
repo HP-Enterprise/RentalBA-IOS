@@ -24,9 +24,7 @@
                                                        @"avgShow.totalDay": @"totalDay",
                                                         @"avgShow.activityShow": @"activityShow",
                                                         @"avgShow.activityShows": @"activityShows",
-                                                       
-                                                       
-                                                       
+
                                                        //storeShow
                                                        @"storeShow.id": @"id",
                                                        

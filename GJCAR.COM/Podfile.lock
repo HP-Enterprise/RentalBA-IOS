@@ -16,6 +16,9 @@ PODS:
     - AFNetworking/NSURLSession
   - Alipay_SDK_iOS (15.2.0.1)
   - BaiduMapKit (2.9.1)
+  - JCore (1.1.3)
+  - JPush (3.0.2):
+    - JCore (~> 1.1.1)
   - Masonry (0.6.4)
   - MBProgressHUD (1.0.0)
 
@@ -23,6 +26,7 @@ DEPENDENCIES:
   - AFNetworking (~> 3.0.4)
   - Alipay_SDK_iOS (~> 15.2.0.1)
   - BaiduMapKit (~> 2.9.1)
+  - JPush (= 3.0.2)
   - Masonry (~> 0.6.4)
   - MBProgressHUD (~> 1.0.0)
 
@@ -30,9 +34,11 @@ SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
   Alipay_SDK_iOS: ae708b2c97779b51d812021e34f61b1ddf77ade0
   BaiduMapKit: 97d2d44b41a876de2371fb91ddf78cdf84dafa05
+  JCore: dff3c50e9a7522a508cd9096ca79165968e1aed3
+  JPush: 01a693fafe51b93eafc2e368bbc7a7cc07e12ce4
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
 
-PODFILE CHECKSUM: 1c9a69b98dc1a77d5af6596ce91156af031c3fdb
+PODFILE CHECKSUM: 1670dba13184db5a0317614ea3d3248ad78abe56
 
 COCOAPODS: 1.0.1

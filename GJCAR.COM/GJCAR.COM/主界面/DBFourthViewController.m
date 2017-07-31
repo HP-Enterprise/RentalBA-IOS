@@ -626,16 +626,9 @@
 //    _carTypePicker = nil ;
     
     
-    if (_carTypePicker == nil)
-    {
-        
-        
-        
+    if (_carTypePicker == nil){
         _carTypePicker = [[DBDatePickViewController alloc]init];
-        
-        
         _carTypePicker.view.frame = CGRectMake(0, ControlHeight, ScreenWidth, 240 * ControlHeight / 667);
-
            }
     
     [_carTypePicker initWithProData:array withCityData:nil];
@@ -644,7 +637,6 @@
     [self.view addSubview:_carTypePicker.view];
     
 
-    
     [UIView animateWithDuration:0.3 animations:^{
         
         CGRect frame = _datePicker.view.frame ;
