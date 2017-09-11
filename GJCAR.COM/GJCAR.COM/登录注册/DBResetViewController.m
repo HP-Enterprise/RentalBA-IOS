@@ -57,7 +57,7 @@
     [newPwField.field setValue:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
     [newPwField.field setValue:[UIFont systemFontOfSize:15 / 320.0 *ScreenWidth] forKeyPath:@"_placeholderLabel.font"];
     
-    newPwAgField.field.keyboardType = UIKeyboardTypeNamePhonePad;
+    newPwAgField.field.keyboardType = UIKeyboardTypeASCIICapable;;
     [self.view addSubview:newPwField];
     
     //请输入框
@@ -75,7 +75,7 @@
     [newPwAgField.field setValue:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
     [newPwAgField.field setValue:[UIFont systemFontOfSize:15 / 320.0 *ScreenWidth] forKeyPath:@"_placeholderLabel.font"];
     
-    newPwAgField.field.keyboardType = UIKeyboardTypeNamePhonePad;
+    newPwAgField.field.keyboardType = UIKeyboardTypeASCIICapable;
     [self.view addSubview:newPwAgField];
 
     

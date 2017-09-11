@@ -44,19 +44,11 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    
 }
-- (void)initWithProData:(NSArray*)hourArray withCityData:(NSArray*)cityArray
-{
-    
-    
-    
+- (void)initWithProData:(NSArray*)hourArray withCityData:(NSArray*)cityArray{
     
     [self loadData:hourArray];
 
-    
-    
-    
     
     _cancelBt = [UIButton buttonWithType:UIButtonTypeCustom];
     _cancelBt.frame = CGRectMake( 0  , 0 ,  ScreenWidth / 3 , 40 );

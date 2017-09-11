@@ -69,17 +69,12 @@
     unsigned int red,green,blue;
     NSRange range;
     range.length = 2;
-    
     range.location = 0;
-
     [[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&red];
-    
     range.location = 2;
     [[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&green];
-    
     range.location = 4;
     [[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&blue];
-    
     return [UIColor colorWithRed:(float)(red/255.0f) green:(float)(green / 255.0f) blue:(float)(blue / 255.0f) alpha:1.0f];
 }
 
@@ -88,23 +83,16 @@
 
 + (NSString*)weekdayStringFromDate:(NSDate*)inputDate withDateStr:(NSString*)dateStr{
     
-    if (dateStr != nil)
-    {
+    if (dateStr != nil){
         NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
         [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
-        
         inputDate = [formatter dateFromString:dateStr];
-        
     }
     
     NSArray *weekdays = [NSArray arrayWithObjects: [NSNull null], @"周日", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六", nil];
-    
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    
     NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
-    
     [calendar setTimeZone: timeZone];
-    
     NSCalendarUnit calendarUnit = NSWeekdayCalendarUnit;
     
     NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:inputDate];
@@ -213,15 +201,11 @@
     return dateString ;
 }
 
-+ (NSString*)setupRequestMonthWithMonth:(NSInteger)month withDate:(NSString*)date
-{
++ (NSString*)setupRequestMonthWithMonth:(NSInteger)month withDate:(NSString*)date{
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM"];
-    
     NSDate *currentDate = [formatter dateFromString:date];
-    
-    
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *lastMonthComps = [[NSDateComponents alloc] init];
     //    [lastMonthComps setYear:1]; // year = 1表示1年后的时间 year = -1为1年前的日期，month day 类推
@@ -234,10 +218,8 @@
 }
 //计算给定月份天数
 
-+ (NSInteger)totaldaysInThisMonth:(NSDate *)date with:(NSString*)datestr
-{
-    if (datestr != nil)
-    {
++ (NSInteger)totaldaysInThisMonth:(NSDate *)date with:(NSString*)datestr{
+    if (datestr != nil){
         NSDateFormatter * formatter = [[NSDateFormatter alloc]init];
         [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
         date = [formatter dateFromString:datestr];

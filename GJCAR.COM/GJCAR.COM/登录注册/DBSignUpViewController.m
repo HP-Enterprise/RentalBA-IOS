@@ -104,7 +104,7 @@
     [newPwField.field setValue:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
     [newPwField.field setValue:[UIFont systemFontOfSize:15 / 320.0 *ScreenWidth] forKeyPath:@"_placeholderLabel.font"];
     
-    newPwField.field.keyboardType = UIKeyboardTypeNamePhonePad;
+    newPwField.field.keyboardType = UIKeyboardTypeASCIICapable;
     [self.view addSubview:newPwField];
 //
     //提交按钮

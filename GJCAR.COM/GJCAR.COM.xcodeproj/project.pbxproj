@@ -196,6 +196,7 @@
 		0BF98BEF1EFB5FB700CF689D /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF98BEB1EFB5FB700CF689D /* AlipaySDK.framework */; };
 		0BF98BF01EFB5FB700CF689D /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF98BEC1EFB5FB700CF689D /* libcrypto.a */; };
 		0BF98BF11EFB5FB700CF689D /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF98BED1EFB5FB700CF689D /* libssl.a */; };
+		0BFBF81E1F2F27A2006C83E4 /* DBOrderPriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BFBF81C1F2F27A2006C83E4 /* DBOrderPriceViewController.m */; };
 		0BFE0B9B1DC97AA700E51054 /* DBExplainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BFE0B9A1DC97AA700E51054 /* DBExplainView.m */; };
 		0BFFD90C1D07CDE000392E0F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BFFD90B1D07CDE000392E0F /* CoreTelephony.framework */; };
 		0BFFD9101D07CDFD00392E0F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BFFD90F1D07CDFD00392E0F /* SystemConfiguration.framework */; };
@@ -646,6 +647,8 @@
 		0BF98BEB1EFB5FB700CF689D /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		0BF98BEC1EFB5FB700CF689D /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		0BF98BED1EFB5FB700CF689D /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
+		0BFBF81B1F2F27A2006C83E4 /* DBOrderPriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBOrderPriceViewController.h; sourceTree = "<group>"; };
+		0BFBF81C1F2F27A2006C83E4 /* DBOrderPriceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBOrderPriceViewController.m; sourceTree = "<group>"; };
 		0BFE0B991DC97AA700E51054 /* DBExplainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBExplainView.h; sourceTree = "<group>"; };
 		0BFE0B9A1DC97AA700E51054 /* DBExplainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBExplainView.m; sourceTree = "<group>"; };
 		0BFFD90B1D07CDE000392E0F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -866,6 +869,8 @@
 				0B1F87891D1D1D910074675E /* DBOrderServeViewController.m */,
 				0B1F878A1D1D1D910074675E /* DBOrderSubmitViewController.h */,
 				0B1F878B1D1D1D910074675E /* DBOrderSubmitViewController.m */,
+				0BFBF81B1F2F27A2006C83E4 /* DBOrderPriceViewController.h */,
+				0BFBF81C1F2F27A2006C83E4 /* DBOrderPriceViewController.m */,
 				0B57CB191DAB7200009A2CFF /* Views */,
 				0B1F878C1D1D1D910074675E /* img-05.jpg */,
 			);
@@ -1886,6 +1891,7 @@
 				0B1F87981D1D1D910074675E /* DBOrderSubmitViewController.m in Sources */,
 				0B40C29D1D0FB3150030C7C1 /* DBSixthViewController.m in Sources */,
 				0BC5A81F1D2A611600AC3446 /* DBreturnCarCityShowModel.m in Sources */,
+				0BFBF81E1F2F27A2006C83E4 /* DBOrderPriceViewController.m in Sources */,
 				0B5B01551CFC0AD3001429B6 /* FMDatabaseAdditions.m in Sources */,
 				0B5B015F1CFC0B7A001429B6 /* DBChooseDateViewController.m in Sources */,
 				0B0ADD231D2E603800393468 /* DataSigner.m in Sources */,

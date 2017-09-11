@@ -111,7 +111,7 @@
     [passWordField.field setValue:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
     [passWordField.field setValue:[UIFont systemFontOfSize:15 / 320.0 *ScreenWidth] forKeyPath:@"_placeholderLabel.font"];
     
-    passWordField.field.keyboardType = UIKeyboardTypeNamePhonePad;
+    passWordField.field.keyboardType = UIKeyboardTypeASCIICapable;
 //    passWordField.field.clearButtonMode = 0;
     
     passWordField.field.secureTextEntry = YES;

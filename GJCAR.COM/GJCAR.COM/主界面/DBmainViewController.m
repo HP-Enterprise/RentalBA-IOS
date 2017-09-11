@@ -195,15 +195,12 @@
         [DBNetworkTool getAllCitysGET:url parameters:nil success:^(id responseObject) {
             
             
-            if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
-            {
+            if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]){
                 weak_self.cityArray = [responseObject objectForKey:@"message"];
                 
-                if (weak_self.cityArray.count > 0 )
-                {
+                if (weak_self.cityArray.count > 0 ){
                     
-                    if (self.takeCityName !=nil)
-                    {
+                    if (self.takeCityName !=nil){
                         
                         [self matchCity:nil];
                         NSLog(@"%@",self.takeCityName);
@@ -212,13 +209,9 @@
                     
                 }
                 
-                else if (weak_self.cityArray.count == 0)
-                {
-                    
-                    
+                else if (weak_self.cityArray.count == 0){
                     NSLog(@"没有数据");
                 }
-                
                 NSLog(@"%@",responseObject);
 
             }
@@ -1599,10 +1592,7 @@
                 {
                     [self tipShow:@"请先选择城市"];
                 }
-
             }
-            
-            
         }
             break;
             
@@ -1610,11 +1600,9 @@
             break;
     }
     
-    
     //城市显示
     UILabel * takeLabel = [self.view viewWithTag:101];
     UILabel * returnLabel = [self.view viewWithTag:102]  ;
-    
     
     //门店显示
     UILabel * takeStore = [self.view viewWithTag:103];
@@ -1628,7 +1616,6 @@
         
 //        [weak_self.MapViewC.mapView removeOverlay:polygon];
         
-
          //门店
         if ([weak_self.takeState isEqualToString:@"1"])
         {

@@ -12,7 +12,7 @@
 
 
 #import "DBOrderSubmitViewController.h"
-
+#import "DBOrderPriceViewController.h"
 #import "DBShowListModel.h"
 
 
@@ -42,6 +42,7 @@
 //选择的增值服务
 @property (nonatomic,strong)NSMutableArray * chooseAddValueArr;
 @property (nonatomic,strong)UIView * tipView ;
+@property (nonatomic,assign)BOOL isChoose;
 @end
 
 @implementation DBOrderServeViewController
@@ -57,6 +58,8 @@
 //    //创建必须服务
 //    [self setMustCost];
  
+    
+    _isChoose = NO;
     //加载价格数据
     [self loadPrice];
  
@@ -80,16 +83,10 @@
 }
 
 #pragma mark 加载数据
--(void)loadPrice
-{
+-(void)loadPrice{
     
     _priceDic = [NSDictionary dictionary];
-    
-    
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    
-    
-
     if ([[user objectForKey:@"takeState"]isEqualToString:@"1"])
     {
         [self loadStorePrice];
@@ -121,14 +118,10 @@
 
         _activityId  = [self.activityDic objectForKey:@"id"];
         url = [NSString stringWithFormat:@"%@/api/searchAmountDetail?activityId=%@&modelId=%@&storeId=%@&userId=%@",Host,_activityId,_model.vehicleModelShow.id,model.id,[user objectForKey:@"userId"]];
-
     }
     else{
         
         url = [NSString stringWithFormat:@"%@/api/searchAmountDetail?activityId=&modelId=%@&storeId=%@&userId=%@",Host,_model.vehicleModelShow.id,model.id,[user objectForKey:@"userId"]];
-
-        
-        
     }
 
     NSMutableDictionary * pardic = [NSMutableDictionary dictionary];
@@ -138,8 +131,15 @@
     pardic[@"takeCityId"] =[ user objectForKey:@"takeCityId"]; 
     pardic[@"returnCityId"] =[ user objectForKey:@"returnCityId"];
     pardic[@"returnStoreId"] =[[user objectForKey:@"returnStore"]objectForKey:@"id"];
- 
+  
+    if (_isChoose) {
+        pardic[@"nonDeducitible"]=@"true";
 
+    }
+    else{
+        pardic[@"nonDeducitible"]=@"false";
+    }
+    
     
     NSLog(@"%@",[ user objectForKey:@"returnTime"]);
     NSLog(@"%@",[ user objectForKey:@"takeTime"]);
@@ -155,12 +155,12 @@
 
             //加载增值服务
             [self loadAddValue];
-        
         }
         
         else
         {
             [self removeProgress];
+            [self tipShow:@"加载失败"];
             
         }
         NSLog(@"%@",responseObject);
@@ -188,8 +188,6 @@
 
     NSString * url = [NSString stringWithFormat:@"%@/api/searchAmountDetail?activityId=&modelId=%@&storeId=%@",Host,_model.vehicleModelShow.id,model.id];
     
-    
-    
     NSLog(@"%@-----%@",_model.vehicleModelShow.id,model.id);
 
     NSMutableDictionary * pardic = [NSMutableDictionary dictionary];
@@ -202,7 +200,14 @@
     pardic[@"isDoorToDoor"]= @"1";
     pardic[@"latitude"]= [ takePlace objectForKey:@"latitude"];
     pardic[@"longitude"]= [ takePlace objectForKey:@"longitude"];
-
+    if (_isChoose) {
+        pardic[@"nonDeducitible"]=@"ture";
+        
+    }
+    else{
+        pardic[@"nonDeducitible"]=@"false";
+    }
+    
     NSLog(@"%@",url);
     
     NSLog(@"%@",[ user objectForKey:@"returnTime"]);
@@ -251,12 +256,7 @@
 
     DBShowListModel * model =[[NSArray arrayWithArray:_model.vendorStorePriceShowList]firstObject];
     
-    
-    
-    
-    
-    
-    
+
     NSString * url ;
     //门到门
     if ([[user objectForKey:@"takeState"]isEqualToString:@"0"])
@@ -328,6 +328,9 @@
 
             
         }
+        else{
+            [self tipShow:@"数据加载失败"];
+        }
         
 
         [self performSelectorOnMainThread:@selector(setMustCost) withObject:nil waitUntilDone:YES];
@@ -338,7 +341,7 @@
     
         
     } failure:^(NSError *error) {
-        
+        [self tipShow:@"数据加载失败"];
         [self removeProgress];
         
     }];
@@ -631,7 +634,7 @@
         {
             
             
-            if (![[NSString stringWithFormat:@"%@",[[self.activityDic objectForKey:@"activityTypeShow"]objectForKey:@"hostType"]]isEqualToString:@"8"]) {
+//            if (![[NSString stringWithFormat:@"%@",[[self.activityDic objectForKey:@"activityTypeShow"]objectForKey:@"hostType"]]isEqualToString:@"8"]) {
                 //不计免赔服务
                 
                 UILabel * commissionLabel = [[UILabel alloc]initWithFrame:CGRectMake(mustCostLabel.frame.origin.x, CGRectGetMaxY(mustCost.frame) , ScreenWidth/3 - mustCostLabel.frame.origin.x, 40)];
@@ -715,10 +718,10 @@
                 UIView * lineView2 = [[UIView alloc]initWithFrame:CGRectMake( 20 , CGRectGetMaxY(commission.frame) , ScreenWidth - 40 , 0.5)];
                 lineView2.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
                 [baseView addSubview:lineView2];
-            }
-            else{
-                baseView.frame = CGRectMake(0, 185, ScreenWidth, 40);
-            }
+//            }
+//            else{
+//                baseView.frame = CGRectMake(0, 185, ScreenWidth, 40);
+//            }
         }
         
     }
@@ -1074,8 +1077,6 @@
     [showCarBt addTarget:self action:@selector(nextBt) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:showCarBt];
 
-    
-    
 }
 
 
@@ -1115,10 +1116,81 @@
     
     
     NSLog(@"%@",payWay);
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
     
     
+    DBShowListModel * model =[[NSArray arrayWithArray:_model.vendorStorePriceShowList]firstObject];
     
-    DBOrderSubmitViewController * orderSubmit = [[DBOrderSubmitViewController alloc]init];
+    
+    NSString * url ;
+    
+    //    activityId ;
+    
+    if (self.activityDic && self.activityDic.count > 0)
+    {
+        
+        _activityId  = [self.activityDic objectForKey:@"id"];
+        url = [NSString stringWithFormat:@"%@/api/searchAmountDetail?activityId=%@&modelId=%@&storeId=%@&userId=%@",Host,_activityId,_model.vehicleModelShow.id,model.id,[user objectForKey:@"userId"]];
+    }
+    else{
+        
+        url = [NSString stringWithFormat:@"%@/api/searchAmountDetail?activityId=&modelId=%@&storeId=%@&userId=%@",Host,_model.vehicleModelShow.id,model.id,[user objectForKey:@"userId"]];
+    }
+    
+    NSMutableDictionary * pardic = [NSMutableDictionary dictionary];
+    
+    pardic[@"endDate"]= [ user objectForKey:@"returnTime"];
+    pardic[@"startDate"]= [ user objectForKey:@"takeTime"];
+    pardic[@"takeCityId"] =[ user objectForKey:@"takeCityId"];
+    pardic[@"returnCityId"] =[ user objectForKey:@"returnCityId"];
+    pardic[@"returnStoreId"] =[[user objectForKey:@"returnStore"]objectForKey:@"id"];
+    
+    if (_isChoose) {
+        pardic[@"nonDeducitible"]=@"true";
+        
+    }
+    else{
+        pardic[@"nonDeducitible"]=@"false";
+    }
+    
+    
+    NSLog(@"%@",[ user objectForKey:@"returnTime"]);
+    NSLog(@"%@",[ user objectForKey:@"takeTime"]);
+    
+    [self addProgress];
+    
+    [DBNetworkTool Get:url parameters:pardic success:^(id responseObject) {
+        
+        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
+        {
+            _priceDic = [responseObject objectForKey:@"message"];
+             [self loadPriceNext];
+        }
+        
+        else
+        {
+            [self removeProgress];
+            [self tipShow:@"加载失败"];
+            
+        }
+        NSLog(@"%@",responseObject);
+        
+        
+        
+    } failure:^(NSError *error) {
+        [self tipShow:@"数据加载失败"];
+        [self removeProgress];
+    }];
+
+   
+
+}
+
+
+-(void)loadPriceNext{
+    
+    //DBOrderSubmitViewController * orderSubmit = [[DBOrderSubmitViewController alloc]init];
+    DBOrderPriceViewController * orderSubmit  = [[DBOrderPriceViewController alloc]init] ;
     
     orderSubmit.payWay = payWay ;
     orderSubmit.priceDic = self.priceDic ;
@@ -1128,31 +1200,34 @@
     
     [self.navigationController pushViewController:orderSubmit animated:YES];
     
-    
-    
 }
--(void)switchIsOn:(UISwitch*)switchs{
-    
-    if (switchs.isOn == YES)
-    {
-        [_chooseAddValueArr addObject:_addValueArr[switchs.tag - 500]];
-    }
-    else if (switchs.isOn == NO)
-    {
-        [_chooseAddValueArr removeObject:_addValueArr[switchs.tag - 500]];
 
-    }
 
-}
+//-(void)switchIsOn:(UISwitch*)switchs{
+//    
+//    if (switchs.isOn == YES)
+//    {
+//        [_chooseAddValueArr addObject:_addValueArr[switchs.tag - 500]];
+//        _isChoose = YES;
+//    }
+//    else if (switchs.isOn == NO)
+//    {
+//        [_chooseAddValueArr removeObject:_addValueArr[switchs.tag - 500]];
+//        _isChoose = NO;
+//    }
+//
+//}
 -(void)switchs:(UISwitch*)switchs{
     
     if (switchs.isOn == YES)
     {
         [_chooseAddValueArr addObject:_addValueArr[switchs.tag - 500]];
+        _isChoose = YES;
     }
     else if (switchs.isOn == NO)
     {
         [_chooseAddValueArr removeObject:_addValueArr[switchs.tag - 500]];
+        _isChoose = NO;
         
     }
 }
@@ -1161,6 +1236,9 @@
 
 - (void)tipShow:(NSString *)str{
     
+    if (self.tipView) {
+        [self.tipView removeFromSuperview];
+    }
     self.tipView = [[DBTipView alloc]initWithHeight:0.8 * ScreenHeight WithMessage:str];
     [self.view addSubview:self.tipView];
     

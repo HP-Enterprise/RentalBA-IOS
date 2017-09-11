@@ -46,6 +46,7 @@
     //请输入框
     oldPwField = [[DBTextField alloc]initWithFrame:CGRectMake( 40 , 100, ScreenWidth - 80 , 30 ) withLeftImage:nil withButtonImage:nil withButtonHighImage:nil];
 
+    oldPwField.field.keyboardType = UIKeyboardTypeASCIICapable;
     oldPwField.field.secureTextEntry = YES;
  
     oldPwField.field.frame  = CGRectMake(20, 0, oldPwField.frame.size.width-50, oldPwField.frame.size.height);
@@ -78,7 +79,7 @@
     [newPwField.field setValue:[UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
     [newPwField.field setValue:[UIFont systemFontOfSize:15 ] forKeyPath:@"_placeholderLabel.font"];
     
-    newPwField.field.keyboardType = UIKeyboardTypeNamePhonePad;
+    newPwField.field.keyboardType = UIKeyboardTypeASCIICapable;
     newPwField.field.clearButtonMode = 0;
     
     newPwField.field.secureTextEntry = YES;

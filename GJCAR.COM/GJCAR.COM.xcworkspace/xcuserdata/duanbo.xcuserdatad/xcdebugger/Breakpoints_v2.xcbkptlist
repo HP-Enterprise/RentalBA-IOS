@@ -9,30 +9,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GJCAR.COM/&#x4e3b;&#x754c;&#x9762;/DBServerDriveOderViewController.m"
-            timestampString = "499155936.904028"
+            filePath = "GJCAR.COM/&#x81ea;&#x9a7e;&#x8f66;&#x8f86;&#x5217;&#x8868;/&#x8f66;&#x8f86;&#x9884;&#x5b9a;/DBOrderSubmitViewController.m"
+            timestampString = "526297185.876127"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
-            landmarkName = "-setCarInfoView"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GJCAR.COM/&#x4e3b;&#x754c;&#x9762;/DBServerDriveOderViewController.m"
-            timestampString = "499155936.904028"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "-setOrderScrollview"
-            landmarkType = "5">
+            startingLineNumber = "165"
+            endingLineNumber = "165"
+            landmarkName = "-loadStorePrice:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

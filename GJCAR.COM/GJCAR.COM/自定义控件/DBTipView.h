@@ -11,7 +11,6 @@
 @interface DBTipView : UIView
 
 {
-    
     CGFloat time;
 }
 

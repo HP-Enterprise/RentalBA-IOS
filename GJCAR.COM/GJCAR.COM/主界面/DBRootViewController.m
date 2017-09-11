@@ -38,7 +38,7 @@
 //系统设置
 #import "DBSystemSetViewController.h"
 
-static NSString * tele = @"400-653-6600" ;
+static NSString * tele = @"400-920-0653" ;
 
 @interface DBRootViewController ()<UIScrollViewDelegate>
 {
@@ -1376,29 +1376,28 @@ static NSString * tele = @"400-653-6600" ;
 
 #pragma mark 检测新版本
 
--(void)loadVersion
-{
+-(void)loadVersion{
+    
+    //http://itunes.apple.com/lookup?id=
+    
+    
     NSString * url =[NSString stringWithFormat:@"%@/api/appManage/latest?appType=1",Host];
     NSString* oldversion =[[NSBundle mainBundle]objectForInfoDictionaryKey:(NSString*)@"CFBundleShortVersionString"];
 
-    [DBNetworkTool Get:url parameters:nil success:^(id responseObject)
-    {
+    [DBNetworkTool Get:url parameters:nil success:^(id responseObject){
         
         DBLog(@"%@",responseObject);
         
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
             
-            if ([[responseObject objectForKey:@"message"] isKindOfClass:[NSNull class]] || [responseObject objectForKey:@"message"] ==nil)
-            {
+            if ([[responseObject objectForKey:@"message"] isKindOfClass:[NSNull class]] || [responseObject objectForKey:@"message"] ==nil)  {
                             
             }
-            else if ([[[responseObject objectForKey:@"message"]objectForKey:@"appVersion"]isEqualToString:@"0000"])
-            {
+            else if ([[[responseObject objectForKey:@"message"]objectForKey:@"appVersion"]isEqualToString:@"0000"])  {
                 [self addBugView];
             }
-            else if(![[[responseObject objectForKey:@"message"]objectForKey:@"appVersion"]isEqualToString:oldversion])
-            {
+            else if(![[[responseObject objectForKey:@"message"]objectForKey:@"appVersion"]isEqualToString:oldversion]) {
                 
                 NSString * version = [[responseObject objectForKey:@"message"]objectForKey:@"appVersion"] ;
                 NSString * newVersion = [version stringByReplacingOccurrencesOfString:@"." withString:@""];

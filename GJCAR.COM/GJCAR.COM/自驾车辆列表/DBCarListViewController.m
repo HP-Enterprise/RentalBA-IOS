@@ -267,15 +267,13 @@
     parDic[@"takeCarCityId"] = [self.takeCityInfoDic objectForKey:@"id"];
 
     //门到门选车
-    if ([[user objectForKey:@"takeState"]isEqualToString:@"0"])
-    {
+    if ([[user objectForKey:@"takeState"]isEqualToString:@"0"]){
         parDic[@"latitude"] = [self.takePlaceInfoDic objectForKey:@"latitude"];
         parDic[@"longitude"] = [self.takePlaceInfoDic objectForKey:@"longitude"];
         parDic[@"takeCarStoreId"] = @"-1";
     }
     //门店选车
-    else
-    {
+    else {
         parDic[@"latitude"] =[self.takeStoreInfoDic objectForKey:@"latitude"];
         parDic[@"longitude"] =[self.takeStoreInfoDic objectForKey:@"longitude"];
 //        parDic[@"takeCarStoreId"] =@"7";
@@ -296,26 +294,16 @@
     [DBNetworkTool Get:url parameters:parDic success:^(id responseObject) {
         
         [self removeProgress];
-        
-        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
-        {
-
-
-           if ([responseObject objectForKey:@"message"] == nil || [[responseObject objectForKey:@"message"]isKindOfClass:[NSNull class]] || [[responseObject objectForKey:@"message"]isKindOfClass:[NSArray class]])
-            {
-                
+        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
+           if ([responseObject objectForKey:@"message"] == nil || [[responseObject objectForKey:@"message"]isKindOfClass:[NSNull class]] || [[responseObject objectForKey:@"message"]isKindOfClass:[NSArray class]]){
                 [self tipShow:@"没有相关数据"];
-                
                 return ;
             }
-        
             NSArray * array = [NSArray arrayWithArray:[[responseObject objectForKey:@"message"]objectForKey:@"content"]];
-            
-            if (array.count> 0)
-            {
+
+            if (array.count> 0) {
                 for (NSDictionary * dic in array)
                 {
-              
                     DBCarModel * model = [[DBCarModel alloc]initWithDictionary:dic error:nil];
 
                     [_carsArray addObject:model];
@@ -324,6 +312,7 @@
                     [_dataArray addObject:@[]];
                     
                     DBShowListModel * activityModel = [model.vendorStorePriceShowList firstObject] ;
+                    
                     
                     if (!activityModel.activityShows) {
                         [_activityArray addObject:@"-1"];
@@ -334,23 +323,28 @@
                 }
             }
         }
-        
-        if (_carsArray.count > 0)
-        {
+        else{
+
+            if ([[responseObject objectForKey:@"message"]isKindOfClass:[NSString class]]){
+
+                [self tipShow:[responseObject objectForKey:@"message"]];
+                return ;
+            }
+           
+        }
+        if(_carsArray.count > 0){
 
             [_carListTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
         }
-        else
-        {
+        else{
             [self tipShow:@"没有相关数据"];
         }
         
     } failure:^(NSError *error) {
         
         [self removeProgress];
-        
+        [self tipShow:@"链接服务器失败"];
         NSLog(@"%@",error);
-    
     }];
 
 }
@@ -638,15 +632,22 @@
         [saleCar addTarget:self action:@selector(saleCarClick:) forControlEvents:UIControlEventTouchUpInside];
         saleCar.tag = 500 + section ;
         
-        
-        
-        
 
         
-        
         if ([_activityArray[section] isEqualToString:@"0"]) {
-            label.text = [[model.activityShow objectForKey:@"activityTypeShow"]objectForKey:@"hostTypeDascribe"];
-             saleLabel.text = [model.activityShow objectForKey:@"name"];
+            
+            if (model.activityShow == nil) {
+                
+                label.text = [[[model.activityShows firstObject] objectForKey:@"activityTypeShow"]objectForKey:@"hostTypeDascribe"];
+                saleLabel.text = [[model.activityShows firstObject] objectForKey:@"name"];
+                NSLog(@"%@  %@",label.text,saleLabel.text);
+            }
+            else{
+                label.text = [[model.activityShow objectForKey:@"activityTypeShow"]objectForKey:@"hostTypeDascribe"];
+                saleLabel.text = [model.activityShow objectForKey:@"name"];
+
+            }
+            
         }
         else if ([_activityArray[section] isEqualToString:@"-1"]){
             
@@ -663,6 +664,7 @@
             label.text = kind ;
             saleLabel.text = dasdribe ;
         }
+
         
        CGSize size = [DBcommonUtils calculateStringLenth:saleLabel.text withWidth:ScreenWidth withFontSize:10];
         
@@ -671,7 +673,7 @@
         returnMoreImage.image = [UIImage imageNamed:@"more-image"];
         returnMoreImage.tag = 3000 + section;
         
-        if (![model.activityShow isKindOfClass:[NSNull class]] && model.activityShow != nil)
+        if (model.activityShow != nil || model.activityShows.count > 0)
         {
 
             [baseView addSubview:saleCarView];
@@ -1070,14 +1072,19 @@
 
         
         chooseDic = nil;
-        
-        
 
     }
     else if ([_activityArray[control.tag - 400]isEqualToString:@"0"]){
         
-        NSDictionary * dic = [NSDictionary dictionaryWithDictionary:listmodel.activityShow];
+        
+        NSDictionary * dic;
 
+        if (listmodel.activityShow != nil) {
+            dic  = [NSDictionary dictionaryWithDictionary:listmodel.activityShow];
+        }
+        else{
+            dic = [NSDictionary dictionaryWithDictionary:[listmodel.activityShows firstObject]];
+        }
         chooseDic = [NSDictionary dictionary];
         chooseDic = dic ;
         

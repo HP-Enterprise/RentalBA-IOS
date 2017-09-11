@@ -28,7 +28,8 @@
     NSMutableDictionary *attDic = [[NSMutableDictionary alloc] init];
     attDic[NSFontAttributeName] = [UIFont systemFontOfSize:15 / 320.0 * ScreenWidth];
     attDic[NSForegroundColorAttributeName] = [UIColor whiteColor];
-    CGRect strRect = [str boundingRectWithSize:CGSizeMake(ScreenWidth, 100) options:NSStringDrawingUsesLineFragmentOrigin attributes:attDic context:nil];
+  
+    CGRect strRect = [str boundingRectWithSize:CGSizeMake(ScreenWidth - 20, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:attDic context:nil];
     
     CGFloat tipViewW = strRect.size.width + 30;
     CGFloat tipViewH = ScreenHeight * 0.0625;
@@ -49,22 +50,17 @@
         UILabel *msgLab = [[UILabel alloc] initWithFrame:CGRectMake(msgLabX, msgLabY, msgLabW, msgLabH)];
         msgLab.text = messageStr;
         [self addSubview:msgLab];
+        msgLab.adjustsFontSizeToFitWidth = YES ;
         msgLab.textAlignment = NSTextAlignmentCenter;
         msgLab.font = [UIFont systemFontOfSize:15 / 320.0 * ScreenWidth];
         msgLab.textColor = [UIColor whiteColor];
-   
-    
-        time = 2 ;
+
+        time = 4;
         
         [self tipViewShow];
     
     }
-    
-    
-
     return self;
-    
-    
 }
 
 

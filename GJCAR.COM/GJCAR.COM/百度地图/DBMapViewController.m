@@ -432,30 +432,24 @@
         _option = [[BMKSuggestionSearchOption alloc]init];
         _suggesSeearch.delegate = self;
     }
-    
     searchCity = city ;
-    
     //初始化检索对象
     //发起检索
     
-    //    option.pageIndex = curPage;
-    //    option.pageCapacity = 10;
+//        option.pageIndex = curPage;
+//        option.pageCapacity = 10;
     
     _option.cityname = city;
     _option.keyword = word;
     
     BOOL flag = [_suggesSeearch suggestionSearch:_option];
     
-    if(flag)
-    {
+    if(flag){
         NSLog(@"周边检索发送成功");
     }
-    else
-    {
+    else{
         NSLog(@"周边检索发送失败");
     }
-    
-    
 }
 
 

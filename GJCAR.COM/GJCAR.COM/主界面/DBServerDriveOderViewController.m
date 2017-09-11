@@ -57,30 +57,16 @@
 
 #pragma mark ---创建scrollview
 //创建scrollview
--(void)setOrderScrollview
-{
-    
-    
-    
-    
-    
-    
+-(void)setOrderScrollview{
+
     _orderScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, ScreenWidth, ScreenHeight- 64)];
-    
-
-
     _orderScrollView.delegate = self;
-    
-    
     _orderScrollView.showsVerticalScrollIndicator = NO;
     _orderScrollView.showsHorizontalScrollIndicator = NO;
-    
-    
+
     [self.view addSubview:_orderScrollView];
     
-    
     //创建车辆信息页面
-    
     [self setCarInfoView];
     
 }
@@ -90,10 +76,7 @@
 {
     
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    
-    
-    
-    
+
     //创建车辆图片
     UIImageView * imageV = [[UIImageView  alloc]initWithFrame:CGRectMake(50, 10, 80, 50)];
     imageV.image = [UIImage imageNamed:@"img-05.jpg"];
@@ -116,39 +99,7 @@
     //车辆类型
     UILabel * carkind = [[UILabel alloc]initWithFrame:CGRectMake(carName.frame.origin.x, CGRectGetMaxY(carName.frame)+5, carName.frame.size.width, 11 )];
     
-    
-//    NSString * carGroup ;
-//    switch ([self.model.vehicleModelShow.carGroup integerValue])
-//    {
-//            case 1:
-//            carGroup = @"经济型";
-//            break;
-//            case 2:
-//            carGroup = @"舒适型";
-//            break;
-//            case 3:
-//            carGroup = @"豪华型";
-//            break;
-//            case 4:
-//            carGroup = @"SUV";
-//            break;
-//            case 5:
-//            carGroup = @"MPV";
-//            break;
-//            
-//        default:
-//            break;
-//    }
-//    
-    
-    
-    
-//    carkind.text =[NSString stringWithFormat:@"%@ | %@厢 | %@人",carGroup,self.model.vehicleModelShow.carTrunk,self.model.vehicleModelShow.seats];
-//    
 
-    
-    
-    
     carkind.font = [UIFont systemFontOfSize:11];
     carkind.textColor = [DBcommonUtils getColor:@"9e9e9f"] ;
     [_orderScrollView addSubview:carkind];
@@ -338,10 +289,7 @@
     
     
     [_orderScrollView addSubview:takePlace];
-    
-    
-    
-    
+
     //地图图标
     
     UIImageView  * mapView = [[UIImageView alloc]initWithFrame:CGRectMake( ScreenWidth - 40, takePlace.frame.origin.y+11.5, 12, 17)];
@@ -439,7 +387,7 @@
     
     //创建费用view
     [self setCostViewWithFrame:lineView5.frame];
-    
+
     
     
 }
@@ -464,9 +412,6 @@
 
     [mustCost addSubview:mustCostLabel];
 
-
-
-
     //车辆费用
     UILabel * carCostLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(mustCost.frame), ScreenWidth / 3 - 40 , 40)];
     carCostLabel.text = @"包车费用";
@@ -476,7 +421,6 @@
     carCostLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
 
     [_orderScrollView addSubview:carCostLabel];
-
 
 
     //
