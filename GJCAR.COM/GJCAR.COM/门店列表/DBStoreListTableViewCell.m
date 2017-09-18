@@ -45,6 +45,7 @@
     [self addSubview:_storeAddr];
     
     
+    
     UIImageView * locationImage = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth   - 26 , 15, 6, 11)];
     locationImage.image = [UIImage imageNamed:@"next"];
     [self addSubview:locationImage];

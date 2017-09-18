@@ -167,10 +167,7 @@
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
 
     [manager.requestSerializer setValue:[user objectForKey:@"token"] forHTTPHeaderField:@"cookie"];
-    
     NSLog(@"注销 token打印出来了%@",[user objectForKey:@"token"]);
-
-    
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     
     [manager DELETE:url parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -260,7 +257,6 @@
         }
     }];
 }
-
 
 // 用户查询个人信息 方法调用
 + (void)getUserInfoGET:(NSString *)url parameters:(NSDictionary *)parameters success:(void(^)(id responseObject))success failure:(void(^)(NSError *error))failure {

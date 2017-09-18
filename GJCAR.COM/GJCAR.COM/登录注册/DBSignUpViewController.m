@@ -181,17 +181,13 @@
         NSString * useUrl = [NSString stringWithFormat:@"%@/api/register/%@",Host,userNameField.field.text];
 
      __weak typeof(self)weak_self = self ;
-    [DBNetworkTool Get:useUrl parameters:nil success:^(id responseObject)
-     {
-         if ([[responseObject objectForKey:@"registered"]isEqualToString:@"true"])
-         {
+    [DBNetworkTool Get:useUrl parameters:nil success:^(id responseObject) {
+         if ([[responseObject objectForKey:@"registered"]isEqualToString:@"true"]){
              [weak_self.tipView removeFromSuperview];
              [weak_self tipShow:@"用户已经存在"];
              
          }
-
-         else if ([[responseObject objectForKey:@"registered"]isEqualToString:@"false"])
-         {
+         else if ([[responseObject objectForKey:@"registered"]isEqualToString:@"false"]){
     
              // 倒计时
              ValidateField.button.userInteractionEnabled = NO;

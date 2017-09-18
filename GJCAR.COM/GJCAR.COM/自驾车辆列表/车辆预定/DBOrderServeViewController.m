@@ -102,13 +102,8 @@
 //门店取车价格加载
 -(void)loadStorePrice
 {
-    
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    
-
     DBShowListModel * model =[[NSArray arrayWithArray:_model.vendorStorePriceShowList]firstObject];
-    
-    
     NSString * url ;
     
 //    activityId ;
@@ -700,7 +695,7 @@
                 //    UISwitch * commissionSwitch = [UISwitch
                 //]
                 //
-                //发票开关
+
                 UISwitch * commissionSwitch = [[UISwitch alloc]initWithFrame:CGRectMake( ScreenWidth - 60 ,CGRectGetMaxY(mustCost.frame) +4.5 , 51, 15)];
                 
                 commissionSwitch.transform = CGAffineTransformMakeScale(0.65, 0.65);
@@ -710,10 +705,25 @@
                 //            [commissionSwitch addTarget:self action:@selector(switchIsOn:) forControlEvents:UIControlEventTouchUpInside];
                 [commissionSwitch addTarget:self action:@selector(switchs:) forControlEvents:UIControlEventValueChanged];
                 
-                [commissionSwitch setSelected:NO];
+            
+                UIControl * tipControl  = [[UIControl alloc]initWithFrame:CGRectMake( ScreenWidth - 60 ,CGRectGetMaxY(mustCost.frame) +4.5 , 60, 40)];
+                [tipControl addTarget:self action:@selector(showSwitchTip) forControlEvents:UIControlEventTouchUpInside];
+            
                 commissionSwitch.tag = 500;
                 
-                
+                if ([[NSString stringWithFormat:@"%@",self.activityDic[@"isSdew"]]isEqualToString:@"1"]) {
+                    [commissionSwitch setOn:YES animated:YES];
+                    commissionSwitch.userInteractionEnabled = NO;
+                    [_chooseAddValueArr addObject:_addValueArr[commissionSwitch.tag - 500]];
+                    _isChoose = YES;
+                    [baseView addSubview:tipControl];
+
+                }
+                else{
+                    [commissionSwitch setOn:NO animated:YES];
+                }
+            
+            
                 //保险费分割线
                 UIView * lineView2 = [[UIView alloc]initWithFrame:CGRectMake( 20 , CGRectGetMaxY(commission.frame) , ScreenWidth - 40 , 0.5)];
                 lineView2.backgroundColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1];
@@ -1217,7 +1227,22 @@
 //    }
 //
 //}
+
+
+-(void)showSwitchTip{
+    [self tipShow:@"不计免赔不可取消"];
+}
+
+
 -(void)switchs:(UISwitch*)switchs{
+    
+    if ([[NSString stringWithFormat:@"%@",self.activityDic[@"isSdew"]]isEqualToString:@"1"]) {
+        [self tipShow:@"不计免赔不可选"];
+        [switchs setOn:YES animated:YES];
+
+        return;
+    }
+    
     
     if (switchs.isOn == YES)
     {

@@ -12,7 +12,7 @@
 
 @property (nonatomic,strong)UILabel * storeName ;
 @property (nonatomic,strong)UILabel * storeAddr ;
-
+@property (nonatomic,strong)UILabel * phone;
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 

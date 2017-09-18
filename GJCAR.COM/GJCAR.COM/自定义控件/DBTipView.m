@@ -55,7 +55,7 @@
         msgLab.font = [UIFont systemFontOfSize:15 / 320.0 * ScreenWidth];
         msgLab.textColor = [UIColor whiteColor];
 
-        time = 4;
+        time = 3;
         
         [self tipViewShow];
     

@@ -129,15 +129,9 @@
 {
     
     NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
-    
-    
     DBShowListModel * model =[[NSArray arrayWithArray:_model.vendorStorePriceShowList]firstObject];
-    
-    
     NSString * url ;
-    
     NSString * activityBtId ;
-    
     
     if (button == 660) {
         activityBtId = [self.activityDic objectForKey:@"id"];
@@ -1021,7 +1015,8 @@
     UIButton * activityChoose = [UIButton buttonWithType:UIButtonTypeCustom];
     activityChoose.frame = CGRectMake(120, activityLabel.frame.origin.y, ScreenWidth / 3 +50,activityLabel.frame.size.height );
     [activityChoose setTitle:@"请选择优惠活动" forState:UIControlStateNormal] ;
-    activityChoose.titleLabel.font = [UIFont systemFontOfSize:12];
+    activityChoose.titleLabel.font = [UIFont systemFontOfSize:10];
+    activityChoose.titleLabel.numberOfLines = 0;
     [activityChoose setTitleColor:[UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1] forState:UIControlStateNormal];
     activityChoose.hidden = YES;
     //    [activityChoose addTarget:self action:@selector(saleCarClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -1043,8 +1038,8 @@
         
         
         
-        [activityChoose setTitle:[[[self.priceDic objectForKey:@"activityShows"]firstObject] objectForKey:@"name"]  forState:UIControlStateNormal] ;
-        
+        [activityChoose setTitle:[[[self.priceDic objectForKey:@"activityShows"]firstObject] objectForKey:@"activityDescription"]  forState:UIControlStateNormal] ;
+        activityChoose.titleLabel.adjustsFontSizeToFitWidth = YES;
         activityChoose.hidden = NO;
         
         activityC.selected = YES ;
@@ -1052,10 +1047,8 @@
         actBt = activityC ;
         
         _avtivityBackView.frame = CGRectMake(0, CGRectGetMaxY(frame), ScreenWidth, 130) ;
-        
         temporaryFrame = activityLabelName.frame ;
-        
-        
+    
         [_avtivityBackView addSubview:activityLabel];
         
         
@@ -1752,12 +1745,16 @@
     
     
     //优惠说明
-    reduceExplace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(reducelineView.frame)+10 , reduce.frame.origin.y, ScreenWidth / 3 +20, reduce.frame.size.height)];
+    reduceExplace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(reducelineView.frame)+10 , reduce.frame.origin.y, ScreenWidth / 3 +10, reduce.frame.size.height)];
     reduceExplace.font = [ UIFont systemFontOfSize:11];
+    reduceExplace.numberOfLines = 2;
     reduceExplace.adjustsFontSizeToFitWidth = YES ;
     reduceExplace.text = [self.activityDic objectForKey:@"activityDescription"];
     
-    
+    if ([NSString stringWithFormat:@"%@",[[[self.priceDic objectForKey:@"activityShows"]firstObject] objectForKey:@"activityDescription"]]) {
+        reduceExplace.text = [NSString stringWithFormat:@"%@",[[[self.priceDic objectForKey:@"activityShows"]firstObject] objectForKey:@"activityDescription"]];
+    }
+
     
     //    reduceExplace.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
     
@@ -1979,7 +1976,22 @@
         
         NSString * totalstr = [NSString stringWithFormat:@"%@",[self.priceDic objectForKey:@"totalPrice"]];
         
-        NSString * totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue]];
+        NSString * totalPrice;
+        totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue]];
+
+        
+        if (![[self.priceDic objectForKey:@"activityShows"] isKindOfClass:[NSNull class]]){
+           
+            if ([[NSString stringWithFormat:@"%@",self.activityDic[@"isSdew"]]isEqualToString:@"1"]) {
+                totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue]] ;
+            }
+            else{
+                totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue]];
+            }
+        }
+        
+        
+        
         
         if ([totalstr floatValue] + [_addValuePrice floatValue] < 0) {
             totalPrice = @"0" ;
@@ -2205,10 +2217,10 @@
             
             
             //优惠说明
-            reduceExplace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(reducelineView.frame)+10 , reduce.frame.origin.y, ScreenWidth / 3 +50, reduce.frame.size.height)];
+            reduceExplace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(reducelineView.frame)+10 , reduce.frame.origin.y, ScreenWidth / 3 +40, reduce.frame.size.height)];
             
             reduceExplace.font = [ UIFont systemFontOfSize:11];
-            
+            reduceExplace.numberOfLines = 2;
             reduceExplace.adjustsFontSizeToFitWidth = YES ;
             
             //    reduceExplace.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
@@ -2254,7 +2266,7 @@
                     
                     reduceExplace.text = [NSString stringWithFormat:@"%@",[[[self.priceDic objectForKey:@"activityShows"]firstObject] objectForKey:@"activityDescription"]];
                     NSLog(@"%@",reduceExplace.text);
-                    [activityBt setTitle:[[[self.priceDic objectForKey:@"activityShows"]firstObject] objectForKey:@"name"] forState:UIControlStateNormal];
+                    [activityBt setTitle:[[[self.priceDic objectForKey:@"activityShows"]firstObject] objectForKey:@"activityDescription"] forState:UIControlStateNormal];
                     reduceStr = [NSString stringWithFormat:@"%@",[self.priceDic objectForKey:@"reduce"]] ;
                     
                     activityId = [[[self.priceDic objectForKey:@"activityShows"]firstObject] objectForKey:@"id"];
@@ -2388,7 +2400,18 @@
         
         NSString * totalstr = [NSString stringWithFormat:@"%@",[self.priceDic objectForKey:@"totalPrice"]];
         
-        NSString * totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue]];
+        NSString * totalPrice;
+        totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue]];
+
+        
+        if (index== 660){
+            if ([[NSString stringWithFormat:@"%@",self.activityDic[@"isSdew"]]isEqualToString:@"1"]) {
+                totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue]] ;
+            }
+            else{
+                totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue]];
+            }
+        }
         
         
         if (index== 661)
@@ -2398,6 +2421,10 @@
         if ([totalPrice floatValue] - [[NSString stringWithFormat:@"%@",[showDic objectForKey:@"amount"]]floatValue] < 0) {
             totalPrice = @"0" ;
         }
+        
+        
+        
+        
         _totalePrice = totalPrice ;
         
         NSMutableAttributedString *totleCostStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"￥ %@",totalPrice]];
@@ -2467,10 +2494,10 @@
             
             
             //优惠说明
-            reduceExplace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(reducelineView.frame)+10 , reduce.frame.origin.y, ScreenWidth / 3 +50, reduce.frame.size.height)];
+            reduceExplace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(reducelineView.frame)+10 , reduce.frame.origin.y, ScreenWidth / 3 +40, reduce.frame.size.height)];
             
             reduceExplace.font = [ UIFont systemFontOfSize:11];
-            
+            reduceExplace.numberOfLines = 2;
             //    reduceExplace.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
             
             [totleCostView addSubview:reduceExplace];
@@ -2629,9 +2656,17 @@
             
             NSString * totalstr = [NSString stringWithFormat:@"%@",[self.priceDic objectForKey:@"totalPrice"]];
             
-            NSString * totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue]];
+            NSString * totalPrice;
             
-            
+            if (index== 660){
+                if ([[NSString stringWithFormat:@"%@",self.activityDic[@"isSdew"]]isEqualToString:@"1"]) {
+                    totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue]] ;
+                }
+                else{
+                    totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue]];
+                }
+            }
+
             if (index== 661)
             {
                 totalPrice =[NSString stringWithFormat:@"%g",[totalPrice floatValue] - [[NSString stringWithFormat:@"%@",[showDic objectForKey:@"amount"]]floatValue]] ;
@@ -2825,8 +2860,7 @@
     UILabel * activityLabel = [self.view viewWithTag:599];
     UILabel * couponLabel = [self.view viewWithTag:600];
     UILabel * couponLabel2 = [self.view viewWithTag:601];
-    
-    
+
     UIControl * activityC = [self.view viewWithTag:660];
     UIControl * couponC = [self.view viewWithTag:661];
     UIControl * couponC2 = [self.view viewWithTag:662];

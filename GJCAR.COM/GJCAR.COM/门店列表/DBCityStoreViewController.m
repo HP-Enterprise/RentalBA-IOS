@@ -188,11 +188,20 @@
     }
 
     if (![[_storeArray[indexPath.row]objectForKey:@"storeName"]isKindOfClass:[NSNull class]]) {
-        cell.storeName.text = [NSString stringWithFormat:@"%@",[_storeArray[indexPath.row]objectForKey:@"storeName"]];
+
+        if (![[_storeArray[indexPath.row]objectForKey:@"phone"]isKindOfClass:[NSNull class]]) {
+            
+            cell.storeName.text = [NSString stringWithFormat:@"%@  (%@)",[_storeArray[indexPath.row]objectForKey:@"storeName"],[_storeArray[indexPath.row]objectForKey:@"phone"]];
+        }
+        else{
+            cell.storeName.text = [NSString stringWithFormat:@"%@",[_storeArray[indexPath.row]objectForKey:@"storeName"]];
+
+        }
 
     }
     
     if (![[_storeArray[indexPath.row]objectForKey:@"detailAddress"] isKindOfClass:[NSNull class]]) {
+      
         cell.storeAddr.text = [NSString stringWithFormat:@"%@",[_storeArray[indexPath.row]objectForKey:@"detailAddress"]];
        
     }

@@ -606,16 +606,13 @@
     
     [user setObject:@"0" forKey:@"token"];
     [user setObject:@"0" forKey:@"userId"];
-    
+
     //跳转到信息页面
-    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
         // 2秒后异步执行这里的代码...
         self.view.userInteractionEnabled = YES ;
 
         [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
-        
     });
     
     [DBNetworkTool DELETE:url parameters:nil success:^(id responseObject) {

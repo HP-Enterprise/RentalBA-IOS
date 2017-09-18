@@ -27,7 +27,7 @@
 
 //#define Host @"http://www.gjcar.com"
 //182.61.39.65:80
-#define Host @"http://182.61.22.80:61234"
+#define Host @"http://182.61.22.80"
 
 
 //baseView.backgroundColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];

@@ -1959,16 +1959,7 @@
     [totleCostView addSubview:lineView9];
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+     
 
 //费用合计
     totleCost = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth * 2 / 3 , totleCostLabel.frame.origin.y, ScreenWidth / 3 - 20, otherCostLabel.frame.size.height)];
@@ -1981,7 +1972,14 @@
     
     NSString * totalstr = [NSString stringWithFormat:@"%@",[self.priceDic objectForKey:@"totalPrice"]];
     
-    NSString * totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue]];
+    NSString * totalPrice ;
+        
+    if ([self.activityDic[@"isSdew"]boolValue]) {
+        totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue]] ;
+    }
+    else{
+        totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue]];
+    }
     
     _totalePrice = totalPrice ;
     
@@ -2329,9 +2327,15 @@
         
         NSString * totalstr = [NSString stringWithFormat:@"%@",[self.priceDic objectForKey:@"totalPrice"]];
         
-        NSString * totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue]];
-        
-        
+           NSString * totalPrice;
+           
+           if ([self.activityDic[@"isSdew"]boolValue]) {
+               totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue]] ;
+           }
+           else{
+               totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue]];
+           }
+
         if (index== 661)
         {
             totalPrice =[NSString stringWithFormat:@"%g",[totalPrice floatValue] - [[NSString stringWithFormat:@"%@",[showDic objectForKey:@"amount"]]floatValue]] ;
@@ -2505,8 +2509,14 @@
             
             NSString * totalstr = [NSString stringWithFormat:@"%@",[self.priceDic objectForKey:@"totalPrice"]];
             
-            NSString * totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue]];
+            NSString * totalPrice;
             
+            if ([self.activityDic[@"isSdew"]boolValue]) {
+                totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue]] ;
+            }
+            else{
+                totalPrice = [NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue]];
+            }
             
             if (index== 661)
             {
