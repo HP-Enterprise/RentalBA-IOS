@@ -18,7 +18,7 @@
 
 #import "DBCarListViewController.H"
 
-@interface DBOrderServeViewController ()
+@interface DBOrderServeViewController ()<activityChangedelegate>
 
 {
     //在线支付
@@ -58,8 +58,6 @@
 //    //创建必须服务
 //    [self setMustCost];
  
-    
-    _isChoose = NO;
     //加载价格数据
     [self loadPrice];
  
@@ -111,6 +109,7 @@
     if (self.activityDic && self.activityDic.count > 0)
     {
 
+        self.index = @"0";
         _activityId  = [self.activityDic objectForKey:@"id"];
         url = [NSString stringWithFormat:@"%@/api/searchAmountDetail?activityId=%@&modelId=%@&storeId=%@&userId=%@",Host,_activityId,_model.vehicleModelShow.id,model.id,[user objectForKey:@"userId"]];
     }
@@ -143,7 +142,7 @@
     [self addProgress];
     
     [DBNetworkTool Get:url parameters:pardic success:^(id responseObject) {
-
+        [self removeProgress];
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
             _priceDic = [responseObject objectForKey:@"message"];
@@ -154,7 +153,7 @@
         
         else
         {
-            [self removeProgress];
+            
             [self tipShow:@"加载失败"];
             
         }
@@ -213,6 +212,7 @@
     
     [DBNetworkTool Get:url parameters:pardic success:^(id responseObject) {
         
+        [self removeProgress];
 
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
             _priceDic = [responseObject objectForKey:@"message"];
@@ -222,7 +222,6 @@
         
         else
         {
-            [self removeProgress];
         }
         NSLog(@"%@",responseObject);
         
@@ -695,32 +694,37 @@
                 //    UISwitch * commissionSwitch = [UISwitch
                 //]
                 //
-
-                UISwitch * commissionSwitch = [[UISwitch alloc]initWithFrame:CGRectMake( ScreenWidth - 60 ,CGRectGetMaxY(mustCost.frame) +4.5 , 51, 15)];
+            
+                _commissionSwitch = [[UISwitch alloc]initWithFrame:CGRectMake( ScreenWidth - 60 ,CGRectGetMaxY(mustCost.frame) +4.5 , 51, 15)];
+                _commissionSwitch.transform = CGAffineTransformMakeScale(0.65, 0.65);
+                _commissionSwitch.onTintColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
                 
-                commissionSwitch.transform = CGAffineTransformMakeScale(0.65, 0.65);
-                commissionSwitch.onTintColor = [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1];
-                
-                [baseView addSubview:commissionSwitch];
+                [baseView addSubview:_commissionSwitch];
                 //            [commissionSwitch addTarget:self action:@selector(switchIsOn:) forControlEvents:UIControlEventTouchUpInside];
-                [commissionSwitch addTarget:self action:@selector(switchs:) forControlEvents:UIControlEventValueChanged];
+                [_commissionSwitch addTarget:self action:@selector(switchs:) forControlEvents:UIControlEventValueChanged];
                 
             
-                UIControl * tipControl  = [[UIControl alloc]initWithFrame:CGRectMake( ScreenWidth - 60 ,CGRectGetMaxY(mustCost.frame) +4.5 , 60, 40)];
-                [tipControl addTarget:self action:@selector(showSwitchTip) forControlEvents:UIControlEventTouchUpInside];
+                _tipControl  = [[UIControl alloc]initWithFrame:CGRectMake( ScreenWidth - 60 ,CGRectGetMaxY(mustCost.frame) +4.5 , 60, 40)];
+                [_tipControl addTarget:self action:@selector(showSwitchTip) forControlEvents:UIControlEventTouchUpInside];
             
-                commissionSwitch.tag = 500;
+                _commissionSwitch.tag = 500;
                 
                 if ([[NSString stringWithFormat:@"%@",self.activityDic[@"isSdew"]]isEqualToString:@"1"]) {
-                    [commissionSwitch setOn:YES animated:YES];
-                    commissionSwitch.userInteractionEnabled = NO;
-                    [_chooseAddValueArr addObject:_addValueArr[commissionSwitch.tag - 500]];
-                    _isChoose = YES;
-                    [baseView addSubview:tipControl];
 
+                        [_commissionSwitch setOn:YES animated:YES];
+                        _commissionSwitch.userInteractionEnabled = NO;
+                        [_chooseAddValueArr addObject:_addValueArr[_commissionSwitch.tag - 500]];
+           
+                        [baseView addSubview:_tipControl];
+                        
+                        _index =  @"0";
+                        _isChoose = YES;
+                
                 }
                 else{
-                    [commissionSwitch setOn:NO animated:YES];
+                    [_commissionSwitch setOn:NO animated:YES];
+                    _isChoose = NO;
+
                 }
             
             
@@ -1201,20 +1205,44 @@
     
     //DBOrderSubmitViewController * orderSubmit = [[DBOrderSubmitViewController alloc]init];
     DBOrderPriceViewController * orderSubmit  = [[DBOrderPriceViewController alloc]init] ;
-    
+    orderSubmit.delegate = self;
+    orderSubmit.index = self.index;
     orderSubmit.payWay = payWay ;
     orderSubmit.priceDic = self.priceDic ;
     orderSubmit.model = self.model ;
     orderSubmit.activityDic = self.activityDic ;
     orderSubmit.addValueArr = _chooseAddValueArr ;
+    orderSubmit.addvalue = [NSDictionary dictionary];
+    orderSubmit.addvalue = self.addValueArr[0];
+    orderSubmit.isChoose = self.isChoose;
+    
     
     [self.navigationController pushViewController:orderSubmit animated:YES];
     
 }
 
 
+-(void)activitChange:(NSString *)index{
+    NSLog(@"%@",index);
+    self.index = index;
+    if ([index isEqualToString:@"0"]) {
+       // [_commissionSwitch setOn:YES animated:YES];
+        _tipControl.hidden = NO;
+    }
+    else if ([index isEqualToString:@"1"]){
+        //[_commissionSwitch setOn:YES animated:YES];
+        _commissionSwitch.userInteractionEnabled = YES;
+        _tipControl.hidden = YES;
+    }
+    else if([index isEqualToString:@"2"]){
+        _commissionSwitch.userInteractionEnabled = YES;
+        _tipControl.hidden = YES;
+    }
+    
+}
+
 //-(void)switchIsOn:(UISwitch*)switchs{
-//    
+//
 //    if (switchs.isOn == YES)
 //    {
 //        [_chooseAddValueArr addObject:_addValueArr[switchs.tag - 500]];
@@ -1233,20 +1261,22 @@
     [self tipShow:@"不计免赔不可取消"];
 }
 
-
 -(void)switchs:(UISwitch*)switchs{
     
     if ([[NSString stringWithFormat:@"%@",self.activityDic[@"isSdew"]]isEqualToString:@"1"]) {
-        [self tipShow:@"不计免赔不可选"];
-        [switchs setOn:YES animated:YES];
-
-        return;
+        if ([self.index isEqualToString:@"0"]) {
+            [self tipShow:@"不计免赔不可选"];
+            [switchs setOn:YES animated:YES];
+            return;
+        }
+       
     }
-    
     
     if (switchs.isOn == YES)
     {
         [_chooseAddValueArr addObject:_addValueArr[switchs.tag - 500]];
+        _addValueDic = [NSDictionary dictionary];
+        _addValueDic = _addValueArr[switchs.tag - 500];
         _isChoose = YES;
     }
     else if (switchs.isOn == NO)
@@ -1282,6 +1312,10 @@
     }
 
     [self.navigationController popViewControllerAnimated:YES];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self removeProgress];
 }
 
 - (void)didReceiveMemoryWarning {

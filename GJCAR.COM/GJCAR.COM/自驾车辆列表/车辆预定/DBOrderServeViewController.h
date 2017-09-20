@@ -13,7 +13,12 @@
 @interface DBOrderServeViewController : UIViewController
 
 
+@property (nonatomic,strong)UISwitch * commissionSwitch;
+@property (nonatomic,strong)UIControl * tipControl;
 @property (nonatomic,strong)DBCarModel * model ;
 @property (nonatomic,strong)NSDictionary * activityDic ;
 @property (nonatomic,strong)NSString * activityId;
+
+@property (nonatomic,strong)NSDictionary * addValueDic;
+@property (nonatomic,copy)NSString * index;
 @end

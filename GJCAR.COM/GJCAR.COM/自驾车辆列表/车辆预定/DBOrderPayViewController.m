@@ -622,8 +622,6 @@
     if (signedString != nil) {
                 orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",
                                orderSpec, signedString, @"RSA"];
-        
-
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
          
             NSLog(@"reslut = %@",resultDic);
