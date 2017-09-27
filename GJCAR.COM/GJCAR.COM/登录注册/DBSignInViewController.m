@@ -173,7 +173,8 @@
 
 -(void)closeBt
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
+//    [self.navigationController popToRootViewControllerAnimated:YES];
 
     
 //    if (self.indexControl == 0)
@@ -417,6 +418,11 @@
                     [self.navigationController pushViewController:order animated:YES];
                     
                 }
+                //分享页面
+                else if (self.indexControl == 5){
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+                
                 else 
 //
                 {

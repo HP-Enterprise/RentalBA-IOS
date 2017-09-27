@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <meta name="keywords" content="赶脚、赶脚租车、赶脚网、赶脚官网、租车平台、租车、租车公司、汽车租赁">
+    <meta name="description" content="赶脚租车是中国自主品牌租车的领跑者！由华晨集团与美国惠普公司共同打造，更是顺应市场对汽车租赁更高需求的创新平台。赶脚租车积极引进世界主流的汽车租赁模式，推出门到门服务、自驾租车、商务租车、接送机等全新体验，让您享受租车新感觉！">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <title>HIGH玩国庆,出行领补贴</title>
+    <link rel="stylesheet" type="text/css" href="style/basic.css">
+    <script src="../../../script/lib/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+    <div class="nationalMainBg" style="display:none;">
+        <div class="nationalShareMain">
+            <div class="nationalShareMainContent">
+                <div class="taskMainTou">
+                    <div class="taskMainTouxiang">胡 博 瑞</div>
+                </div>
+                <div class="finishTaskTitle">
+                    <p><span>国庆宅在家?</span><br/><span class="userInfo"></span>分享给你红包<br/>快点出来High~</p>
+                </div>
+                <div class="nationalShareGetNum"><p><span>¥ <span class="countNum">0.00</span></span><br/>我已累积领取补贴</p></div>
+                <div class="wantToGetBtn"><img src="images/wangToGet.png" onclick="openApp();" /></div>
+            </div>
+        </div>
+    </div>
+    <p style="display:none; text-align:center;font-size:15px;margin-top:20px;">请在微信客户端打开本页面</p>
+    <script>
+        function GetQueryString(name)
+        {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null)return  unescape(r[2]); return null;
+        }
+        var userInfo=GetQueryString("userInfo");
+        var countNum=GetQueryString("countNum");
+        if(userInfo !=null && userInfo.toString().length>1)
+        {
+            $(".userInfo").html(userInfo);
+        }
+        if(countNum !=null && countNum.toString().length>1)
+        {
+            $(".countNum").html(countNum);
+        }
+        var browser = {
+            versions : function(){
+                var u = window.navigator.userAgent;
+                return {
+                    mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+                    android: u.indexOf('Android') > -1,
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+                    MQQBrowser:u.indexOf('MQQBrowser') > -1, //判断为QQ浏览器
+                    UCBrowser: u.indexOf('UCBrowser') > -1, //判断为UC浏览器
+                    Safari: u.indexOf('Safari') > -1, //是否web应该程序，没有头部与底部
+                    weChat: u.indexOf('MicroMessenger') > -1, //是否为微信
+                    qq: u.match(/\sQQ/i) == " qq" //是否QQ
+                };
+            }(),
+            language:(navigator.browserLanguage || navigator.language).toLowerCase()
+        }
+        if(browser.versions.mobile){
+            if(browser.versions.weChat){
+                $(".nationalMainBg").css({'display':'block'});
+            }else{
+                $("p").css({'display':'block'});
+            }
+
+        }
+        function startApp(url1,url2) {
+            var timeout, t = 1000, hasApp = true;
+            setTimeout(function () {
+                if (hasApp) {
+                    window.location.href = url1;
+                } else {
+                    location.replace(url2);
+                }
+                document.body.removeChild(ifr);
+            }, 2000);
+        }
+        function openApp(){
+            if(browser.versions.ios){
+                window.location.href="https://itunes.apple.com/cn/app/id1151833888?mt=8";
+            }else if(browser.versions.android){
+                startApp('url1','http://imtt.dd.qq.com/16891/2362A01FC31931C22A55E14F55CE7573.apk?fsname=com.gjcar.app_V1.2.8_128.apk&csr=1bbd');
+            }
+        }
+    </script>
+</body>
+</html>

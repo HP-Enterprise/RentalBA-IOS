@@ -150,7 +150,6 @@
             //加载增值服务
             [self loadAddValue];
         }
-        
         else
         {
             
@@ -268,10 +267,6 @@
         
 //        if ([[user objectForKey:@"takeCityId"]isEqualToString:[user objectForKey:@"returnCityId"]])
 //        {
-//            
-//            
-//            
-//            
 //            if (![[NSString stringWithFormat:@"%@",[[user objectForKey:@"takeStore"]objectForKey:@"id"]]isEqualToString:[NSString stringWithFormat:@"%@",[[user objectForKey:@"returnStore"]objectForKey:@"id"]]])
 //            {
 //                url = [NSString stringWithFormat:@"%@/api/charge/service/added-value?modelId=&storeId=%@",Host,model.id];
@@ -319,8 +314,6 @@
                 //添加异地还车
                 [self addDifferentStoreServer:_addValueArr];
             }
-
-            
         }
         else{
             [self tipShow:@"数据加载失败"];
@@ -1142,9 +1135,12 @@
     
     if (self.activityDic && self.activityDic.count > 0)
     {
-        
-        _activityId  = [self.activityDic objectForKey:@"id"];
-        url = [NSString stringWithFormat:@"%@/api/searchAmountDetail?activityId=%@&modelId=%@&storeId=%@&userId=%@",Host,_activityId,_model.vehicleModelShow.id,model.id,[user objectForKey:@"userId"]];
+        if ([self.index isEqualToString:@"0"]) {
+            _activityId  = [self.activityDic objectForKey:@"id"];
+            url = [NSString stringWithFormat:@"%@/api/searchAmountDetail?activityId=%@&modelId=%@&storeId=%@&userId=%@",Host,_activityId,_model.vehicleModelShow.id,model.id,[user objectForKey:@"userId"]];
+        }else{
+            url = [NSString stringWithFormat:@"%@/api/searchAmountDetail?activityId=&modelId=%@&storeId=%@&userId=%@",Host,_model.vehicleModelShow.id,model.id,[user objectForKey:@"userId"]]; 
+        }
     }
     else{
         

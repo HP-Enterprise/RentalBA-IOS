@@ -20,8 +20,6 @@
 //相册测试
 #import "DBUserViewController.h"
 
-
-
 //跟随键盘移动测试
 #import "DBLongRentInfoViewController.h"
 
@@ -53,6 +51,11 @@
 
 #import "DBSurveillance.h"
 
+// 友盟分享
+#import <UMSocialCore/UMSocialCore.h>
+
+
+
 @interface AppDelegate ()<BMKGeneralDelegate,JPUSHRegisterDelegate>
 
 {
@@ -73,7 +76,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+//    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
@@ -105,10 +108,23 @@
 #pragma mark 首次激活申报
     [self activateReport];
 
-    
+    // 友盟
+    [self runUMengSdk];
     
     return YES;
 }
+
+#pragma mark - 友盟分享
+- (void)runUMengSdk {
+    [[UMSocialManager defaultManager] openLog:YES];
+    /* 设置友盟appkey */
+    [[UMSocialManager defaultManager] setUmSocialAppkey:UMAppKey];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:@"wx1c969569e3fce1c1" appSecret:@"3d4945a2fb14e5971353594855418bd1" redirectURL:nil];
+    
+    
+    
+}
+
 -(void)baiduMobStat
 {
     BaiduMobStat* statTracker = [BaiduMobStat defaultStat];
@@ -150,7 +166,7 @@
                           channel:@"App Store"
                  apsForProduction:NO
             advertisingIdentifier:nil];
-    
+    //4056475cb550c79f2f30d95b
     
     //2.1.9版本新增获取registration id block接口。
     [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
@@ -295,6 +311,10 @@
             //            resultStatus = 9000;
         }];
     }
+    else if ([url.host isEqualToString:@"platformId=wechat"]){
+        return [[UMSocialManager defaultManager] handleOpenURL:url];
+    }
+    NSLog(@"openURLurl---%@---url.host-%@",url,url.host);
     return YES;
 }
 

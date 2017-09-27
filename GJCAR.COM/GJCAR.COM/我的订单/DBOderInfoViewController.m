@@ -1365,7 +1365,7 @@
     
     //优惠活动
     
-    UILabel * activityLabel = [[UILabel alloc]initWithFrame:CGRectMake(premiumLabel.frame.origin.x, CGRectGetMaxY(addbaseView.frame), ScreenWidth / 3 - 40 , 40)];
+    UILabel * activityLabel = [[UILabel alloc]initWithFrame:CGRectMake(premiumLabel.frame.origin.x, CGRectGetMaxY(addbaseView.frame), ScreenWidth / 3 - 40 , 0)];
     
         activityLabel.numberOfLines = 2 ;
     activityLabel.font = [ UIFont systemFontOfSize:12];
@@ -1382,10 +1382,8 @@
     
     NSString * activityPrice ;
     
-    
-    
     activitydescription.font = [UIFont systemFontOfSize:11];
-
+    activitydescription.numberOfLines = 2 ;
     activitydescription.adjustsFontSizeToFitWidth = YES ;
 
     //优惠金额
@@ -1403,6 +1401,7 @@
     if (![[_OrderDic objectForKey:@"couponShowForAdmin"] isKindOfClass:[NSNull class]] && [_OrderDic objectForKey:@"couponShowForAdmin"]!= nil)
     {
         activityLabel.text = @"优惠券";
+        activityLabel.frame =CGRectMake(premiumLabel.frame.origin.x, CGRectGetMaxY(addbaseView.frame), ScreenWidth / 3 - 40 , 40);
 
         activitydescription.text = [[_OrderDic objectForKey:@"couponShowForAdmin"]objectForKey:@"title"];
         
@@ -1425,13 +1424,16 @@
         newsize.height += 40 ;
         _scrollView.contentSize = newsize ;
         
+        
+        
+        
     }
     
     else if (![[_OrderDic objectForKey:@"activityShow"] isKindOfClass:[NSNull class]] && [_OrderDic objectForKey:@"activityShow"]!= nil)
     {
         
         activityLabel.text = @"优惠活动";
-
+        activityLabel.frame =CGRectMake(premiumLabel.frame.origin.x, CGRectGetMaxY(addbaseView.frame), ScreenWidth / 3 - 40 , 40);
         
         activitydescription.text = [[_OrderDic objectForKey:@"activityShow"]objectForKey:@"activityDescription"];
         
@@ -1445,7 +1447,6 @@
         
         
         [_scrollView addSubview:activityLabel];
-        
         [_scrollView addSubview:activitylineView];
         [_scrollView addSubview:activityCost];
         
@@ -1484,12 +1485,11 @@
     
     
     //优惠价格
-    UILabel * getCarStore = [[UILabel alloc]initWithFrame:CGRectMake(premiumLabel.frame.origin.x, CGRectGetMaxY(addbaseView.frame) , ScreenWidth / 3 - 40 , 40)];
+    UILabel * getCarStore = [[UILabel alloc]initWithFrame:CGRectMake(premiumLabel.frame.origin.x, CGRectGetMaxY(activityLabel.frame) , ScreenWidth / 3 - 40 , 40)];
     getCarStore.text = @"到店取车";
     getCarStore.font = [ UIFont systemFontOfSize:12];
     
     getCarStore.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1];
-    
     
     //竖线
     UIView * getCarStorelineView = [[UIView alloc]initWithFrame:CGRectMake( CGRectGetMaxX(getCarStore.frame)+10,getCarStore.frame.origin.y + 10 , 0.5 , 20)];

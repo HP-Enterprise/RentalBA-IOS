@@ -1749,7 +1749,6 @@
     
     CGRect temporaryReduceFrame =  CGRectMake(0, 0, ScreenWidth , 0.5) ;
     
-
     //优惠说明
     reduceExplace = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(reducelineView.frame)+10 , reduce.frame.origin.y, ScreenWidth / 3 +20, reduce.frame.size.height)];
     reduceExplace.font = [ UIFont systemFontOfSize:11];

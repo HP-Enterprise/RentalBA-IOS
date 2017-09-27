@@ -16,6 +16,7 @@
 #import "DBFourthViewController.h"
 #import "DBFifthViewController.h"
 #import "DBSixthViewController.h"
+#import "DBNewActiveDetailViewController.h"
 
 //登录
 #import "DBSignInViewController.h"
@@ -38,9 +39,11 @@
 //系统设置
 #import "DBSystemSetViewController.h"
 
+#import "LaunchView.h"
+
 static NSString * tele = @"400-920-0653" ;
 
-@interface DBRootViewController ()<UIScrollViewDelegate>
+@interface DBRootViewController ()<UIScrollViewDelegate,MLLaunchDelegate>
 {
     //记录上一次点击按钮
     UIButton * lastBt;
@@ -64,9 +67,12 @@ static NSString * tele = @"400-920-0653" ;
     UILabel * order3 ;
     NSInteger orderNumaber3 ;
     
+    LaunchView *_launchView;
     
     //    UIView * baseView ;
 }
+
+
 //错误提示
 @property (nonatomic,strong)UIView * tipView;
 @property (nonatomic,strong)DBUserInfoModel * userInfo ;
@@ -100,8 +106,62 @@ static NSString * tele = @"400-920-0653" ;
     [self loadVersion];
     
 
+    [self setLanuchView];
+    
+    
+    
+    
 }
 
+- (void)setLanuchView{
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [formatter setLocale:[NSLocale localeWithLocaleIdentifier:@"zh_CN"]];
+    NSString *dateString = [formatter stringFromDate:[NSDate date]];
+    NSDateFormatter * dateFM = [[NSDateFormatter alloc]init];
+    //指定输出的格式   这里格式必须是和上面定义字符串的格式相同，否则输出空
+    [dateFM setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    dateString = @"2017-09-30 00:00:00";
+    NSDate * beginDate = [dateFM dateFromString:dateString];
+    NSDate *datenow = [NSDate date];
+    long beginTime = (long)[datenow timeIntervalSince1970] - [beginDate timeIntervalSince1970];
+    if (beginTime < 0) {
+        return;
+    }
+    
+    dateString = @"2017-10-08 00:00:00";
+    NSDate * endDate = [dateFM dateFromString:dateString];
+    long endTime = (long)[datenow timeIntervalSince1970] - [endDate timeIntervalSince1970];
+    if (endTime > 0) {
+        return;
+    }
+    
+    _launchView = [[LaunchView alloc]init];
+    _launchView.delegate = self;
+    [self.view addSubview:_launchView];
+    [_launchView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view);
+        make.bottom.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.top.equalTo(self.view);
+    }];
+}
+
+#pragma mark - 弹框的协议方法
+- (void)touchView{
+    DBLog(@"弹框的协议方法调用了");
+    
+    [_launchView removeFromSuperview];
+    
+    DBSixthViewController *six = _controlArray[2];
+    DBNewActiveDetailViewController *activeDetailVC = [[DBNewActiveDetailViewController alloc]init];
+//    activeDetailVC.url = @"http://182.61.22.80:8082/activity/mobile/nationalDay/index.html";
+    activeDetailVC.url = @"http://m.gjcar.com/activity/mobile/nationalDay/index.html";
+    [six.navigationController pushViewController:activeDetailVC animated:YES];
+    
+}
 
 #pragma mark 加载数据
 -(void)loadUserInfo
@@ -1386,7 +1446,7 @@ static NSString * tele = @"400-920-0653" ;
 
     [DBNetworkTool Get:url parameters:nil success:^(id responseObject){
         
-        DBLog(@"%@",responseObject);
+        DBLog(@"versionresponseObject%@",responseObject);
         
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {

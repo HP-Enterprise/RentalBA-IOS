@@ -52,7 +52,6 @@
 		0B20BA211D0E7CF000111D26 /* DBHotCityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B20BA201D0E7CF000111D26 /* DBHotCityTableViewCell.m */; };
 		0B2923B81D4CBC77000510D9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B2923B71D4CBC77000510D9 /* Default-568h@2x.png */; };
 		0B2E87E41D4B455400B4E139 /* DBFreeRideDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2E87E31D4B455400B4E139 /* DBFreeRideDateViewController.m */; };
-		0B309BEC1D3CA91300CFD495 /* DBActiveDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B309BEB1D3CA91300CFD495 /* DBActiveDetailViewController.m */; };
 		0B3525511DC337C4003EC61C /* DBSelfView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3525501DC337C4003EC61C /* DBSelfView.m */; };
 		0B35255C1DC72D36003EC61C /* DBOrderCommentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B35255B1DC72D36003EC61C /* DBOrderCommentController.m */; };
 		0B3EE60B1D1BC01600479C72 /* DBMyOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3EE60A1D1BC01600479C72 /* DBMyOrderViewController.m */; };
@@ -128,6 +127,7 @@
 		0B99AFFE1D2B845B003A142C /* DBVoucherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B99AFFD1D2B845B003A142C /* DBVoucherViewController.m */; };
 		0B99B0011D2B870E003A142C /* DBScoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B99B0001D2B870E003A142C /* DBScoreViewController.m */; };
 		0B99B0041D2BA1BD003A142C /* DBScoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B99B0031D2BA1BD003A142C /* DBScoreTableViewCell.m */; };
+		0BA437211F725CF2007A5182 /* nationalDayActivity in Resources */ = {isa = PBXBuildFile; fileRef = 0BA437201F725CF2007A5182 /* nationalDayActivity */; };
 		0BAA4DCB1D050E960006244A /* DBSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BAA4DCA1D050E960006244A /* DBSignInViewController.m */; };
 		0BAA4DCE1D050F780006244A /* DBTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BAA4DCD1D050F780006244A /* DBTextField.m */; };
 		0BAA4DD31D0556300006244A /* DBSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BAA4DD21D0556300006244A /* DBSignUpViewController.m */; };
@@ -166,6 +166,12 @@
 		0BC69FB21D362A2C00074B70 /* progress1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BC69FAF1D362A2C00074B70 /* progress1.png */; };
 		0BC69FB31D362A2C00074B70 /* progress2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BC69FB01D362A2C00074B70 /* progress2.png */; };
 		0BC69FB41D362A2C00074B70 /* progress3.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BC69FB11D362A2C00074B70 /* progress3.png */; };
+		0BCE4EFF1F789B9400E10F2A /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BCE4EF91F789B9400E10F2A /* delete.png */; };
+		0BCE4F001F789B9400E10F2A /* LaunchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCE4EFB1F789B9400E10F2A /* LaunchView.m */; };
+		0BCE4F011F789B9400E10F2A /* nationalDayActivity.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BCE4EFC1F789B9400E10F2A /* nationalDayActivity.png */; };
+		0BCE4F021F789B9400E10F2A /* nationalDayActivity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BCE4EFD1F789B9400E10F2A /* nationalDayActivity@2x.png */; };
+		0BCE4F031F789B9400E10F2A /* nationalDayActivity@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BCE4EFE1F789B9400E10F2A /* nationalDayActivity@3x.png */; };
+		0BCE4F061F78AB6500E10F2A /* DBNewActiveDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCE4F051F78AB6500E10F2A /* DBNewActiveDetailViewController.m */; };
 		0BCE4F081E5AC6BB00B9C87D /* DBKeyChain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCE4F071E5AC6BB00B9C87D /* DBKeyChain.m */; };
 		0BCE4F0B1E5AC6D700B9C87D /* DBSurveillance.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCE4F0A1E5AC6D700B9C87D /* DBSurveillance.m */; };
 		0BCE4F131E5ACACB00B9C87D /* DBNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCE4F121E5ACACB00B9C87D /* DBNetwork.m */; };
@@ -203,6 +209,8 @@
 		0BFFD9121D07CE0B00392E0F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BFFD9111D07CE0B00392E0F /* libz.tbd */; };
 		0BFFD9161D08074E00392E0F /* DBCityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BFFD9151D08074E00392E0F /* DBCityListViewController.m */; };
 		78C190B3D272C278610F8B57 /* libPods-GJCAR.COM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48D355B8B806A4ADE81DD042 /* libPods-GJCAR.COM.a */; };
+		B0F195331F72524300E476AB /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F195321F72524300E476AB /* libsqlite3.tbd */; };
+		B0F195541F7257C000E476AB /* DBActiveDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F195531F7257C000E476AB /* DBActiveDetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -379,7 +387,6 @@
 		0B2E87E21D4B455400B4E139 /* DBFreeRideDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBFreeRideDateViewController.h; sourceTree = "<group>"; };
 		0B2E87E31D4B455400B4E139 /* DBFreeRideDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBFreeRideDateViewController.m; sourceTree = "<group>"; };
 		0B309BEA1D3CA91300CFD495 /* DBActiveDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBActiveDetailViewController.h; sourceTree = "<group>"; };
-		0B309BEB1D3CA91300CFD495 /* DBActiveDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBActiveDetailViewController.m; sourceTree = "<group>"; };
 		0B35254F1DC337C4003EC61C /* DBSelfView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBSelfView.h; sourceTree = "<group>"; };
 		0B3525501DC337C4003EC61C /* DBSelfView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBSelfView.m; sourceTree = "<group>"; };
 		0B35255A1DC72D36003EC61C /* DBOrderCommentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBOrderCommentController.h; sourceTree = "<group>"; };
@@ -525,6 +532,7 @@
 		0B99B0001D2B870E003A142C /* DBScoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBScoreViewController.m; sourceTree = "<group>"; };
 		0B99B0021D2BA1BD003A142C /* DBScoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBScoreTableViewCell.h; sourceTree = "<group>"; };
 		0B99B0031D2BA1BD003A142C /* DBScoreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBScoreTableViewCell.m; sourceTree = "<group>"; };
+		0BA437201F725CF2007A5182 /* nationalDayActivity */ = {isa = PBXFileReference; lastKnownFileType = folder; path = nationalDayActivity; sourceTree = "<group>"; };
 		0BAA4DC91D050E960006244A /* DBSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBSignInViewController.h; sourceTree = "<group>"; };
 		0BAA4DCA1D050E960006244A /* DBSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBSignInViewController.m; sourceTree = "<group>"; };
 		0BAA4DCC1D050F780006244A /* DBTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBTextField.h; path = "../登录注册/DBTextField.h"; sourceTree = "<group>"; };
@@ -590,6 +598,14 @@
 		0BC69FB01D362A2C00074B70 /* progress2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = progress2.png; sourceTree = "<group>"; };
 		0BC69FB11D362A2C00074B70 /* progress3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = progress3.png; sourceTree = "<group>"; };
 		0BCC8E741DCC88A800E27DA6 /* BaiduMobStat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaiduMobStat.h; sourceTree = "<group>"; };
+		0BCE4EF91F789B9400E10F2A /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
+		0BCE4EFA1F789B9400E10F2A /* LaunchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchView.h; sourceTree = "<group>"; };
+		0BCE4EFB1F789B9400E10F2A /* LaunchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchView.m; sourceTree = "<group>"; };
+		0BCE4EFC1F789B9400E10F2A /* nationalDayActivity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nationalDayActivity.png; sourceTree = "<group>"; };
+		0BCE4EFD1F789B9400E10F2A /* nationalDayActivity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nationalDayActivity@2x.png"; sourceTree = "<group>"; };
+		0BCE4EFE1F789B9400E10F2A /* nationalDayActivity@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nationalDayActivity@3x.png"; sourceTree = "<group>"; };
+		0BCE4F041F78AB6500E10F2A /* DBNewActiveDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBNewActiveDetailViewController.h; sourceTree = "<group>"; };
+		0BCE4F051F78AB6500E10F2A /* DBNewActiveDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBNewActiveDetailViewController.m; sourceTree = "<group>"; };
 		0BCE4F061E5AC6BB00B9C87D /* DBKeyChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBKeyChain.h; sourceTree = "<group>"; };
 		0BCE4F071E5AC6BB00B9C87D /* DBKeyChain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBKeyChain.m; sourceTree = "<group>"; };
 		0BCE4F091E5AC6D700B9C87D /* DBSurveillance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBSurveillance.h; sourceTree = "<group>"; };
@@ -659,6 +675,9 @@
 		0BFFD9151D08074E00392E0F /* DBCityListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBCityListViewController.m; sourceTree = "<group>"; };
 		48D355B8B806A4ADE81DD042 /* libPods-GJCAR.COM.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GJCAR.COM.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F897B11CC668BBF757A1720 /* Pods-GJCAR.COM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GJCAR.COM.release.xcconfig"; path = "Pods/Target Support Files/Pods-GJCAR.COM/Pods-GJCAR.COM.release.xcconfig"; sourceTree = "<group>"; };
+		B0F195321F72524300E476AB /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		B0F195421F7253B500E476AB /* ganjiaoLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ganjiaoLogo.png; sourceTree = "<group>"; };
+		B0F195531F7257C000E476AB /* DBActiveDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBActiveDetailViewController.m; sourceTree = "<group>"; };
 		F4606265009C994152F82EAF /* Pods-GJCAR.COM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GJCAR.COM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GJCAR.COM/Pods-GJCAR.COM.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -667,6 +686,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B0ADCB81D2E5F7100393468 /* CoreGraphics.framework in Frameworks */,
+				B0F195331F72524300E476AB /* libsqlite3.tbd in Frameworks */,
 				0B4A6AAD1E2DFCEA00BDBBF2 /* JavaScriptCore.framework in Frameworks */,
 				0B4A6AAC1E2DFCE000BDBBF2 /* Security.framework in Frameworks */,
 				0BF98BF11EFB5FB700CF689D /* libssl.a in Frameworks */,
@@ -681,7 +702,6 @@
 				0B0ADCBC1D2E5F8900393468 /* Foundation.framework in Frameworks */,
 				0B7E84401DB9C53B00B4CB6C /* libBaiduMobStat.a in Frameworks */,
 				0B0ADCBA1D2E5F7C00393468 /* UIKit.framework in Frameworks */,
-				0B0ADCB81D2E5F7100393468 /* CoreGraphics.framework in Frameworks */,
 				0B0ADCB61D2E5F6100393468 /* CoreText.framework in Frameworks */,
 				0B0ADCB41D2E5F4C00393468 /* QuartzCore.framework in Frameworks */,
 				0BFFD9121D07CE0B00392E0F /* libz.tbd in Frameworks */,
@@ -1088,6 +1108,7 @@
 				0BF33BD11D13D95E0073D5C2 /* 取还车地点 */,
 				0BAA4DE41D0574770006244A /* UserInfo */,
 				0B3EE6081D1BBFE600479C72 /* MyOrders */,
+				0BA437201F725CF2007A5182 /* nationalDayActivity */,
 				0B5B49131CF4229A00604760 /* 百度地图 */,
 				0B5B48E01CF421AB00604760 /* AppDelegate.h */,
 				0B7E84381DB9BCA200B4CB6C /* AppDelegate.m */,
@@ -1097,6 +1118,7 @@
 				0B5B48E91CF421AB00604760 /* Assets.xcassets */,
 				0B5B48EB1CF421AB00604760 /* LaunchScreen.storyboard */,
 				0B5B48EE1CF421AB00604760 /* Info.plist */,
+				B0F195421F7253B500E476AB /* ganjiaoLogo.png */,
 				0B5B48DD1CF421AB00604760 /* Supporting Files */,
 			);
 			path = GJCAR.COM;
@@ -1579,7 +1601,15 @@
 				0B960F621D38D45C008A524A /* DBActiveTableViewCell.h */,
 				0B960F631D38D45C008A524A /* DBActiveTableViewCell.m */,
 				0B309BEA1D3CA91300CFD495 /* DBActiveDetailViewController.h */,
-				0B309BEB1D3CA91300CFD495 /* DBActiveDetailViewController.m */,
+				B0F195531F7257C000E476AB /* DBActiveDetailViewController.m */,
+				0BCE4F041F78AB6500E10F2A /* DBNewActiveDetailViewController.h */,
+				0BCE4F051F78AB6500E10F2A /* DBNewActiveDetailViewController.m */,
+				0BCE4EF91F789B9400E10F2A /* delete.png */,
+				0BCE4EFA1F789B9400E10F2A /* LaunchView.h */,
+				0BCE4EFB1F789B9400E10F2A /* LaunchView.m */,
+				0BCE4EFC1F789B9400E10F2A /* nationalDayActivity.png */,
+				0BCE4EFD1F789B9400E10F2A /* nationalDayActivity@2x.png */,
+				0BCE4EFE1F789B9400E10F2A /* nationalDayActivity@3x.png */,
 			);
 			name = "活动";
 			sourceTree = "<group>";
@@ -1645,6 +1675,7 @@
 		6DF42D6ED3609937615DFCE4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B0F195321F72524300E476AB /* libsqlite3.tbd */,
 				0B7E843A1DB9BD7800B4CB6C /* JavaScriptCore.framework */,
 				0B7E84311DB9BA0B00B4CB6C /* CoreLocation.framework */,
 				0B7E842F1DB9B9D200B4CB6C /* libz.1.2.5.tbd */,
@@ -1740,10 +1771,10 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Push = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -1786,6 +1817,8 @@
 				0B40C2A91D10087B0030C7C1 /* 礼券.png in Resources */,
 				0B5B48ED1CF421AB00604760 /* LaunchScreen.storyboard in Resources */,
 				0BD7F2BB1DB6201E009B54B2 /* 截图.jpeg in Resources */,
+				0BCE4F031F789B9400E10F2A /* nationalDayActivity@3x.png in Resources */,
+				0BCE4EFF1F789B9400E10F2A /* delete.png in Resources */,
 				0BC69FAB1D362A2300074B70 /* progress5.png in Resources */,
 				0BC0FA441CF5A7B2009EA2C5 /* localtion_btn@2x.png in Resources */,
 				0B1FFCEF1D5B10B300F1B8CA /* jiazai.gif in Resources */,
@@ -1801,8 +1834,11 @@
 				0BF98BEE1EFB5FB700CF689D /* AlipaySDK.bundle in Resources */,
 				0BC69FAD1D362A2300074B70 /* progress7.png in Resources */,
 				0BC69FAE1D362A2300074B70 /* progress8.png in Resources */,
+				0BCE4F021F789B9400E10F2A /* nationalDayActivity@2x.png in Resources */,
+				0BA437211F725CF2007A5182 /* nationalDayActivity in Resources */,
 				0BF6C8151E95F4950055938D /* level.html in Resources */,
 				0BAFA8BB1D8295D900D7DCDC /* saleImage1.png in Resources */,
+				0BCE4F011F789B9400E10F2A /* nationalDayActivity.png in Resources */,
 				0B2923B81D4CBC77000510D9 /* Default-568h@2x.png in Resources */,
 				0BC69FB31D362A2C00074B70 /* progress2.png in Resources */,
 				0B1F87991D1D1D910074675E /* img-05.jpg in Resources */,
@@ -1849,9 +1885,15 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-GJCAR.COM/Pods-GJCAR.COM-resources.sh",
+				"${PODS_ROOT}/Alipay_SDK_iOS/Alipay/AlipaySDK.bundle",
+				"${PODS_ROOT}/BaiduMapKit/BaiduMapKit/BaiduMapAPI_Map.framework/Resources/mapapi.bundle",
+				"${PODS_ROOT}/UMengUShare/UShareSDK/UMSocialSDK/UMSocialSDKPromptResources.bundle",
+				"${PODS_ROOT}/UMengUShare/UShareSDK/UMSocialUI/UMSocialSDKResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1864,13 +1906,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GJCAR.COM-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1952,7 +1997,6 @@
 				0BC69F9F1D3618C700074B70 /* DBInfoEditViewController.m in Sources */,
 				0B0ADD221D2E603800393468 /* base64.m in Sources */,
 				0B5B48E51CF421AB00604760 /* ViewController.m in Sources */,
-				0B309BEC1D3CA91300CFD495 /* DBActiveDetailViewController.m in Sources */,
 				0BF33BD41D13D97A0073D5C2 /* DBChoosePlaceViewController.m in Sources */,
 				0BC5A8251D2A617100AC3446 /* DBtakeCarStoreShowModel.m in Sources */,
 				0B1F87931D1D1D910074675E /* DBShowListModel.m in Sources */,
@@ -1962,6 +2006,7 @@
 				0BB4A0C41D2F3FC300F1B3F4 /* APWebViewController.m in Sources */,
 				0B20BA211D0E7CF000111D26 /* DBHotCityTableViewCell.m in Sources */,
 				0BC5A8281D2A623400AC3446 /* DBtakeCarCityShowModel.m in Sources */,
+				B0F195541F7257C000E476AB /* DBActiveDetailViewController.m in Sources */,
 				0BF4EA691D73CDFC00796654 /* DBmainData.m in Sources */,
 				0BD6758A1D265C640087694B /* DBPlaceSearchViewController.m in Sources */,
 				0B0ADD251D2E603800393468 /* MD5DataSigner.m in Sources */,
@@ -2005,6 +2050,7 @@
 				0B13F6D61D23D56800A1DECD /* DBPlaceTableViewCell.m in Sources */,
 				0B40C2941D0FB2D10030C7C1 /* DBThirdViewController.m in Sources */,
 				0B7A30D51CF54A3D005FEBF4 /* DBmainViewController.m in Sources */,
+				0BCE4F001F789B9400E10F2A /* LaunchView.m in Sources */,
 				0B1F87A01D1D26BD0074675E /* DBTaiilwindTableViewCell.m in Sources */,
 				0BC69F991D35E09200074B70 /* DBFreeRideOrderViewController.m in Sources */,
 				0B1FFCE61D5972C000F1B8CA /* DBSwapViewController.m in Sources */,
@@ -2027,6 +2073,7 @@
 				0B5B48DF1CF421AB00604760 /* main.m in Sources */,
 				0BC69FA21D3629CF00074B70 /* DBProgressAnimation.m in Sources */,
 				0BE1A2561D90D98D00F00C3D /* DBChangeEmailViewController.m in Sources */,
+				0BCE4F061F78AB6500E10F2A /* DBNewActiveDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2184,6 +2231,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = GJCAR.COM/GJCAR.COM.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 5UH9JJAY9W;
@@ -2195,7 +2243,7 @@
 				GCC_PREFIX_HEADER = "${SRCROOT}/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = GJCAR.COM/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2264,6 +2312,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = GJCAR.COM/GJCAR.COM.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 5UH9JJAY9W;
@@ -2275,7 +2324,7 @@
 				GCC_PREFIX_HEADER = "${SRCROOT}/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = GJCAR.COM/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

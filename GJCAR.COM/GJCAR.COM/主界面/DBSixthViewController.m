@@ -34,37 +34,26 @@
 }
 
 
--(void)loadData
-{
+-(void)loadData{
 
     NSString * url = [NSString stringWithFormat:@"%@/api/actDisplay/list?aPosition=0&aType=2",Host];
-    
-    
     __weak typeof(self)weak_self = self ;
     [DBNetworkTool  Get:url parameters:nil success:^(id responseObject) {
         
         NSLog(@"%@",responseObject);
         
-        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
-        {
+        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]){
             weak_self.dataArray = [responseObject objectForKey:@"message"];
             
-            if (weak_self.dataArray.count > 0)
-            {
-                
+            if (weak_self.dataArray.count > 0)        {
                 [weak_self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
             }
         }
-        else
-        {
+        else  {
             //   [user setObject:@"0" forKey:@"token"];
         }
-        
     } failure:^(NSError *error) {
-        
-        
         NSLog(@"%@",error);
-        
     }];
     
 }

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+	<meta name="keywords" content="赶脚、赶脚租车、赶脚网、赶脚官网、租车平台、租车、租车公司、汽车租赁">
+    <meta name="description" content="赶脚租车是中国自主品牌租车的领跑者！由华晨集团与美国惠普公司共同打造，更是顺应市场对汽车租赁更高需求的创新平台。赶脚租车积极引进世界主流的汽车租赁模式，推出门到门服务、自驾租车、商务租车、接送机等全新体验，让您享受租车新感觉！">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+	<title>HIGH玩国庆,出行领补贴</title>
+	<link rel="stylesheet" type="text/css" href="style/basic.css">
+	<script src="js/headfoot.js"></script>
+	<script src="js/jquery.min.js"></script>
+</head>
+<body>
+	<!-- top文件导入，勿删 -->
+	
+    	 <!--<div class="header" id="header" style="background-size: auto;"></div>-->
+    
+		<div class="header" id="header" style="background-size: auto; position:fixed; top: 0; opacity: 1; z-index:99;"></div>
+
+	<!-- top文件导入，勿删   end-->
+
+	<!-- 放入活动页代码  start -->
+	<!--<div class="nationalDayRedPacket"></div>-->
+	<div class="nationalHeight" style="display:none;">
+		<div class="nationalMainBg">
+			<div class="nationalMainContent">
+				<div class="roles" onclick="showRoles();">规则</div>
+				<div class="getBtn" onclick="showTask();"><img src="images/immeBtn.png" /></div>
+				<div class="redPacketMain">
+					<div class="redPacketMainTitle">已积累: <span>¥</span> <span class="totalCount">15.30</span></div>
+					<ul>
+						<li class="alreadyGet"><img src="images/alreadyGet.png" /><p>¥ 5.30</p><span data-role="2017-10-01">10月1日<br>已领取</span></li>
+						<li class="unGet"><img src="images/unGet.png" /><p></p><span data-role="2017-10-02">10月2日<br>未领取</span></li>
+						<li class="waitGet"><img src="images/waitGet.png" /><p></p><span data-role="2017-10-03">10月3日<br>待领取</span></li>
+						<li class="waitGet"><img src="images/waitGet.png" /><p></p><span data-role="2017-10-04">10月4日<br>待领取</span></li>
+						<li class="waitGet"><img src="images/waitGet.png" /><p></p><span data-role="2017-10-05">10月5日<br>待领取</span></li>
+						<li class="waitGet"><img src="images/waitGet.png" /><p></p><span data-role="2017-10-06">10月6日<br>待领取</span></li>
+						<li class="waitGet"><img src="images/waitGet.png" /><p></p><span data-role="2017-10-07">10月7日<br>待领取</span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<p id="directToAPP" style="display:none; text-align:center;font-size:15px;margin-top:60px;">请在赶脚APP内打开本活动</p>
+	<div class="taskMainBg" style="display:none;">
+		<div class="taskMainContent">
+			<div class="taskMainTou">
+				<div class="taskMainTouxiang userInfo"></div>
+			</div>
+			<div class="finishTaskTitle">
+				<p>Hi,<span class="userInfo"></span><br>完成以下<span>1个小任务</span>即可领补贴</p>
+			</div>
+			<div class="finishTaskMain">
+				<ul>
+					<li>
+						<p><span>独乐乐不如众乐乐</span><br/>发挥影响，分享好友一起high玩国庆！</p>
+						<div class="sharePacket" onclick="showShare();">分享红包</div>
+					</li>
+					<li>
+						<p><span>独乐乐不如众乐乐</span><br/>人生不该只有红包，随我去探寻更多福利！</p>
+						<div class="sharePacket" onclick="showShare();">分享红包</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="rolesBg" style="display:none;">
+		<div class="rolesMain">
+			<div class="rolesMainTitle">活动规则</div>
+			<div class="colseBtn" onclick="closeBtn();"><img src="images/closeBtn.png" /></div>
+			<ul>
+				<li><span>·</span><p>活动期限：10月1日-10月7日</p></li>
+				<li><span>·</span><p>活动范围：所有赶脚注册用户均可参加</p></li>
+				<li><span>·</span><p>活动解释：所有已在赶脚注册的用户，均可通过APP开屏活动页面、他人分享的活动链接进入活动页参与活动。活动期内每天登陆app，完成系统提示的任务即可点击领取红包。红包内为无门槛抵用现金，每日红包金额随机，每日累计后在活动最后一天方可进行统一提取，故只要中断一日便无法完成最终任务。（注：无门槛抵用现金不受节假日限制，可用于各车型，可与其他活动叠加，可抵手续费、租金、保险费等直接进行抵扣。）</p></li>
+			</ul>
+		</div>
+
+	</div>
+	<!-- 放入活动页代码  end -->
+	<script>
+        <!-- 调用的三个方法 -->
+//		getCount();
+//		getTel("13918486347");
+//		shareStatus(true);
+        <!-- 调用的三个方法 -->
+
+		isGJApp();
+
+		function getCount(){
+			var totalCount = $(".totalCount").text().toString();
+			return totalCount;
+        }
+
+		function getTel(message){
+            $(".userInfo").html(message);
+		}
+		function shareStatus(status){
+		    if(status == true){
+		        alert("分享成功");
+			}else{
+                alert("分享取消");
+			}
+		}
+
+        function showTask(){
+		    var user = $(".userInfo").html();
+		    if(user){
+                $(".taskMainBg").fadeIn(200);
+          		$(".taskMainContent").addClass("moveToTop").removeClass("moveToBottom");
+			}else{
+				window.location.href="GJCAR://share.loginAddress";
+			}
+        }
+        $(".unGet img").on('click',function(){
+            var user = $(".userInfo").html();
+            if(user){
+                $(".taskMainBg").fadeIn(200);
+                $(".taskMainContent").addClass("moveToTop").removeClass("moveToBottom");
+            }else{
+                window.location.href="GJCAR://share.loginAddress";
+            }
+        });
+        function showShare(){
+            window.location.href="GJCAR://share.shareAddress";
+        }
+
+    function isGJApp(){
+    var browser = {
+        versions : function(){
+            var u = window.navigator.userAgent;
+            return {
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+                android: u.indexOf('Android') > -1,
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+                               MQQBrowser:u.indexOf('MQQBrowser') > -1, //判断为QQ浏览器
+                               UCBrowser: u.indexOf('UCBrowser') > -1, //判断为UC浏览器
+                               Safari: u.indexOf('Safari') > -1, //是否web应该程序，没有头部与底部
+                               weChat: u.indexOf('MicroMessenger') > -1, //是否为微信
+                               
+                               qq: u.match(/\sQQ/i) == " qq" //是否为QQ打开
+                               };
+                               }(),
+                               language:(navigator.browserLanguage || navigator.language).toLowerCase()
+                               }
+                               
+<!--                               alert(browser.versions.u);-->
+                               
+                               if(browser.versions.mobile){
+                               if(browser.versions.MQQBrowser || browser.versions.UCBrowser || browser.versions.Safari || browser.versions.weChat || browser.versions.qq){
+                               $("#directToAPP").css({'display':'block'});
+                               $("#header").css({'display':'none'});
+                               setTimeout(function () {
+                                          if(browser.versions.ios){
+                                          window.location.href="https://itunes.apple.com/cn/app/id1151833888?mt=8";
+                                          }else if(browser.versions.android){
+                                          startApp('url1','http://imtt.dd.qq.com/16891/2362A01FC31931C22A55E14F55CE7573.apk?fsname=com.gjcar.app_V1.2.8_128.apk&csr=1bbd');
+                                          }
+                                          },1500);
+                               }else{
+                               $(".nationalHeight").css({'display':'block'});
+                               }
+                               }else{
+                               $("#directToAPP").css({'display':'block'});
+                               $("#header").css({'display':'none'});
+                               }
+                               }
+                               
+                               
+        function startApp(url1,url2) {
+            var timeout, t = 1000, hasApp = true;
+            setTimeout(function () {
+                if (hasApp) {
+                    window.location.href = url1;
+                } else {
+                    location.replace(url2);
+                }
+                document.body.removeChild(ifr);
+            }, 2000);
+        }
+		setTimeout(function(){setInterval(function(){
+            setTimeout(function(){$(".nationalDayRedPacket").fadeOut(1500)});
+        },1500)},1500);
+                               
+                               
+        function getAddress(){
+            var addr = 'http://m.gjcar.com/wap';
+            var userInfo = $(".userInfo").html();
+            var totalCount = $(".totalCount").text().toString();
+            var getAddress = addr + "/shareIndex.html?phone=" + userInfo + "&totalCount=" +totalCount;
+            console.log(getAddress);
+            return getAddress;
+        }
+                               
+        function showRoles(){
+            $(".rolesBg").fadeIn(500);
+		}
+        function closeBtn(){
+			$(".rolesBg").fadeOut(1500);
+		}
+		$(".taskMainBg").click(function(e){
+            var target = $(e.target);
+			if(!target.is(".taskMainContent")){
+                $(".taskMainContent").addClass("moveToBottom").removeClass("moveToTop");
+                setTimeout(function(){
+                    $(".taskMainBg").fadeOut(100);
+				},200);
+
+			}
+		});
+	</script>
+	<script>
+		function getUrl(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null) return unescape(r[2]); return null;
+		}
+		//document.getElementById('url1').setAttribute('href','http://m.gjcar.com/wap/shortRent/?channelID='+getUrl('channelID'));
+		//document.getElementById('url2').setAttribute('href','http://m.gjcar.com/wap/shortRent/?channelID='+getUrl('channelID'));
+	</script>
+
+	<!-- footer文件导入，勿删 -->
+	<!--
+    	<div id="footer" class="footer"></div>
+    -->
+	<!-- footer文件导入，勿删   end-->	
+	<!--<script>-->
+		<!--var _hmt = _hmt || [];-->
+		<!--(function() {-->
+		  <!--var hm = document.createElement("script");-->
+		  <!--hm.src = "https://hm.baidu.com/hm.js?45211efa8bdb0b0270a7b6b37ac36714";-->
+		  <!--var s = document.getElementsByTagName("script")[0]; -->
+		  <!--s.parentNode.insertBefore(hm, s);-->
+		<!--})();-->
+	<!--</script>-->
+</body>
+</html>
