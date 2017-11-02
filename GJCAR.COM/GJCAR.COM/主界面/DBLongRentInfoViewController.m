@@ -40,8 +40,7 @@
     
     //导航栏创建
     [self setNavigation];
-    
-    
+
     //创建页面
     [self setUI];
     
@@ -56,14 +55,10 @@
     self.view.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.96 alpha:1];
     DBNavgationView * nav = [[DBNavgationView alloc]initNavgationWithTitle:@"申请内容" withLeftBtImage:@"back" withRightImage:nil withFrame:CGRectMake(0, 0, ScreenWidth , 64)];
     [self.view addSubview:nav];
-    
-    
+
     [nav.leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     
 }
-
-
-
 -(void)setUI
 {
     
@@ -453,7 +448,6 @@
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
     
 
-    
     if (companyNameField.field.text.length == 0 || userNameField.field.text.length == 0 || phoneField.field.text.length == 0 || emailField.field.text.length == 0)
     {
         
@@ -531,10 +525,11 @@
                 [self tipShow:[responseObject objectForKey:@"message"]];
 
             } completion:^(BOOL finished) {
-               
-                [weak_self.navigationController popToRootViewControllerAnimated:YES];
                 
-                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [weak_self.navigationController popToRootViewControllerAnimated:YES];
+                });
+
             }];
             
             

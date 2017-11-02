@@ -14,12 +14,13 @@
 
 @property (nonatomic ,strong) id<MLLaunchDelegate> delegate;
 
-
+- (instancetype)initWith:(NSDictionary*)dic;
 @end
 
 @protocol MLLaunchDelegate <NSObject>
 
 @optional
+
 // 用户点击启动屏幕调用的方法
 - (void)touchView;
 

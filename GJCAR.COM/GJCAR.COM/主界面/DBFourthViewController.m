@@ -80,7 +80,7 @@
     self.view.backgroundColor =[UIColor whiteColor];
     
     UIImageView * imageV =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0 , ScreenWidth, ScreenWidth*571/777)];
-    imageV.image = [UIImage imageNamed:@"截图.jpeg"];
+    imageV.image = [UIImage imageNamed:@"截图"];
     
     imageV.userInteractionEnabled = YES ;
     [self.view addSubview:imageV];
@@ -388,22 +388,20 @@
 #pragma mark ---加载品牌条件数据
 -(void)loadBrandData
 {
+    _brandArray = @[@{@"brand":@"中华",@"id":@"1"},@{@"brand":@"金杯",@"id":@"2"}];
     
-    _brandArray = [NSArray array];
-
-    NSString * url = [NSString stringWithFormat:@"%@/api/vehicle/brand/enterprise",Host];
-    
-    
-    [DBNetworkTool Get:url parameters:nil success:^(id responseObject) {
-        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
-        {
-            _brandArray = [responseObject objectForKey:@"message"];
-        }
-        
-    } failure:^(NSError *error) {
-        
-        
-    }];
+//    _brandArray = [NSArray array];
+//
+//    NSString * url = [NSString stringWithFormat:@"%@/api/vehicle/brand/enterprise",Host];
+//
+//    [DBNetworkTool Get:url parameters:nil success:^(id responseObject) {
+//        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
+//        {
+//            _brandArray = [responseObject objectForKey:@"message"];
+//        }
+//    } failure:^(NSError *error) {
+//
+//    }];
     
 }
 
@@ -411,32 +409,48 @@
 -(void)loadEnterpriseData:(NSInteger)index
 {
     
-    _enterpriseArray = [NSArray array];
+    
 
     NSString * brandId = [_brandArray[index]objectForKey:@"id"];
     
-    
-    NSString * url = [NSString stringWithFormat:@"%@/api/vehicle/model/enterprise?brandId=%@",Host,brandId];
+    if ([brandId isEqualToString:@"1"]) {
 
-    
-    [DBNetworkTool Get:url parameters:nil success:^(id responseObject) {
-        
-        
-      
-        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
-        {
-            _enterpriseArray = [responseObject objectForKey:@"message"];
-            
-            NSLog(@"%@",_enterpriseArray);
-            
-   
-        }
-        
-    } failure:^(NSError *error) {
-        
-        NSLog(@"%@",error);
-        
-    }];
+        _enterpriseArray  = @[@{@"model":@"H220-手动挡",@"id":@"1"},
+                              @{@"model":@"H220-自动挡",@"id":@"2"},
+                              @{@"model":@"H230-手动挡",@"id":@"3"},
+                              @{@"model":@"H230-自动挡",@"id":@"4"},
+                              @{@"model":@"FSV-手动挡",@"id":@"5"},
+                              @{@"model":@"FSV-自动挡",@"id":@"6"},
+                              @{@"model":@"Cross-手动挡",@"id":@"7"},
+                              @{@"model":@"Cross-自动挡",@"id":@"8"},
+                              @{@"model":@"H320-手动挡",@"id":@"9"},
+                              @{@"model":@"H320-自动挡",@"id":@"10"},
+                              @{@"model":@"H330-手动挡",@"id":@"11"},
+                              @{@"model":@"H530-手动挡",@"id":@"12"},
+                              @{@"model":@"骏捷-手动挡",@"id":@"13"},
+                              @{@"model":@"V5-手动挡",@"id":@"14"},
+                              @{@"model":@"尊驰-自动挡",@"id":@"15"}];
+    }
+    else if([brandId isEqualToString:@"2"]){
+        _enterpriseArray = @[@{@"model":@"金杯海狮-手动挡",@"id":@"1"},@{@"model":@"阁瑞斯(七座)-手动挡",@"id":@"2"}];
+    }
+
+//    _enterpriseArray = [NSArray array];
+//    NSString * url = [NSString stringWithFormat:@"%@/api/vehicle/model/enterprise?brandId=%@",Host,brandId];
+//
+//    [DBNetworkTool Get:url parameters:nil success:^(id responseObject) {
+//
+//        if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
+//        {
+//            _enterpriseArray = [responseObject objectForKey:@"message"];
+//            NSLog(@"%@",_enterpriseArray);
+//        }
+//
+//    } failure:^(NSError *error) {
+//
+//        NSLog(@"%@",error);
+//
+//    }];
     
 }
 
@@ -444,7 +458,7 @@
 -(NSArray*)createData:(NSInteger)tag
 {
     
-    NSArray * retalTime = @[@"90天-120天",@"120天-180天",@"180天-360天",@"360天以上"];
+    NSArray * retalTime = @[@"6个月",@"12个月"];
     
     NSMutableArray * carNumber = [NSMutableArray array];
 
@@ -452,8 +466,6 @@
     {
         [carNumber addObject:[NSString stringWithFormat:@"%d",i]];
     }
-
-    
     if (tag == 613)
     {
         return retalTime ;
@@ -462,14 +474,11 @@
     {
         return carNumber ;
     }
-
     else if (tag == 615)
     {
         if (_brandArray.count > 0 )
         {
-            
             NSMutableArray * array = [NSMutableArray array];
-            
             for (NSDictionary * dic in _brandArray)
             {
                 [array addObject:[dic objectForKey:@"brand"]];
@@ -481,28 +490,18 @@
     }
     else if (tag == 616)
     {
-        
-        
         if (_enterpriseArray.count > 0 )
         {
-            
             NSMutableArray * array = [NSMutableArray array];
             
             for (NSDictionary * dic in _enterpriseArray)
             {
-                
                 [array addObject:[dic objectForKey:@"model"]];
             }
-            
-            
             return array ;
         }
     }
-
-    
     return nil;
-
-    
 }
 
 #pragma mark ----选车城市点击事件
@@ -513,11 +512,7 @@
     //创建筛选条件
     [self createData:(NSInteger)control.tag];
     
-    
-    
-    
-    
-    
+
     DBCityListViewController * cityList = [[DBCityListViewController alloc]init];
     
     //城市选择

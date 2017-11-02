@@ -153,7 +153,10 @@
     
     _consumeLabel.text = [NSString stringWithFormat:@"最低消费金额:%@",[dic objectForKey:@"consume"]];
     
-    
+    if ([[dic objectForKey:@"consume"]isKindOfClass:[NSNull class]]) {
+        _consumeLabel.text = [NSString stringWithFormat:@"最低消费金额:"];
+        
+    }
     NSInteger applySource ;
     if (![[dic objectForKey:@"applySource"] isKindOfClass:[NSNull class]] && ![[dic objectForKey:@"applySource"]isEqualToString:@""]) {
         

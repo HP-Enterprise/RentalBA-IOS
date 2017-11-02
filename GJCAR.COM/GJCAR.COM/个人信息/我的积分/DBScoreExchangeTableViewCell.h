@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "DBColorCircleView.h"
 @interface DBScoreExchangeTableViewCell : UITableViewCell
 
 {
@@ -18,7 +18,7 @@
 @property (nonatomic,strong)UILabel * subtitle;
 @property (nonatomic,strong)UILabel * timelabel ;
 
-
+@property (nonatomic,strong)DBColorCircleView * progressView;
 @property (nonatomic,strong)UILabel * scoreLabel ;
 @property (nonatomic,strong)UILabel * leftoverNumber;
 @property (nonatomic,strong)UILabel * useLabel ;

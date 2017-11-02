@@ -98,12 +98,12 @@
 //    response.removesKeysWithNullValues = YES;
 //    
 //    
-    
 //    [manager.requestSerializer setValue:@"475B963189D936F470C0F6E52C9B939A"forHTTPHeaderField:@"Cookie"];
     
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
      manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/xml",@"text/plain",@"application/json",nil];
-    
+    NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+    [manager.requestSerializer setValue:[user objectForKey:@"token"] forHTTPHeaderField:@"cookie"];
     [manager GET:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         

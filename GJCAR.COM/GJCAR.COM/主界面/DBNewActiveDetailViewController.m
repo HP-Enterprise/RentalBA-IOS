@@ -30,8 +30,6 @@
         [self setUI];
 //        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
 //        NSString *phone = [userDefault objectForKey:@"phone"];
-//        
-//        
 //        NSString *textJS = [NSString stringWithFormat:@"getTel(%@)",phone];
 //        //    NSString *textJS = @"shareStatus(true)";
 //        [_context evaluateScript:textJS];
@@ -45,11 +43,8 @@
     // Do any additional setup after loading the view.
     
     [self setNavigation];
-    
     [self setUI];
-    
-
-    
+  
 }
 
 
@@ -157,10 +152,8 @@
         if ([url rangeOfString:@"http://m.gjcar.com"].location != NSNotFound)
         {
             //跳转到你想跳转的页面
-            
             [self.navigationController popViewControllerAnimated:YES];
 //            [[NSNotificationCenter defaultCenter]postNotificationName:@"navChange" object:nil];
-            
             return NO; //返回NO，此页面的链接点击不会继续执行，只会执行跳转到你想跳转的页面
         }
     }

@@ -20,15 +20,11 @@
 
 //登录
 #import "DBSignInViewController.h"
-
 //订单
 #import "DBMyOrderViewController.h"
-
 //个人信息页面
 #import "DBUserInfoViewController.h"
 #import "DBUserInfoModel.h"
-
-
 
 //会员等级
 #import "DBVipLvlViewController.h"
@@ -81,7 +77,7 @@ static NSString * tele = @"400-920-0653" ;
 @property (nonatomic,strong) UIViewController * currentViewController;
 
 @property (nonatomic,strong)UIScrollView * activeScrollView;
-
+@property (nonatomic,copy)NSString * launchUrl;
 
 
 @end
@@ -94,51 +90,62 @@ static NSString * tele = @"400-920-0653" ;
 
     [self setTabBar];
     
-    
     [self setNavigation];
-    
     
     //创建个人信息页面
     [self setUserView];
-    
 
     //检测新版本
     [self loadVersion];
     
-
-    [self setLanuchView];
+//    [self setLanuchView];
     
-    
-    
-    
+    [self loadAdvertise];
 }
 
-- (void)setLanuchView{
+-(void)loadAdvertise{
+
+//    NSString * url =[NSString stringWithFormat:@"%@/api/advertiseMentShow?type=2",Host];
+//测试 url
+    NSString * url = @"http://182.61.22.210:8081/api/advertiseMentShow?type=2";
     
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    [formatter setLocale:[NSLocale localeWithLocaleIdentifier:@"zh_CN"]];
-    NSString *dateString = [formatter stringFromDate:[NSDate date]];
-    NSDateFormatter * dateFM = [[NSDateFormatter alloc]init];
-    //指定输出的格式   这里格式必须是和上面定义字符串的格式相同，否则输出空
-    [dateFM setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     
-    dateString = @"2017-09-30 00:00:00";
-    NSDate * beginDate = [dateFM dateFromString:dateString];
+    
+    [DBNetworkTool Get:url parameters:nil success:^(id responseObject) {
+        if ([responseObject[@"status"]isEqualToString:@"true"]  ) {
+            if ([responseObject[@"message"][@"isEnable"]isEqualToString:@"1"]) {
+                
+            }
+            [self setLanuchView:responseObject[@"message"]];
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+- (void)setLanuchView:(NSDictionary*)dic{
+    if (![dic[@"url"]isKindOfClass:[NSNull class]]) {
+       self.launchUrl = dic[@"url"];
+    }
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+//    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//    [formatter setLocale:[NSLocale localeWithLocaleIdentifier:@"zh_CN"]];
+//    NSString *dateString = [formatter stringFromDate:[NSDate date]];
+//
+//    NSDateFormatter * dateFM = [[NSDateFormatter alloc]init];
+//    //指定输出的格式   这里格式必须是和上面定义字符串的格式相同，否则输出空
+//    [dateFM setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+
     NSDate *datenow = [NSDate date];
-    long beginTime = (long)[datenow timeIntervalSince1970] - [beginDate timeIntervalSince1970];
-    if (beginTime < 0) {
-        return;
-    }
-    
-    dateString = @"2017-10-08 00:00:00";
-    NSDate * endDate = [dateFM dateFromString:dateString];
-    long endTime = (long)[datenow timeIntervalSince1970] - [endDate timeIntervalSince1970];
-    if (endTime > 0) {
-        return;
-    }
-    
-    _launchView = [[LaunchView alloc]init];
+    long endTime = (long)[dic[@"endDate"]floatValue];
+    long beginTime = (long)[dic[@"startDate"]floatValue];
+    long nowTime = (long)[datenow timeIntervalSince1970]*1000;
+   
+//    BOOL ret = nowTime > beginTime && beginTime < endTime;
+//    if (!ret) {
+//        return;
+//    }
+    _launchView = [[LaunchView alloc]initWith:dic];
     _launchView.delegate = self;
     [self.view addSubview:_launchView];
     [_launchView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -154,11 +161,10 @@ static NSString * tele = @"400-920-0653" ;
     DBLog(@"弹框的协议方法调用了");
     
     [_launchView removeFromSuperview];
-    
     DBSixthViewController *six = _controlArray[2];
     DBNewActiveDetailViewController *activeDetailVC = [[DBNewActiveDetailViewController alloc]init];
 //    activeDetailVC.url = @"http://182.61.22.80:8082/activity/mobile/nationalDay/index.html";
-    activeDetailVC.url = @"http://m.gjcar.com/activity/mobile/nationalDay/index.html";
+    activeDetailVC.url = self.launchUrl;
     [six.navigationController pushViewController:activeDetailVC animated:YES];
     
 }
@@ -1440,7 +1446,6 @@ static NSString * tele = @"400-920-0653" ;
     
     //http://itunes.apple.com/lookup?id=
     
-    
     NSString * url =[NSString stringWithFormat:@"%@/api/appManage/latest?appType=1",Host];
     NSString* oldversion =[[NSBundle mainBundle]objectForInfoDictionaryKey:(NSString*)@"CFBundleShortVersionString"];
 
@@ -1450,9 +1455,8 @@ static NSString * tele = @"400-920-0653" ;
         
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
         {
-            
+
             if ([[responseObject objectForKey:@"message"] isKindOfClass:[NSNull class]] || [responseObject objectForKey:@"message"] ==nil)  {
-                            
             }
             else if ([[[responseObject objectForKey:@"message"]objectForKey:@"appVersion"]isEqualToString:@"0000"])  {
                 [self addBugView];
@@ -1462,48 +1466,51 @@ static NSString * tele = @"400-920-0653" ;
                 NSString * version = [[responseObject objectForKey:@"message"]objectForKey:@"appVersion"] ;
                 NSString * newVersion = [version stringByReplacingOccurrencesOfString:@"." withString:@""];
                 NSString * oldVersion = [oldversion stringByReplacingOccurrencesOfString:@"." withString:@""];
-                
-                if ([newVersion integerValue] > [oldVersion integerValue]) {
-//                    UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight )];
-//                    [self.view addSubview:backView];
-//                    backView.backgroundColor = [UIColor colorWithRed:0.69 green:0.69 blue:0.68 alpha:1];
-//                    backView.alpha = 0.3 ;
-//                    [self.view bringSubviewToFront:backView];
-                    NSString * flag = [NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"message"]objectForKey:@"forceUpdate"]];
-
-                    //                 UIView *backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight )];
-                    //                 [weak_self.view addSubview:backView];
-                    //                 backView.backgroundColor = [UIColor colorWithRed:0.69 green:0.69 blue:0.68 alpha:1];
-                    //                 backView.alpha = 0.3 ;
-                    //                 [weak_self.view bringSubviewToFront:backView];
-
-                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"有新版本可供更新" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                    
-                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                    }];
-
-                        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                        
-                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1151833888"]];
-                        
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                            [self loadVersion];
-                        });
-                    }];
-                    
-                    if ([flag isEqualToString:@"0"]){
-                        [alertController addAction:cancelAction];
-                    }
-                    [alertController addAction:okAction];
-
-                    [self presentViewController:alertController animated:YES completion:nil];
-                }
+                [self loadAppStoreVersionWithApp:[oldVersion integerValue] Manager:[newVersion integerValue] withDic:responseObject];
             }
         }
         
     } failure:^(NSError *error) {
     }];
-    
+}
+-(void)loadAppStoreVersionWithApp:(NSInteger)appVersion Manager:(NSInteger)managerVersion withDic:(NSDictionary*)dic{
+    NSString * url = @"https://itunes.apple.com/lookup?id=1151833888";
+    [DBNetworkTool POST:url parameters:nil success:^(id responseObject) {
+        NSArray *array = responseObject[@"results"];
+        NSDictionary *dict = [array lastObject];
+        NSInteger AppStore =  [[dict[@"version"] stringByReplacingOccurrencesOfString:@"." withString:@""] integerValue];
+        
+        if (AppStore == managerVersion) {
+            if (AppStore > appVersion) {
+                NSString * flag = [NSString stringWithFormat:@"%@",[[dic objectForKey:@"message"]objectForKey:@"forceUpdate"]];
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"有新版本可供更新" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                }];
+                
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1151833888"]];
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self loadVersion];
+                    });
+                }];
+                
+                if ([flag isEqualToString:@"0"]){
+                    [alertController addAction:cancelAction];
+                }
+                [alertController addAction:okAction];
+                
+                [self presentViewController:alertController animated:YES completion:nil];
+
+            }
+        }   
+    } failure:^(NSError *error) {
+        
+    }];
+
 }
 
 //系统维护弹框

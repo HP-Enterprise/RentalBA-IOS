@@ -94,14 +94,10 @@
     if (!ret) {
         NSLog(@"manager start failed!");
     }
-
-   
     //监测是否是最新版本
     [self checkFirstVersion];
-    
     //设置网络监测
     [AppDelegate netWorkStatus];
-    
     //设置数据库
     [self setDBFM];
     

@@ -7,74 +7,45 @@
 //
 
 #import "DBOrderPriceViewController.h"
-
-
 #import "DBMyOrderViewController.h"
-
-
 #import "DBOrderPayViewController.h"
-
-
 #import "DBShowListModel.h"
-
 #import "DBActivityShows.h"
-
 #import "DBOrderData.h"
 
 @interface DBOrderPriceViewController ()<UIScrollViewDelegate,UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
 
 {
     UIButton * showCarBt ;
-    
     DBTextField *nameFiled;
-    
     DBTextField *cardNumberFiled;
-    
     UIView * temporaryView ;
-    
     NSMutableDictionary * userInfoDic ;
-    
     //优惠券数据
     NSArray * couponArray;
-    
     //当前展示数据
     NSArray * showArray;
-    
     //记录上一次选的优惠活动
     UIControl * lastBt;
-    
     //记录优惠活动还是优惠券
     UIControl * actBt ;
-    
     //活动弹窗
     UIView * saleView ;
-    
     //费用合计
     UIView * totleCostView;
     //选择的优惠选项
     NSDictionary * showDic ;
-    
-    
     //优惠说明
     UILabel *  reduceExplace ;
-    
-    
     //优惠价格
     UILabel *  reducePrice ;
-    
     //费用合计
     UILabel * totleCost ;
-    
-    
     UITableView * saleTableView ;
-    
-    
     //优惠券id
     NSString * couponId ;
-    
     //优惠活动id
     NSString * activityId ;
-    
     //同意按钮
     UIView * baseView ;
     
@@ -84,30 +55,18 @@
 }
 //取车时间选择
 @property (nonatomic,strong)UIButton * takeTime;
-
 //还车时间选择
 @property (nonatomic,strong)UIButton * returnTime;
-
-
 @property (nonatomic,strong)UIScrollView * orderScrollView;
-
-
 @property (nonatomic,strong)UIView * priceView ;
-
 //增值费用
 @property (nonatomic,strong)NSString * addValuePrice ;
-
 //费用总数
 @property (nonatomic,strong)NSString * totalePrice ;
-
 @property (nonatomic,strong)UIView * avtivityBackView;
-
 //错误提示
 @property (nonatomic,strong)UIView  *tipView;
-
 @property (nonatomic,strong)DBProgressAnimation * progress ;
-
-
 @end
 
 @implementation DBOrderPriceViewController
@@ -248,22 +207,27 @@
         couponArray = [NSArray array];
         
         
-        NSString * willBeUseTimeBegin =[NSString stringWithFormat:@"%@+%@",[user objectForKey:@"takeCarDate"],[NSString stringWithFormat:@"%@",[user objectForKey:@"takeHour"]]];
+        couponArray = [NSArray array];
+        NSUserDefaults * user = [NSUserDefaults standardUserDefaults];
+        DBShowListModel * model =[[NSArray arrayWithArray:_model.vendorStorePriceShowList]firstObject];
         
-        NSString * willBeUseTimeEnd =[NSString stringWithFormat:@"%@+%@",[user objectForKey:@"returnCarDate"],[NSString stringWithFormat:@"%@",[user objectForKey:@"returnHour"]]];
+        //        NSString * url = [NSString stringWithFormat:@"%@/api/me/coupon?consume=%@&currentPage=1&pageSize=100&state=2&willBeUseTimeBegin=%@&willBeUseTimeEnd=%@&source=5",Host,[_priceDic objectForKey:@"totalPrice"],willBeUseTimeBegin,willBeUseTimeEnd];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd+HH:MM:ss"];
+        NSString *dateTime = [formatter stringFromDate:[NSDate date]];
         
         
-        NSString * url = [NSString stringWithFormat:@"%@/api/me/coupon?consume=%@&currentPage=1&pageSize=100&state=2&willBeUseTimeBegin=%@&willBeUseTimeEnd=%@&source=5",Host,[_priceDic objectForKey:@"totalPrice"],willBeUseTimeBegin,willBeUseTimeEnd];
         
+        NSString * url = [NSString stringWithFormat:@"%@/api/me/canUsedCoupon?consume=%@&rental=%@&cityId=%@&storeId=%@&modelId=%@&useTime=%@&uid=%@&state=2&source=5&currentPage=1&pageSize=100",Host,[_priceDic objectForKey:@"totalPrice"],[_priceDic objectForKey:@"totalAmount"],[user objectForKey:@"takeCityId"],model.id,_model.vehicleModelShow.id,dateTime,[user objectForKey:@"userId"]];
         NSMutableDictionary * parDic = [NSMutableDictionary dictionary];
-        
         parDic[@"uid"]= [user objectForKey:@"userId"];
         //        parDic[@"willBeUseTimeBegin"] = willBeUseTimeBegin;
         //        parDic[@"willBeUseTimeEnd"]= willBeUseTimeEnd;
         
         __weak typeof(self)weak_self = self ;
         
-        [DBNetworkTool Get:url parameters:parDic success:^(id responseObject)
+        [DBNetworkTool Get:url parameters:nil success:^(id responseObject)
          {
              
              
@@ -2427,7 +2391,7 @@
         
         
         if (index== 661){
-            totalPrice =[NSString stringWithFormat:@"%g",[totalstr floatValue] - [[NSString stringWithFormat:@"%@",[showDic objectForKey:@"amount"]]floatValue]] ;
+            totalPrice =[NSString stringWithFormat:@"%g",[totalstr floatValue] - [[NSString stringWithFormat:@"%@",[self getShowDicRental:totalPrice]]floatValue]] ;
             
             NSDictionary *commissionDic = [[NSArray arrayWithArray:[_addvalue objectForKey:@"details"]]firstObject] ;
             NSString * commissionstr =[NSString stringWithFormat:@"%@",[commissionDic objectForKey:@"price"]];
@@ -2439,10 +2403,11 @@
             
             if (_isChoose) {
                 
-                totalPrice =[NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue] - [[showDic objectForKey:@"amount"]floatValue]];
+                totalPrice =[NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue] - [[self getShowDicRental:totalstr] floatValue]];
             }
             else{
-                totalPrice =[NSString stringWithFormat:@"%g",[totalstr floatValue] - [[showDic objectForKey:@"amount"]floatValue]];
+                totalPrice =[NSString stringWithFormat:@"%g",[totalstr floatValue] - [[self getShowDicRental:totalstr]floatValue]];
+
             }
         }
         
@@ -2465,7 +2430,8 @@
             }
         }
         
-        if ([totalPrice floatValue] - [[NSString stringWithFormat:@"%@",[showDic objectForKey:@"amount"]]floatValue] < 0) {
+       
+        if ([totalPrice floatValue] < 0) {
             totalPrice = @"0" ;
         }
         
@@ -2714,7 +2680,7 @@
             if (index== 661){
                 
                 
-                totalPrice =[NSString stringWithFormat:@"%g",[totalstr floatValue] - [[NSString stringWithFormat:@"%@",[showDic objectForKey:@"amount"]]floatValue]] ;
+                totalPrice =[NSString stringWithFormat:@"%g",[totalstr floatValue] - [[NSString stringWithFormat:@"%@",[self getShowDicRental:totalPrice]]floatValue]] ;
                 
                 NSDictionary *commissionDic = [[NSArray arrayWithArray:[_addvalue objectForKey:@"details"]]firstObject] ;
                 NSString * commissionstr =[NSString stringWithFormat:@"%@",[commissionDic objectForKey:@"price"]];
@@ -2724,9 +2690,9 @@
                 _addValuePrice = [NSString stringWithFormat:@"%ld",[_addValuePrice integerValue] + price];
                 
                 if (_isChoose) {
-                    totalPrice =[NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue] - [[showDic objectForKey:@"amount"]floatValue]];
+                    totalPrice =[NSString stringWithFormat:@"%g",[totalstr floatValue] + [_addValuePrice floatValue] - [[self getShowDicRental:totalstr]floatValue]];
                 }else{
-                   totalPrice =[NSString stringWithFormat:@"%g",[totalstr floatValue] - [[showDic objectForKey:@"amount"]floatValue]];
+                   totalPrice =[NSString stringWithFormat:@"%g",[totalstr floatValue] - [[self getShowDicRental:totalstr]floatValue]];
                 }
             }
             
@@ -2747,7 +2713,7 @@
             }
             
             
-            if ([totalPrice floatValue] - [[NSString stringWithFormat:@"%@",[showDic objectForKey:@"amount"]]floatValue] < 0) {
+            if ([totalPrice floatValue] < 0) {
                 totalPrice = @"0" ;
             }
 
@@ -2775,8 +2741,36 @@
         }
         
     }
+}
 
-
+//判断优惠券金额
+-(NSString*)getShowDicRental:(NSString*)totalPrice{
+    NSString * price;
+    if (![showDic[@"genre"]isKindOfClass:[NSNull class]]) {
+        if ([showDic[@"genre"]isEqualToString:@"subRental"]) {
+            if ([[showDic objectForKey:@"amount"]floatValue] > [[self.priceDic objectForKey:@"totalAmount"]integerValue]) {
+                price = [self.priceDic objectForKey:@"totalAmount"];
+            }
+            else{
+                price = [showDic objectForKey:@"amount"];
+            }
+        }
+        else if ([showDic[@"genre"]isEqualToString:@"subTotal"]){
+            if (totalPrice == nil) {
+                return nil;
+            }
+            if ([[showDic objectForKey:@"amount"]floatValue] > [totalPrice integerValue]) {
+                price = totalPrice;
+            }
+            else{
+                price = [showDic objectForKey:@"amount"];
+            }
+        }
+    }
+    else{
+        price = [showDic objectForKey:@"amount"];
+    }
+    return price;
 }
 
 -(void)changeActivityView:(NSInteger)index{
@@ -3132,6 +3126,9 @@
     
     
 }
+
+
+
 //弹窗移除
 -(void)submitBtClick:(UIButton*)button
 {

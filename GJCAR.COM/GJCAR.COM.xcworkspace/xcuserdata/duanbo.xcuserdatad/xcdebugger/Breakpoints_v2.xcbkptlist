@@ -10,27 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GJCAR.COM/&#x81ea;&#x9a7e;&#x8f66;&#x8f86;&#x5217;&#x8868;/&#x8f66;&#x8f86;&#x9884;&#x5b9a;/DBOrderSubmitViewController.m"
-            timestampString = "526297185.876127"
+            timestampString = "530530877.58879"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
-            landmarkName = "-loadStorePrice:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GJCAR.COM/&#x81ea;&#x9a7e;&#x8f66;&#x8f86;&#x5217;&#x8868;/&#x8f66;&#x8f86;&#x9884;&#x5b9a;/DBOrderSubmitViewController.m"
-            timestampString = "527737260.863702"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1974"
-            endingLineNumber = "1974"
+            startingLineNumber = "1964"
+            endingLineNumber = "1964"
             landmarkName = "-setCostViewWithFrame:"
             landmarkType = "7">
          </BreakpointContent>

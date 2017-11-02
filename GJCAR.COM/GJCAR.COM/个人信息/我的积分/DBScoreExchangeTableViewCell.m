@@ -7,7 +7,7 @@
 //
 
 #import "DBScoreExchangeTableViewCell.h"
-
+#import "DBcommonUtils.h"
 @implementation DBScoreExchangeTableViewCell
 
 - (void)awakeFromNib {
@@ -57,7 +57,7 @@
     
     
     
-    [totleCostStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:20] range:NSMakeRange( 0 , totalPrice.length)];
+    [totleCostStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange( 0 , totalPrice.length)];
     [totleCostStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange( totalPrice.length , 2)];
     
     _scoreLabel.attributedText = totleCostStr;
@@ -69,7 +69,6 @@
 //    
 //    _useLabel.font =[ UIFont systemFontOfSize:10];
 //    _useLabel.textColor = [UIColor whiteColor];
-//    
 //    [voucher addSubview:_useLabel];
     
     
@@ -77,9 +76,8 @@
 //    _leftoverNumber.text = [NSString stringWithFormat:@"剩余9张"];
     _leftoverNumber.textAlignment = 1 ;
     _leftoverNumber.textColor = [UIColor whiteColor];
-    _leftoverNumber.font = [UIFont systemFontOfSize:12];
+    _leftoverNumber.font = [UIFont systemFontOfSize:10];
     [voucher addSubview:_leftoverNumber];
-    
     
     
     
@@ -101,13 +99,28 @@
 //    _timelabel.text = @"2016.07.01 -- 2016.09.01";
     _timelabel.font = [UIFont systemFontOfSize:10];
     [voucher addSubview:_timelabel];
-    
-    
+
     
     
 
+    _progressView = [[DBColorCircleView alloc]init];
+    _progressView.frame = CGRectMake(voucher.frame.size.width * 2 /5  / 2 - 20,5, 40 , 40);
+    [voucher addSubview:_progressView];
+//
+    CGAffineTransform transform =CGAffineTransformMakeRotation(M_PI_2);
+    [_progressView setTransform:transform];
     
+    _scoreLabel.frame = CGRectMake(0,CGRectGetMaxY(_progressView.frame)+2, voucher.frame.size.width * 2 /5 , 20);
+    
+    UILabel * bye = [[UILabel alloc]initWithFrame:CGRectMake(voucher.frame.size.width * 2 /5  / 2 - 15, 10 , 30 , 15)];
+    [voucher addSubview:bye];
+    bye.text = @"已抢";
+    bye.textColor =[UIColor whiteColor];
+    bye.textAlignment= 1;
+    bye.font = [UIFont systemFontOfSize:10];
+    _leftoverNumber.frame = CGRectMake(voucher.frame.size.width * 2 /5  / 2 - 15, 23 , 30 , 15);
 }
+
 
 -(void)config:(NSDictionary*)dic
 {
@@ -116,18 +129,62 @@
     
     totalPrice = [NSString stringWithFormat:@"%@",[dic objectForKey:@"accumulate"]];
     
-    _leftoverNumber.text = [NSString stringWithFormat:@"剩余%@张",[dic objectForKey:@"remainNum"]];
-
     
+    float a,b,c;
+    NSInteger remainNum = [dic[@"remainNum"]integerValue];
+    NSInteger designNum = [dic[@"designNum"]integerValue];
+   
+    NSNumber * percent;
+    if ([dic[@"percent"]isKindOfClass:[NSNull class]]) {
+        percent = @0;
+    }
+    else{
+        percent = dic[@"percent"];
+        if ([percent integerValue]>=1) {
+            percent = @1;
+        }
+        else if ([[NSString stringWithFormat:@"%@",percent] isEqualToString:@"0"]) {
+            percent = @0;
+        }
+    }
+    if ([percent integerValue]>=1) {
+        percent = @1;
+        _leftoverNumber.text = [NSString stringWithFormat:@"100%%"];
+    }
+    else if ([[NSString stringWithFormat:@"%@",percent] isEqualToString:@"0"]) {
+        percent = @0;
+        _leftoverNumber.text = [NSString stringWithFormat:@"0%%"];
+    }
+    else{
+        _leftoverNumber.text = [NSString stringWithFormat:@"%.1f%%",[percent floatValue]*100];
+        
+    }
+
+    a = [dic[@"designNum"]doubleValue] - [dic[@"remainNum"]doubleValue];
+    b = remainNum;
+    c = 0;
+    
+    _progressView.circleArray =@[
+                                 @{
+                                     @"strokeColor":[DBcommonUtils getColor:@"FF3333"],
+                                     @"precent"    :@([percent floatValue])
+                                     },
+                                 @{
+                                     @"strokeColor":[UIColor whiteColor],
+                                     @"precent"    :@(1-[percent floatValue])
+                                     },
+                                 @{
+                                     @"strokeColor":[UIColor yellowColor],
+                                     @"precent"    :@(c/(a+b+c))
+                                     }
+                                 ];
     
     NSMutableAttributedString *totleCostStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ 积分",totalPrice]];
     
     [totleCostStr addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0,totalPrice.length + 3)];
-    
-    
-    
+
     [totleCostStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange( totalPrice.length, 3)];
-    [totleCostStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:18] range:NSMakeRange( 0 , totalPrice.length)];
+    [totleCostStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange( 0 , totalPrice.length)];
     
     _scoreLabel.attributedText = totleCostStr;
     
@@ -165,8 +222,7 @@
         _timelabel.text = [NSString stringWithFormat:@"%@--%@",takeTimeStr,returnTimeStr];
     }
     
-    
-    
+
     
 }
 

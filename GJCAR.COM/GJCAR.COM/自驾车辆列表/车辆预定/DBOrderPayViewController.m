@@ -85,7 +85,7 @@
     }
     
 
-    self.view.backgroundColor =  self.view.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.96 alpha:1];
+    self.view.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.96 alpha:1];
     
     DBNavgationView * nav = [[DBNavgationView alloc]initNavgationWithTitle:title withLeftBtImage:@"back" withRightImage:nil withFrame:CGRectMake(0, 0, ScreenWidth , 64)];
     

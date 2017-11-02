@@ -137,12 +137,8 @@
     return cell ;
 }
 
-
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    
 
-
-    
 }
 
 #pragma mark -- 处理数据

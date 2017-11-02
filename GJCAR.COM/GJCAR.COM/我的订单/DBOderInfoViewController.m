@@ -112,10 +112,6 @@
 
     [DBNetworkTool checkOrderGET:url parameters:nil success:^(id responseObject)
     {
-        
-        
-        
-        
         [weak_self removeProgress];
         
         if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
@@ -1409,10 +1405,8 @@
 
         
         [_scrollView addSubview:activityLabel];
-        
         [_scrollView addSubview:activitylineView];
         [_scrollView addSubview:activityCost];
-        
         [_scrollView addSubview:activitydescription];
         [_scrollView addSubview:activityCostlineView];
 
@@ -1652,10 +1646,39 @@
     [showCarBt addTarget:self action:@selector(cancelBt:) forControlEvents:UIControlEventTouchUpInside];
     
     [_scrollView addSubview:showCarBt];
-    
-    
+
 }
 
+//判断优惠券金额
+//-(NSString*)getShowDicRental:(NSDictionary*)dic{
+//
+//    NSString * price;
+//    if (![dic[@"genre"]isKindOfClass:[NSNull class]]) {
+//        if ([dic[@"genre"]isEqualToString:@"subRental"]) {
+//            if ([[dic objectForKey:@"amount"]floatValue] > [[self.priceDic objectForKey:@"totalAmount"]integerValue]) {
+//                price = [self.priceDic objectForKey:@"totalAmount"];
+//            }
+//            else{
+//                price = [showDic objectForKey:@"amount"];
+//            }
+//        }
+//        else if ([showDic[@"genre"]isEqualToString:@"subTotal"]){
+//            if (totalPrice == nil) {
+//                return nil;
+//            }
+//            if ([[showDic objectForKey:@"amount"]floatValue] > [totalPrice integerValue]) {
+//                price = totalPrice;
+//            }
+//            else{
+//                price = [showDic objectForKey:@"amount"];
+//            }
+//        }
+//    }
+//    else{
+//        price = [showDic objectForKey:@"amount"];
+//    }
+//    return price;
+//}
 
 -(void)addDifstore:(CGRect)frame{
 

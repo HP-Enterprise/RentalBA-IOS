@@ -222,7 +222,7 @@
     
     
     UILabel * score = [[UILabel alloc]initWithFrame:CGRectMake(0, circleView.frame.size.width/2 , circleView.frame.size.width, circleView.frame.size.width/4)];
-
+    score.adjustsFontSizeToFitWidth = YES;
     if (_remain == nil)
     {
         score.text = @"0";
@@ -230,7 +230,6 @@
     else
     {
         score.text =[NSString stringWithFormat:@"%@",_remain] ;
-
     }
     
     score.textAlignment = 1 ;
@@ -238,20 +237,17 @@
     score.textColor = [UIColor whiteColor];
     [circleView addSubview:score];
     
-
     //详情
     UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(circleView.frame) + 20, ScreenWidth/2 - 30, 0.5)];
     
     lineView.backgroundColor = [UIColor colorWithRed:0.66 green:0.67 blue:0.67 alpha:1] ;
     [headView addSubview:lineView] ;
     
-    
     UIView * lineView1 = [[UIView alloc]initWithFrame:CGRectMake(ScreenWidth/2 + 30, CGRectGetMaxY(circleView.frame) + 20, ScreenWidth/2 - 30, 0.5)];
     
     lineView1.backgroundColor = [UIColor colorWithRed:0.66 green:0.67 blue:0.67 alpha:1] ;
     [headView addSubview:lineView1] ;
 
-    
     
     UILabel * detailLabel = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth/2 - 30, lineView.frame.origin.y - 5, 60, 10)];
     detailLabel.text = @"积分详情" ;
@@ -260,12 +256,7 @@
     detailLabel.textColor =  [UIColor colorWithRed:0.66 green:0.67 blue:0.67 alpha:1] ;
     [headView addSubview:detailLabel];
     
-    
-    
-    
-    
-    
-    
+
     return headView ;
 }
 
@@ -284,10 +275,13 @@
     {
         
 
-        cell.titleLael.text =[NSString stringWithFormat:@"%@",[_accumulateArray[indexPath.row]objectForKey:@"remark"]];
-        
-        
-        
+        if ([_accumulateArray[indexPath.row][@"remark"]isKindOfClass:[NSNull class]]) {
+            cell.titleLael.text =@"积分兑换";
+        }
+        else{
+           cell.titleLael.text =[NSString stringWithFormat:@"%@",[_accumulateArray[indexPath.row]objectForKey:@"remark"]];
+        }
+
         NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
         [formatter setDateFormat:@"YYYY-MM-dd"];
         

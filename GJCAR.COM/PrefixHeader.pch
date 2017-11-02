@@ -24,9 +24,10 @@
 //积分兑换
 //          DBSwapViewController   700
 
-#define Host @"http://www.gjcar.com"
+
 //182.61.39.65:80
-//#define Host @"http://182.61.22.80"
+#define Host @"http://182.61.22.80:8080"
+//#define Host @"http://www.gjcar.com"
 
 #define UMAppKey @"59b756d6aed1795e08000024"
 
@@ -40,11 +41,9 @@
 
 //获取屏幕宽度
 #define ScreenWidth  [UIScreen mainScreen].bounds.size.width
-
 //获取屏幕高度
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 #define ControlHeight ([UIScreen mainScreen].bounds.size.height - 90)
-
 #define BascColor [UIColor colorWithRed:0.95 green:0.78 blue:0.11 alpha:1]
 
 //网络请求
@@ -58,7 +57,7 @@
 //#import <tingyunApp/NBSAppAgent.h>
 //加载图片
 #import "UIImageView+WebCache.h"
-
+#import "UIButton+WebCache.h"
 //个人工具
 #import "DBcommonUtils.h"
 

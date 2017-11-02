@@ -224,30 +224,20 @@
         
         __weak typeof(self)weak_self = self ;
         
-        [DBNetworkTool Get:url parameters:parDic success:^(id responseObject)
-         {
-
-             
-             if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"])
-             {
-                
-                 if (![[responseObject objectForKey:@"message"]isKindOfClass:[NSNull class]] && [responseObject objectForKey:@"message"] != nil && [NSArray arrayWithArray:[responseObject objectForKey:@"message"]].count > 0  )
-                 {
-
+        [DBNetworkTool Get:url parameters:parDic success:^(id responseObject) {
+             if ([[responseObject objectForKey:@"status"]isEqualToString:@"true"]) {
+                 if (![[responseObject objectForKey:@"message"]isKindOfClass:[NSNull class]] && [responseObject objectForKey:@"message"] != nil && [NSArray arrayWithArray:[responseObject objectForKey:@"message"]].count > 0  ) {
                      couponArray = [responseObject objectForKey:@"message"];
                      showArray  = couponArray ;
 
                      [self addView];
                  }
-                 else
-                 {
+                 else{
                      [weak_self tipShow:@"没有可用的优惠券"];
                      [self configView:@662];
-
                  }
              }
-             else
-             {
+             else {
                  [weak_self tipShow:@"没有可用的优惠券"];
                  [self configView:@662];
 

@@ -29,6 +29,7 @@
 		0B13F6D31D23A53100A1DECD /* DBOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B13F6D21D23A53100A1DECD /* DBOrderModel.m */; };
 		0B13F6D61D23D56800A1DECD /* DBPlaceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B13F6D51D23D56800A1DECD /* DBPlaceTableViewCell.m */; };
 		0B1745401D2278B800EB5BB1 /* DBOderInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B17453F1D2278B800EB5BB1 /* DBOderInfoViewController.m */; };
+		0B1BA2B81FA03C95003D2C43 /* DBColorCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1BA2B71FA03C95003D2C43 /* DBColorCircleView.m */; };
 		0B1F878D1D1D1D910074675E /* DBCarListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1F87741D1D1D910074675E /* DBCarListTableViewCell.m */; };
 		0B1F878E1D1D1D910074675E /* DBCarListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1F87761D1D1D910074675E /* DBCarListViewController.m */; };
 		0B1F878F1D1D1D910074675E /* DBCarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1F87781D1D1D910074675E /* DBCarModel.m */; };
@@ -120,6 +121,7 @@
 		0B7E84321DB9BA0B00B4CB6C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B7E84311DB9BA0B00B4CB6C /* CoreLocation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0B7E84391DB9BCA200B4CB6C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7E84381DB9BCA200B4CB6C /* AppDelegate.m */; };
 		0B7E84401DB9C53B00B4CB6C /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B7E843F1DB9C53B00B4CB6C /* libBaiduMobStat.a */; };
+		0B8703DF1FA3219200D2ECCB /* 截图.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B8703DE1FA3202300D2ECCB /* 截图.png */; };
 		0B9191C61EE4EE27003CC571 /* TCAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9191C51EE4EE27003CC571 /* TCAlertView.m */; };
 		0B960F5E1D3884EF008A524A /* DBRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B960F5D1D3884EF008A524A /* DBRootViewController.m */; };
 		0B960F641D38D45C008A524A /* DBActiveTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B960F631D38D45C008A524A /* DBActiveTableViewCell.m */; };
@@ -179,7 +181,6 @@
 		0BD44E5F1E32FA94006F30A3 /* DBKeyChain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD44E5C1E32FA94006F30A3 /* DBKeyChain.m */; };
 		0BD6758A1D265C640087694B /* DBPlaceSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD675891D265C640087694B /* DBPlaceSearchViewController.m */; };
 		0BD6758D1D26649E0087694B /* DBCityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD6758C1D26649E0087694B /* DBCityTableViewCell.m */; };
-		0BD7F2BB1DB6201E009B54B2 /* 截图.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 0BD7F2BA1DB6201E009B54B2 /* 截图.jpeg */; };
 		0BDF6B291D3F165200A03A10 /* DBSystemSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDF6B281D3F165200A03A10 /* DBSystemSetViewController.m */; };
 		0BE1A2561D90D98D00F00C3D /* DBChangeEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE1A2551D90D98D00F00C3D /* DBChangeEmailViewController.m */; };
 		0BE2BA8E1F1DDEA6001445F0 /* DBStoresListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE2BA8D1F1DDEA6001445F0 /* DBStoresListViewController.m */; };
@@ -343,6 +344,8 @@
 		0B13F6D51D23D56800A1DECD /* DBPlaceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBPlaceTableViewCell.m; sourceTree = "<group>"; };
 		0B17453E1D2278B800EB5BB1 /* DBOderInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBOderInfoViewController.h; sourceTree = "<group>"; };
 		0B17453F1D2278B800EB5BB1 /* DBOderInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBOderInfoViewController.m; sourceTree = "<group>"; };
+		0B1BA2B61FA03C95003D2C43 /* DBColorCircleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBColorCircleView.h; sourceTree = "<group>"; };
+		0B1BA2B71FA03C95003D2C43 /* DBColorCircleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBColorCircleView.m; sourceTree = "<group>"; };
 		0B1F87731D1D1D910074675E /* DBCarListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBCarListTableViewCell.h; sourceTree = "<group>"; };
 		0B1F87741D1D1D910074675E /* DBCarListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBCarListTableViewCell.m; sourceTree = "<group>"; };
 		0B1F87751D1D1D910074675E /* DBCarListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBCarListViewController.h; sourceTree = "<group>"; };
@@ -516,6 +519,7 @@
 		0B7E84381DB9BCA200B4CB6C /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0B7E843A1DB9BD7800B4CB6C /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		0B7E843F1DB9C53B00B4CB6C /* libBaiduMobStat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBaiduMobStat.a; sourceTree = "<group>"; };
+		0B8703DE1FA3202300D2ECCB /* 截图.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "截图.png"; sourceTree = "<group>"; };
 		0B8CC7711D8F7AB600E2D5E5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		0B8CC7721D8F7AB600E2D5E5 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		0B9191C41EE4EE27003CC571 /* TCAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCAlertView.h; sourceTree = "<group>"; };
@@ -624,7 +628,6 @@
 		0BD675891D265C640087694B /* DBPlaceSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBPlaceSearchViewController.m; sourceTree = "<group>"; };
 		0BD6758B1D26649E0087694B /* DBCityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBCityTableViewCell.h; sourceTree = "<group>"; };
 		0BD6758C1D26649E0087694B /* DBCityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBCityTableViewCell.m; sourceTree = "<group>"; };
-		0BD7F2BA1DB6201E009B54B2 /* 截图.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "截图.jpeg"; sourceTree = "<group>"; };
 		0BDF6B271D3F165200A03A10 /* DBSystemSetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBSystemSetViewController.h; sourceTree = "<group>"; };
 		0BDF6B281D3F165200A03A10 /* DBSystemSetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBSystemSetViewController.m; sourceTree = "<group>"; };
 		0BE1A2541D90D98D00F00C3D /* DBChangeEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBChangeEmailViewController.h; sourceTree = "<group>"; };
@@ -1540,7 +1543,7 @@
 		0BEEC9581D20FB8A0069307B /* 长租车 */ = {
 			isa = PBXGroup;
 			children = (
-				0BD7F2BA1DB6201E009B54B2 /* 截图.jpeg */,
+				0B8703DE1FA3202300D2ECCB /* 截图.png */,
 				0B40C2951D0FB2F00030C7C1 /* DBFourthViewController.h */,
 				0B40C2961D0FB2F00030C7C1 /* DBFourthViewController.m */,
 				0BEEC95E1D20FC7E0069307B /* DBLongRentInfoViewController.h */,
@@ -1648,6 +1651,8 @@
 				0B1FFCE51D5972C000F1B8CA /* DBSwapViewController.m */,
 				0BF4EA641D6AA67600796654 /* DBScoreExchangeTableViewCell.h */,
 				0BF4EA651D6AA67600796654 /* DBScoreExchangeTableViewCell.m */,
+				0B1BA2B61FA03C95003D2C43 /* DBColorCircleView.h */,
+				0B1BA2B71FA03C95003D2C43 /* DBColorCircleView.m */,
 			);
 			name = "积分兑换";
 			sourceTree = "<group>";
@@ -1813,10 +1818,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B8703DF1FA3219200D2ECCB /* 截图.png in Resources */,
 				0B40C2A81D10087B0030C7C1 /* 客服.png in Resources */,
 				0B40C2A91D10087B0030C7C1 /* 礼券.png in Resources */,
 				0B5B48ED1CF421AB00604760 /* LaunchScreen.storyboard in Resources */,
-				0BD7F2BB1DB6201E009B54B2 /* 截图.jpeg in Resources */,
 				0BCE4F031F789B9400E10F2A /* nationalDayActivity@3x.png in Resources */,
 				0BCE4EFF1F789B9400E10F2A /* delete.png in Resources */,
 				0BC69FAB1D362A2300074B70 /* progress5.png in Resources */,
@@ -2039,6 +2044,7 @@
 				0B5B497B1CF4236B00604760 /* SDWebImageDownloaderOperation.m in Sources */,
 				0B5B49751CF4236B00604760 /* MKAnnotationView+WebCache.m in Sources */,
 				0B5B496E1CF4236B00604760 /* JSONModelError.m in Sources */,
+				0B1BA2B81FA03C95003D2C43 /* DBColorCircleView.m in Sources */,
 				0B0ADD211D2E603800393468 /* Order.m in Sources */,
 				0B5B496B1CF4236B00604760 /* JSONModel.m in Sources */,
 				0B1F879D1D1D1F190074675E /* DBTailwindViewController.m in Sources */,
